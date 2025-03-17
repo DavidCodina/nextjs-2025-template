@@ -14,6 +14,7 @@ import { PopoverDemo } from './PopoverDemo'
 import { SeparatorDemo } from './SeparatorDemo'
 import { SheetDemo } from './SheetDemo'
 import { SkeletonDemo } from './SkeletonDemo'
+import { SonnerDemo } from './SonnerDemo'
 import { TabsDemo } from './TabsDemo'
 import { TooltipDemo } from './TooltipDemo'
 
@@ -38,6 +39,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='separator'>Separator</TabsTrigger>
         <TabsTrigger value='sheet'>Sheet</TabsTrigger>
         <TabsTrigger value='skeleton'>Skeleton</TabsTrigger>
+        <TabsTrigger value='sonner'>Sonner</TabsTrigger>
         <TabsTrigger value='tabs'>Tabs</TabsTrigger>
         <TabsTrigger value='tooltip'>Tooltip</TabsTrigger>
       </TabsList>
@@ -118,6 +120,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='skeleton'>
         <SkeletonDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='sonner'>
+        <SonnerDemo />
       </TabsContent>
 
       {/* ================= */}
