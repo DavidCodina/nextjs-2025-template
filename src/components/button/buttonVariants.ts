@@ -95,8 +95,7 @@ inline-flex items-center justify-center gap-[0.5em] shrink-0
 whitespace-nowrap font-semibold
 transition-[color,box-shadow]
 rounded-[0.375em]
-px-[0.5em]
-py-[0.25em]
+px-[0.5em] py-[0.25em]
 cursor-pointer
 select-none
 focus-visible:ring-[3px] 
