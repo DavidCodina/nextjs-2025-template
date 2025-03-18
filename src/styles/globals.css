@@ -297,6 +297,8 @@ Full support for the new @theme directive and @theme inline option. */
 
   /* Muted  */
   --muted: oklch(0.269 0 0);
+
+  /* Used for form field placeholder text. */
   --muted-foreground: oklch(0.708 0 0);
 
   /* Accent */

@@ -10,7 +10,7 @@ import { CardDemo } from './CardDemo'
 import { CollapsibleDemo } from './CollapsibleDemo'
 import { DialogDemo } from './DialogDemo'
 import { DropdownMenuDemo } from './DropdownMenuDemo'
-import { InputDemo } from './InputDemo'
+import { FormDemo } from './FormDemo'
 import { PopoverDemo } from './PopoverDemo'
 import { SeparatorDemo } from './SeparatorDemo'
 import { SheetDemo } from './SheetDemo'
@@ -36,7 +36,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='collapsible'>Collapsible</TabsTrigger>
         <TabsTrigger value='dialog'>Dialog</TabsTrigger>
         <TabsTrigger value='dropdown-menu'>Dropdown Menu</TabsTrigger>
-        <TabsTrigger value='input'>Input + Label</TabsTrigger>
+        <TabsTrigger value='form'>Form</TabsTrigger>
         <TabsTrigger value='popover'>Popover</TabsTrigger>
         <TabsTrigger value='separator'>Separator</TabsTrigger>
         <TabsTrigger value='sheet'>Sheet</TabsTrigger>
@@ -102,8 +102,8 @@ export const ComponentDemos = () => {
 
       {/* ================= */}
 
-      <TabsContent value='input'>
-        <InputDemo />
+      <TabsContent value='form'>
+        <FormDemo />
       </TabsContent>
 
       {/* ================= */}

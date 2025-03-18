@@ -1,6 +1,18 @@
 'use client'
 
 import { Input } from '@/components/input'
+import { Textarea } from '@/components/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/select'
+
+import { Slider } from '@/components/slider'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
 
@@ -8,7 +20,7 @@ import { Button } from '@/components/button'
 
 ======================================================================== */
 
-export const InputDemo = () => {
+export const FormDemo = () => {
   return (
     <section className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'>
       <div
@@ -21,7 +33,7 @@ export const InputDemo = () => {
           First Name
         </Label>
         <Input
-          // disabled
+          disabled
           id='first-name'
           name='first_name'
           type='text'
@@ -39,6 +51,54 @@ export const InputDemo = () => {
           type='text'
           placeholder='Last Name...'
         />
+      </div>
+
+      <div>
+        <Label className='mb-2' htmlFor='percent'>
+          Percent
+        </Label>
+        <Slider
+          defaultValue={[50]}
+          id='percent'
+          max={100}
+          name='percent'
+          step={1}
+          onValueCommit={(value) => {
+            console.log('Slider value committed:', value)
+          }}
+        />
+      </div>
+
+      <div>
+        <Label className='mb-2' htmlFor='message'>
+          Message
+        </Label>
+        <Textarea id='message' name='message' placeholder='Message here...' />
+      </div>
+
+      <div>
+        <Label className='mb-2' htmlFor='fruits'>
+          Select One
+        </Label>
+        <Select
+          onValueChange={(value) => {
+            console.log('Select value:', value)
+          }}
+        >
+          <SelectTrigger className=''>
+            <SelectValue placeholder='Select Fruit...' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value='apple'>Apple</SelectItem>
+              <SelectItem value='banana'>Banana</SelectItem>
+              <SelectItem value='blueberry'>Blueberry</SelectItem>
+              <SelectItem value='grapes'>Grapes</SelectItem>
+              <SelectItem value='pineapple'>Pineapple</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
 
       <div>

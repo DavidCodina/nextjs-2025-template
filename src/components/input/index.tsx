@@ -1,5 +1,9 @@
 import * as React from 'react'
 import { cn } from '@/utils'
+import {
+  FIELD_FOCUS_VISIBLE_MIXIN,
+  FIELD_DISABLED_MIXIN
+} from '../component-constants'
 
 const fileMixin = `
 file:text-foreground 
@@ -16,12 +20,6 @@ file:inline-flex
 // Removed this. Not needed.
 // const selectionMixin = `selection:bg-primary selection:text-primary-foreground`
 
-const disabledMixin = `
-disabled:pointer-events-none
-disabled:cursor-not-allowed
-disabled:opacity-65
-`
-
 // The padding, and border radius match that of the button component.
 const baseClasses = `
 flex bg-(--background-light)
@@ -31,21 +29,11 @@ text-base leading-[1.5]
 [&:not([type='file'])]:py-[0.25em]
 rounded-[0.375em]
 border outline-none
-placeholder:text-muted-foreground
 shadow-[0_1px_2px_rgba(0,0,0,0.15)]
+placeholder:text-muted-foreground
 transition-[color,box-shadow]
 ${fileMixin}
-${disabledMixin}
-`
-
-// Note: the shadow and the focus ring are independent.
-const focusMixin = `
-focus-visible:shadow-none
-focus-visible:border-blue-500/65
-focus-visible:ring-[3px]
-focus-visible:ring-blue-500/30
-dark:focus-visible:border-blue-400/65
-dark:focus-visible:ring-blue-500/40
+${FIELD_DISABLED_MIXIN}
 `
 
 const ariaMixin = `
@@ -74,7 +62,12 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
     <input
       type={type}
       data-slot='input'
-      className={cn(baseClasses, focusMixin, ariaMixin, className)}
+      className={cn(
+        baseClasses,
+        FIELD_FOCUS_VISIBLE_MIXIN,
+        ariaMixin,
+        className
+      )}
       {...props}
     />
   )

@@ -38,8 +38,29 @@ export const ALERT_DIALOG_ZINDEX_CLASS = 'z-50'
 // Used by SheetContent and SheetOverlay
 export const SHEET_ZINDEX_CLASS = 'z-50'
 
+// Used by SelectContent
+export const SELECT_ZINDEX_CLASS = 'z-50'
+
 //# Test permanently open popover against open mobile sidebar, open alert dialog, and open sheet.
 //# Test permanently open dropdown menut against open mobile sidebar, open alert dialog, and open sheet.
 //# Test permanantly open popover against open dropdown.
 
 //# Sonner
+
+/* ======================
+
+====================== */
+
+export const FIELD_FOCUS_VISIBLE_MIXIN = `
+focus-visible:shadow-none
+focus-visible:border-blue-500/65
+focus-visible:ring-[3px]
+focus-visible:ring-blue-500/30
+dark:focus-visible:border-blue-400/65
+dark:focus-visible:ring-blue-500/40
+`
+
+export const FIELD_DISABLED_MIXIN = `
+disabled:cursor-not-allowed 
+disabled:opacity-65
+`
