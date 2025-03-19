@@ -4,7 +4,9 @@ import { Label } from '../label'
 import { FormText } from '../FormText'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
-import { FIELD_INVALID_MIXIN } from '../component-constants'
+import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
+
+type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 type InputProps = React.ComponentProps<typeof InputBase> & {
   error?: string
@@ -12,7 +14,7 @@ type InputProps = React.ComponentProps<typeof InputBase> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
-  labelText?: string // Could be React.ReactNode, but string is okay for now.
+  labelText?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
@@ -32,26 +34,20 @@ const groupBaseClassses = `group`
 export const Input = ({
   className = '',
   disabled = false,
-
   error = '',
   errorClassName = '',
   errorStyle = {},
-
   groupClassName = '',
   groupStyle = {},
   id = '',
-
   labelText = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
-
   renderInputBaseOnly = false,
-
   text = '',
   textClassName = '',
   textStyle = {},
-
   touched = false,
   ...otherProps
 }: InputProps) => {
@@ -61,16 +57,44 @@ export const Input = ({
   const uuid = React.useId()
   id = id || uuid
 
-  const maybeFieldInvalidMixin = error ? FIELD_INVALID_MIXIN : ''
+  const maybeValidationMixin = error
+    ? FIELD_INVALID_MIXIN
+    : touched && !error
+      ? FIELD_VALID_MIXIN
+      : ''
 
   const InputBaseComponent = (
     <InputBase
       id={id}
-      className={cn(maybeFieldInvalidMixin, className)}
+      className={cn(maybeValidationMixin, className)}
       disabled={disabled}
       {...otherProps}
     />
   )
+
+  /* ======================
+        renderLabel()
+  ====================== */
+
+  const renderLabel = () => {
+    if (!labelText) {
+      return null
+    }
+
+    return (
+      <Label
+        className={cn('mb-1', labelClassName)}
+        disabled={disabled}
+        error={error}
+        htmlFor={id}
+        labelRequired={labelRequired}
+        style={labelStyle}
+        touched={touched}
+      >
+        {labelText}
+      </Label>
+    )
+  }
 
   /* ======================
           return
@@ -82,18 +106,7 @@ export const Input = ({
 
   return (
     <div className={cn(groupBaseClassses, groupClassName)} style={groupStyle}>
-      {labelText && (
-        <Label
-          className={cn('mb-1', labelClassName)}
-          disabled={disabled}
-          error={error}
-          htmlFor={id}
-          labelRequired={labelRequired}
-          style={labelStyle}
-        >
-          {labelText}
-        </Label>
-      )}
+      {renderLabel()}
 
       {InputBaseComponent}
 

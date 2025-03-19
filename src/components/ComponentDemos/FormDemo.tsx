@@ -62,14 +62,14 @@ export const FormDemo = () => {
         // disabled
         id='first-name'
         // groupClassName='mb-6'
-        labelText='First Name'
+        labelText={<span>First Name</span>}
         labelRequired={true}
         name='first_name'
         // renderInputBaseOnly
         type='text'
         placeholder='First Name...'
         error='This is invalid!'
-        text='(A hardcoded error example)'
+        text='(A hardcoded invalid example)'
         // textClassName='text-xs'
       />
     )
@@ -80,18 +80,33 @@ export const FormDemo = () => {
   ====================== */
 
   const renderLastName = () => {
+    // return (
+    //   <div>
+    //     <Label className='mb-2' htmlFor='last-name'>
+    //       Last Name
+    //     </Label>
+    //     <Input
+    //       id='last-name'
+    //       name='last_name'
+    //       type='text'
+    //       placeholder='Last Name...'
+    //     />
+    //   </div>
+    // )
+
     return (
-      <div>
-        <Label className='mb-2' htmlFor='last-name'>
-          Last Name
-        </Label>
-        <Input
-          id='last-name'
-          name='last_name'
-          type='text'
-          placeholder='Last Name...'
-        />
-      </div>
+      <Input
+        // disabled
+        id='last-name'
+        labelText='Last Name'
+        labelRequired={true}
+        name='last_name'
+        touched={true}
+        type='text'
+        placeholder='Last Name...'
+        error=''
+        text='(A hardcoded valid example)'
+      />
     )
   }
 

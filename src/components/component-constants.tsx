@@ -62,6 +62,12 @@ focus-visible:ring-[3px]
 focus-visible:ring-primary/40
 `
 
+export const FIELD_VALID_MIXIN = `
+not-disabled:border-success
+focus-visible:border-success
+focus-visible:ring-success/40
+`
+
 // This assumes FIELD_FOCUS_VISIBLE_MIXIN is already
 // being used, and so only modifies border and ring.
 export const FIELD_INVALID_MIXIN = `
