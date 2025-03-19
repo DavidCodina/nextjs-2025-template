@@ -31,7 +31,7 @@ data-[orientation=vertical]:w-full
 const thumbBaseClasses = `
 block size-4 shrink-0
 border-primary bg-(--background-light)
-rounded-full border shadow-sm
+rounded-full border shadow
 transition-[color,box-shadow]
 ring-primary/50 hover:ring-4
 focus-visible:ring-4 focus-visible:outline-hidden

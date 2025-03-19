@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { cn } from '@/utils'
 import {
+  FIELD_BOX_SHADOW_MIXIN,
   FIELD_FOCUS_VISIBLE_MIXIN,
   FIELD_DISABLED_MIXIN
 } from '../component-constants'
@@ -29,10 +30,11 @@ text-base leading-[1.5]
 [&:not([type='file'])]:py-[0.25em]
 rounded-[0.375em]
 border outline-none
-shadow-[0_1px_2px_rgba(0,0,0,0.15)]
+
 placeholder:text-muted-foreground
 transition-[color,box-shadow]
 ${fileMixin}
+${FIELD_BOX_SHADOW_MIXIN}
 ${FIELD_DISABLED_MIXIN}
 `
 

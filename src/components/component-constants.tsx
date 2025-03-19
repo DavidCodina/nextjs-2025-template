@@ -51,13 +51,15 @@ export const SELECT_ZINDEX_CLASS = 'z-50'
 
 ====================== */
 
+export const FIELD_BOX_SHADOW_MIXIN = `
+shadow-xs
+`
+
 export const FIELD_FOCUS_VISIBLE_MIXIN = `
 focus-visible:shadow-none
-focus-visible:border-blue-500/65
+focus-visible:border-primary
 focus-visible:ring-[3px]
-focus-visible:ring-blue-500/30
-dark:focus-visible:border-blue-400/65
-dark:focus-visible:ring-blue-500/40
+focus-visible:ring-primary/40
 `
 
 export const FIELD_DISABLED_MIXIN = `

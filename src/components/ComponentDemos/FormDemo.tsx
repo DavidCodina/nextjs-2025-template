@@ -13,8 +13,36 @@ import {
 } from '@/components/select'
 
 import { Slider } from '@/components/slider'
+import { Checkbox } from '@/components/checkbox'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
+
+const checkboxItems = [
+  {
+    id: 'red',
+    label: 'Red'
+  },
+  {
+    id: 'orange',
+    label: 'Orange'
+  },
+  {
+    id: 'yellow',
+    label: 'Yellow'
+  },
+  {
+    id: 'green',
+    label: 'Green'
+  },
+  {
+    id: 'blue',
+    label: 'Blue'
+  },
+  {
+    id: 'purple',
+    label: 'Purple'
+  }
+] as const
 
 /* ========================================================================
 
@@ -51,6 +79,24 @@ export const FormDemo = () => {
           type='text'
           placeholder='Last Name...'
         />
+      </div>
+
+      <div className=''>
+        <Label className='mb-2'>Colors</Label>
+
+        {checkboxItems.map((item, index) => {
+          return (
+            <div key={index} className='mb-2 flex items-center space-x-2'>
+              <Checkbox id={item.id} onCheckedChange={(_checked) => {}} />
+              <label
+                htmlFor={item.id}
+                className='cursor-pointer text-xs leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+              >
+                {item.label}
+              </label>
+            </div>
+          )
+        })}
       </div>
 
       <div>

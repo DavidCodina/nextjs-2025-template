@@ -74,6 +74,7 @@ export const ButtonGroup = ({
         },
         className
       )}
+      role='group'
     >
       {children}
     </div>
