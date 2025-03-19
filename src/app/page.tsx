@@ -1,31 +1,16 @@
 import { Page, PageContainer, Title } from 'components'
-// import { AccordionDemo } from 'components/accordion/AccordionDemo'
-// import { AlertDemo } from 'components/alert/AlertDemo'
-// import { AlertDialogDemo } from 'components/alert-dialog/AlertDialogDemo'
-// import { BadgeDemo } from 'components/badge/BadgeDemo'
-// import { ButtonDemo } from 'components/button/ButtonDemo'
-// import { CardDemo } from 'components/card/CardDemo'
-// import { CollapsibleDemo } from 'components/collapsible/CollapsibleDemo'
-// import { DialogDemo } from 'components/dialog/DialogDemo'
-// import { DropdownMenuDemo } from 'components/dropdown-menu/DropdownMenuDemo'
-// import { SeparatorDemo } from 'components/separator/SeparatorDemo'
-// import { PopoverDemo } from 'components/popover/PopoverDemo'
-// import { SheetDemo } from 'components/sheet/SheetDemo'
-// import { SkeletonDemo } from 'components/skeleton/SkeletonDemo'
-// import { SonnerDemo } from 'components/sonner/SonnerDemo'
-// import { TabsDemo } from 'components/tabs/TabsDemo'
-
 import { ComponentDemos } from '@/components/ComponentDemos'
+import { ClickCounter } from '@/stores/AppStore/AppStoreDemo'
 
 /* ========================================================================
 
 ======================================================================== */
 
-//# Add src/hooks
-//# Add in utils
-//# Add not-found.tsx, global-error.tsx, error.tsx
+// Todo: Test Button's loading spinner.
 
-//# How would I go about creating a button group?
+// Todo: Add not-found.tsx, global-error.tsx, error.tsx
+
+// Todo: Create ButtonGroup component.
 //# https://github.com/shadcn-ui/ui/discussions/4283
 //# Maybe rather than forcing it top-down, I can actually
 //# create a variant variant that checks itself and then
@@ -39,14 +24,11 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 //! How can we change the offset in toolip and popover.
 
-//# Test the Button's loading spinner.
 //# I'm concerned that when it has an svg, then it's not removed while loading.
 
 //# Button has: aria-invalid:ring-destructive/20
 //# Something similar was on the badges, and I removed it.
 //# What is it?
-
-//# How can we enable backdrop click to close the dialog?
 
 //# Test dropdown menu that stays open against sidebar and sheet.
 
@@ -56,59 +38,20 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 const Home = () => {
   return (
     <Page>
-      <PageContainer
-        style={
-          {
-            // minHeight: '200vh' ,
-            // border: '2px dashed red'
-          }
-        }
-      >
+      <PageContainer>
         <Title
-          // ref={titleRefCallback}
-          // ref={titleRef}
           as='h2'
           style={{
             marginBottom: 50,
             textAlign: 'center'
           }}
-          // className='dark:text-red-500'
-          // color='red'
         >
           Home
         </Title>
 
+        <ClickCounter />
+
         <ComponentDemos />
-
-        {/* <AccordionDemo /> */}
-
-        {/* <AlertDemo /> */}
-
-        {/* <AlertDialogDemo /> */}
-
-        {/* <BadgeDemo /> */}
-
-        {/* <ButtonDemo /> */}
-
-        {/* <CardDemo /> */}
-
-        {/* <CollapsibleDemo /> */}
-
-        {/* <DialogDemo /> */}
-
-        {/* <DropdownMenuDemo /> */}
-
-        {/* <PopoverDemo /> */}
-
-        {/* <SeparatorDemo /> */}
-
-        {/* <SheetDemo /> */}
-
-        {/* <SkeletonDemo /> */}
-
-        {/* <SonnerDemo /> */}
-
-        {/* <TabsDemo /> */}
       </PageContainer>
     </Page>
   )
