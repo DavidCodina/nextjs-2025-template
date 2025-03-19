@@ -3,6 +3,7 @@ export * from './alert'
 export * from './alert-dialog'
 export * from './app-sidebar'
 export * from './button'
+export * from './ButtonGroup'
 
 export * from './badge'
 export * from './card'

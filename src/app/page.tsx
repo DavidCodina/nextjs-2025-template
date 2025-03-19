@@ -1,6 +1,5 @@
 import { Page, PageContainer, Title } from 'components'
 import { ComponentDemos } from '@/components/ComponentDemos'
-import { ClickCounter } from '@/stores/AppStore/AppStoreDemo'
 
 /* ========================================================================
 
@@ -10,7 +9,6 @@ import { ClickCounter } from '@/stores/AppStore/AppStoreDemo'
 
 // Todo: Add not-found.tsx, global-error.tsx, error.tsx
 
-// Todo: Create ButtonGroup component.
 //# https://github.com/shadcn-ui/ui/discussions/4283
 //# Maybe rather than forcing it top-down, I can actually
 //# create a variant variant that checks itself and then
@@ -48,8 +46,6 @@ const Home = () => {
         >
           Home
         </Title>
-
-        <ClickCounter />
 
         <ComponentDemos />
       </PageContainer>

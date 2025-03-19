@@ -6,6 +6,7 @@ import { AlertDemo } from './AlertDemo'
 import { AlertDialogDemo } from './AlertDialogDemo'
 import { BadgeDemo } from './BadgeDemo'
 import { ButtonDemo } from './ButtonDemo'
+import { ButtonGroupDemo } from './ButtonGroupDemo'
 import { CardDemo } from './CardDemo'
 import { CollapsibleDemo } from './CollapsibleDemo'
 import { DialogDemo } from './DialogDemo'
@@ -32,6 +33,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='alert-dialog'>Alert Dialog</TabsTrigger>
         <TabsTrigger value='badge'>Badge</TabsTrigger>
         <TabsTrigger value='button'>Button</TabsTrigger>
+        <TabsTrigger value='button-group'>Button Group</TabsTrigger>
         <TabsTrigger value='card'>Card</TabsTrigger>
         <TabsTrigger value='collapsible'>Collapsible</TabsTrigger>
         <TabsTrigger value='dialog'>Dialog</TabsTrigger>
@@ -74,6 +76,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='button'>
         <ButtonDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='button-group'>
+        <ButtonGroupDemo />
       </TabsContent>
 
       {/* ================= */}
