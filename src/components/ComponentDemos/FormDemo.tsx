@@ -16,6 +16,7 @@ import { Slider } from '@/components/slider'
 import { Checkbox } from '@/components/checkbox'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
+import { RadioGroup, RadioGroupItem } from '@/components/radio-group'
 
 const checkboxItems = [
   {
@@ -49,6 +50,68 @@ const checkboxItems = [
 ======================================================================== */
 
 export const FormDemo = () => {
+  /* ======================
+       renderChecks()
+  ====================== */
+
+  const renderChecks = () => {
+    return (
+      <div className=''>
+        <Label className='mb-2'>Colors</Label>
+
+        {checkboxItems.map((item, index) => {
+          return (
+            <div key={index} className='mb-2 flex items-center space-x-2'>
+              <Checkbox id={item.id} onCheckedChange={(_checked) => {}} />
+              <label
+                htmlFor={item.id}
+                className='cursor-pointer text-xs leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+              >
+                {item.label}
+              </label>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  /* ======================
+        renderRadios()
+  ====================== */
+
+  const renderRadios = () => {
+    return (
+      <div>
+        <Label className='mb-2'>Choose One:</Label>
+
+        <RadioGroup defaultValue='option-one'>
+          <div className='flex items-center space-x-2'>
+            <RadioGroupItem value='option-one' id='option-one' />
+            <label
+              htmlFor='option-one'
+              className='cursor-pointer text-xs leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+            >
+              Option One
+            </label>
+          </div>
+          <div className='flex items-center space-x-2'>
+            <RadioGroupItem value='option-two' id='option-two' />
+            <label
+              htmlFor='option-two'
+              className='cursor-pointer text-xs leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+            >
+              Option Two
+            </label>
+          </div>
+        </RadioGroup>
+      </div>
+    )
+  }
+
+  /* ======================
+          return
+  ====================== */
   return (
     <section className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'>
       <div
@@ -81,23 +144,9 @@ export const FormDemo = () => {
         />
       </div>
 
-      <div className=''>
-        <Label className='mb-2'>Colors</Label>
+      {renderChecks()}
 
-        {checkboxItems.map((item, index) => {
-          return (
-            <div key={index} className='mb-2 flex items-center space-x-2'>
-              <Checkbox id={item.id} onCheckedChange={(_checked) => {}} />
-              <label
-                htmlFor={item.id}
-                className='cursor-pointer text-xs leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-              >
-                {item.label}
-              </label>
-            </div>
-          )
-        })}
-      </div>
+      {renderRadios()}
 
       <div>
         <Label className='mb-2' htmlFor='percent'>

@@ -5,6 +5,9 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
+// Todo: Update globals.css to make --background-light an actual color.
+//# Then remove all instances of bg-(--background-light), etc.
+
 // Todo: Test Button's loading spinner.
 
 // Todo: Add not-found.tsx, global-error.tsx, error.tsx
