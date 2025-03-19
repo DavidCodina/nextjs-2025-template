@@ -62,6 +62,14 @@ focus-visible:ring-[3px]
 focus-visible:ring-primary/40
 `
 
+// This assumes FIELD_FOCUS_VISIBLE_MIXIN is already
+// being used, and so only modifies border and ring.
+export const FIELD_INVALID_MIXIN = `
+not-disabled:border-destructive
+focus-visible:border-destructive
+focus-visible:ring-destructive/40
+`
+
 export const FIELD_DISABLED_MIXIN = `
 disabled:cursor-not-allowed 
 disabled:opacity-65

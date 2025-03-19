@@ -4,6 +4,12 @@ import * as React from 'react'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { cn } from '@/utils'
 
+type LabelProps = React.ComponentProps<typeof LabelPrimitive.Root> & {
+  disabled?: boolean
+  error?: string
+  labelRequired?: boolean
+}
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // The group-data-[disabled=true] arbitrary variant assumes
@@ -27,10 +33,8 @@ import { cn } from '@/utils'
 ///////////////////////////////////////////////////////////////////////////
 
 const baseClasses = `
-flex items-center gap-2 text-sm leading-none 
+flex items-center text-sm leading-none 
 font-medium select-none
-group-data-[disabled=true]:pointer-events-none
-group-data-[disabled=true]:opacity-50
 `
 
 /* ========================================================================
@@ -39,14 +43,35 @@ group-data-[disabled=true]:opacity-50
 
 function Label({
   className,
-  ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+  children,
+  disabled = false,
+  error = '',
+  labelRequired,
+  ...otherProps
+}: LabelProps) {
   return (
     <LabelPrimitive.Root
       data-slot='label'
-      className={cn(baseClasses, className)}
-      {...props}
-    />
+      className={cn(baseClasses, className, {
+        // Intentionally placed after className to always have precedence.
+        'text-destructive': !!error,
+        'text-muted-foreground pointer-events-none opacity-65': disabled
+      })}
+      {...otherProps}
+    >
+      {children}
+      {labelRequired && (
+        <sup
+          className={
+            disabled
+              ? 'relative -top-1 text-[1.25em]'
+              : `text-destructive relative -top-1 text-[1.25em]`
+          }
+        >
+          *
+        </sup>
+      )}
+    </LabelPrimitive.Root>
   )
 }
 

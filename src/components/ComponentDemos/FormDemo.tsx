@@ -58,23 +58,20 @@ export const FormDemo = () => {
 
   const renderFirstName = () => {
     return (
-      <div
-        // data-disabled='true' will be checked by the label and apply disabled styles
-        // to it. For this to work, 'group' must also be applied to <div> container.
-        // data-disabled='true'
-        className='group'
-      >
-        <Label className='mb-2' htmlFor='first-name'>
-          First Name
-        </Label>
-        <Input
-          // disabled
-          id='first-name'
-          name='first_name'
-          type='text'
-          placeholder='First Name...'
-        />
-      </div>
+      <Input
+        // disabled
+        id='first-name'
+        // groupClassName='mb-6'
+        labelText='First Name'
+        labelRequired={true}
+        name='first_name'
+        // renderInputBaseOnly
+        type='text'
+        placeholder='First Name...'
+        error='This is invalid!'
+        text='(A hardcoded error example)'
+        // textClassName='text-xs'
+      />
     )
   }
 

@@ -1,77 +1,113 @@
 import * as React from 'react'
+import { InputBase } from '../InputBase'
+import { Label } from '../label'
+import { FormText } from '../FormText'
+import { FormError } from '../FormError'
 import { cn } from '@/utils'
-import {
-  FIELD_BOX_SHADOW_MIXIN,
-  FIELD_FOCUS_VISIBLE_MIXIN,
-  FIELD_DISABLED_MIXIN
-} from '../component-constants'
+import { FIELD_INVALID_MIXIN } from '../component-constants'
 
-const fileMixin = `
-file:text-primary-foreground 
-file:bg-primary
-file:border-r
-file:border-border
-file:text-base
-file:font-medium
-file:px-[0.5em]
-file:py-[0.25em]
-file:inline-flex
-`
-// Removed this. Not needed.
-// const selectionMixin = `selection:bg-primary selection:text-primary-foreground`
+type InputProps = React.ComponentProps<typeof InputBase> & {
+  error?: string
+  errorClassName?: string
+  errorStyle?: React.CSSProperties
+  groupClassName?: string
+  groupStyle?: React.CSSProperties
+  labelText?: string // Could be React.ReactNode, but string is okay for now.
+  labelClassName?: string
+  labelRequired?: boolean
+  labelStyle?: React.CSSProperties
+  renderInputBaseOnly?: boolean
+  text?: string
+  textClassName?: string
+  textStyle?: React.CSSProperties
+  touched?: boolean
+}
 
-// The padding, and border radius match that of the button component.
-const baseClasses = `
-flex bg-(--background-light)
-w-full min-w-0 
-text-base leading-[1.5]
-[&:not([type='file'])]:px-[0.5em]
-[&:not([type='file'])]:py-[0.25em]
-rounded-[0.375em]
-border outline-none
-
-placeholder:text-muted-foreground
-transition-[color,box-shadow]
-${fileMixin}
-${FIELD_BOX_SHADOW_MIXIN}
-${FIELD_DISABLED_MIXIN}
-`
-
-const ariaMixin = `
-aria-invalid:ring-destructive/20
-dark:aria-invalid:ring-destructive/40
-aria-invalid:border-destructive
-`
-
-// Todo: Add CVA variant of sizes. This should match that of Button.
-// Like button, the size of the input will be derived from the font size.
-
-// size: {
-//   xs: 'text-xs leading-[1.5]',
-//   sm: 'text-sm leading-[1.5]',
-//   md: 'text-base leading-[1.5]',
-//   lg: 'text-lg leading-[1.5]',
-//   xl: 'text-xl leading-[1.5]'
-// }
+const groupBaseClassses = `group`
 
 /* ========================================================================
 
 ======================================================================== */
 
-function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
-  return (
-    <input
-      type={type}
-      data-slot='input'
-      className={cn(
-        baseClasses,
-        FIELD_FOCUS_VISIBLE_MIXIN,
-        ariaMixin,
-        className
-      )}
-      {...props}
+export const Input = ({
+  className = '',
+  disabled = false,
+
+  error = '',
+  errorClassName = '',
+  errorStyle = {},
+
+  groupClassName = '',
+  groupStyle = {},
+  id = '',
+
+  labelText = '',
+  labelClassName = '',
+  labelRequired = false,
+  labelStyle = {},
+
+  renderInputBaseOnly = false,
+
+  text = '',
+  textClassName = '',
+  textStyle = {},
+
+  touched = false,
+  ...otherProps
+}: InputProps) => {
+  void touched
+
+  // If id is not set, then fallback to using React's useId() hook.
+  const uuid = React.useId()
+  id = id || uuid
+
+  const maybeFieldInvalidMixin = error ? FIELD_INVALID_MIXIN : ''
+
+  const InputBaseComponent = (
+    <InputBase
+      id={id}
+      className={cn(maybeFieldInvalidMixin, className)}
+      disabled={disabled}
+      {...otherProps}
     />
   )
-}
 
-export { Input }
+  /* ======================
+          return
+  ====================== */
+
+  if (renderInputBaseOnly) {
+    return InputBaseComponent
+  }
+
+  return (
+    <div className={cn(groupBaseClassses, groupClassName)} style={groupStyle}>
+      {labelText && (
+        <Label
+          className={cn('mb-1', labelClassName)}
+          disabled={disabled}
+          error={error}
+          htmlFor={id}
+          labelRequired={labelRequired}
+          style={labelStyle}
+        >
+          {labelText}
+        </Label>
+      )}
+
+      {InputBaseComponent}
+
+      <FormText className={textClassName} disabled={disabled} style={textStyle}>
+        {text}
+      </FormText>
+
+      <FormError
+        className={errorClassName}
+        disabled={disabled}
+        style={errorStyle}
+      >
+        {error}
+      </FormError>
+    </div>
+  )
+}
