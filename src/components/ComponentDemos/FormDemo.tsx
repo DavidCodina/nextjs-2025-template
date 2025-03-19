@@ -18,6 +18,8 @@ import { Label } from '@/components/label'
 import { Button } from '@/components/button'
 import { RadioGroup, RadioGroupItem } from '@/components/radio-group'
 
+import { Switch } from '@/components/switch'
+
 const checkboxItems = [
   {
     id: 'red',
@@ -50,6 +52,52 @@ const checkboxItems = [
 ======================================================================== */
 
 export const FormDemo = () => {
+  /* ======================
+      renderFirstName()
+  ====================== */
+
+  const renderFirstName = () => {
+    return (
+      <div
+        // data-disabled='true' will be checked by the label and apply disabled styles
+        // to it. For this to work, 'group' must also be applied to <div> container.
+        // data-disabled='true'
+        className='group'
+      >
+        <Label className='mb-2' htmlFor='first-name'>
+          First Name
+        </Label>
+        <Input
+          // disabled
+          id='first-name'
+          name='first_name'
+          type='text'
+          placeholder='First Name...'
+        />
+      </div>
+    )
+  }
+
+  /* ======================
+      renderLastName()
+  ====================== */
+
+  const renderLastName = () => {
+    return (
+      <div>
+        <Label className='mb-2' htmlFor='last-name'>
+          Last Name
+        </Label>
+        <Input
+          id='last-name'
+          name='last_name'
+          type='text'
+          placeholder='Last Name...'
+        />
+      </div>
+    )
+  }
+
   /* ======================
        renderChecks()
   ====================== */
@@ -110,44 +158,24 @@ export const FormDemo = () => {
   }
 
   /* ======================
-          return
+        renderSwitch()
   ====================== */
-  return (
-    <section className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'>
-      <div
-        // data-disabled='true' will be checked by the label and apply disabled styles
-        // to it. For this to work, 'group' must also be applied to <div> container.
-        // data-disabled='true'
-        className='group'
-      >
-        <Label className='mb-2' htmlFor='first-name'>
-          First Name
-        </Label>
-        <Input
-          disabled
-          id='first-name'
-          name='first_name'
-          type='text'
-          placeholder='First Name...'
-        />
+
+  const renderSwitch = () => {
+    return (
+      <div className='flex items-center space-x-2'>
+        <Switch id='airplane-mode' />
+        <Label htmlFor='airplane-mode'>Airplane Mode</Label>
       </div>
+    )
+  }
 
-      <div>
-        <Label className='mb-2' htmlFor='last-name'>
-          Last Name
-        </Label>
-        <Input
-          id='last-name'
-          name='last_name'
-          type='text'
-          placeholder='Last Name...'
-        />
-      </div>
+  /* ======================
+      renderRangeSlider()
+  ====================== */
 
-      {renderChecks()}
-
-      {renderRadios()}
-
+  const renderRangeSlider = () => {
+    return (
       <div>
         <Label className='mb-2' htmlFor='percent'>
           Percent
@@ -163,14 +191,30 @@ export const FormDemo = () => {
           }}
         />
       </div>
+    )
+  }
 
+  /* ======================
+      renderTextarea()
+  ====================== */
+
+  const renderTextarea = () => {
+    return (
       <div>
         <Label className='mb-2' htmlFor='message'>
           Message
         </Label>
         <Textarea id='message' name='message' placeholder='Message here...' />
       </div>
+    )
+  }
 
+  /* ======================
+        renderSelect()
+  ====================== */
+
+  const renderSelect = () => {
+    return (
       <div>
         <Label className='mb-2' htmlFor='fruits'>
           Select One
@@ -195,14 +239,30 @@ export const FormDemo = () => {
           </SelectContent>
         </Select>
       </div>
+    )
+  }
 
+  /* ======================
+      renderFileInput()
+  ====================== */
+
+  const renderFileInput = () => {
+    return (
       <div>
         <Label className='mb-2' htmlFor='picture'>
           Picture
         </Label>
         <Input id='picture' name='picture' type='file' />
       </div>
+    )
+  }
 
+  /* ======================
+      renderEmail()
+  ====================== */
+
+  const renderEmail = () => {
+    return (
       <div>
         <Label className='mb-2' htmlFor='email'>
           Email
@@ -214,6 +274,33 @@ export const FormDemo = () => {
           </Button>
         </div>
       </div>
+    )
+  }
+
+  /* ======================
+          return
+  ====================== */
+  return (
+    <section className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'>
+      {renderFirstName()}
+
+      {renderLastName()}
+
+      {renderChecks()}
+
+      {renderRadios()}
+
+      {renderSwitch()}
+
+      {renderRangeSlider()}
+
+      {renderTextarea()}
+
+      {renderSelect()}
+
+      {renderFileInput()}
+
+      {renderEmail()}
     </section>
   )
 }

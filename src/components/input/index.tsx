@@ -7,11 +7,10 @@ import {
 } from '../component-constants'
 
 const fileMixin = `
-file:text-foreground 
-file:bg-neutral-200
+file:text-primary-foreground 
+file:bg-primary
 file:border-r
 file:border-border
-dark:file:bg-neutral-700
 file:text-base
 file:font-medium
 file:px-[0.5em]
