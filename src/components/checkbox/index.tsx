@@ -1,55 +1,131 @@
 'use client'
 
 import * as React from 'react'
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { CheckIcon } from 'lucide-react'
+
+import { CheckboxBase } from '../CheckboxBase'
+import { Label } from '../label'
+import { FormText } from '../FormText'
+import { FormError } from '../FormError'
+
 import { cn } from '@/utils'
 
-import {
-  FIELD_BOX_SHADOW_MIXIN,
-  FIELD_DISABLED_MIXIN,
-  FIELD_FOCUS_VISIBLE_MIXIN
-} from '../component-constants'
+import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
+type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-const _ariaMixin = `
-aria-invalid:ring-destructive/20
-aria-invalid:border-destructive
-dark:aria-invalid:ring-destructive/40
-`
+type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
+  error?: string
+  errorClassName?: string
+  errorStyle?: React.CSSProperties
+  groupClassName?: string
+  groupStyle?: React.CSSProperties
+  labelText?: LabelChildren
+  labelClassName?: string
+  labelRequired?: boolean
+  labelStyle?: React.CSSProperties
+  renderCheckboxBaseOnly?: boolean
+  text?: string
+  textClassName?: string
+  textStyle?: React.CSSProperties
+  touched?: boolean
+}
 
-const baseClasses = `
-peer
-bg-(--background-light) size-4 shrink-0 rounded-[4px] border
-${FIELD_BOX_SHADOW_MIXIN}
-transition-shadow outline-none
-data-[state=checked]:bg-primary
-data-[state=checked]:text-primary-foreground
-data-[state=checked]:border-primary
-${FIELD_DISABLED_MIXIN}
-${FIELD_FOCUS_VISIBLE_MIXIN}
-`
+const groupBaseClassses = `group`
 
 /* ========================================================================
 
 ======================================================================== */
 
 function Checkbox({
-  className,
-  ...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
-  return (
-    <CheckboxPrimitive.Root
-      data-slot='checkbox'
-      className={cn(baseClasses, className)}
-      {...props}
-    >
-      <CheckboxPrimitive.Indicator
-        data-slot='checkbox-indicator'
-        className='flex items-center justify-center text-current transition-none'
+  className = '',
+  disabled = false,
+  error = '',
+  errorClassName = '',
+  errorStyle = {},
+  groupClassName = '',
+  groupStyle = {},
+  id = '',
+  labelText = '',
+  labelClassName = '',
+  labelRequired = false,
+  labelStyle = {},
+  renderCheckboxBaseOnly = false,
+  text = '',
+  textClassName = '',
+  textStyle = {},
+  touched = false,
+  ...otherProps
+}: CheckboxProps) {
+  // If id is not set, then fallback to using React's useId() hook.
+  const uuid = React.useId()
+  id = id || uuid
+
+  const maybeValidationMixin = error
+    ? FIELD_INVALID_MIXIN
+    : touched && !error
+      ? FIELD_VALID_MIXIN
+      : ''
+
+  const CheckboxBaseComponent = (
+    <CheckboxBase
+      id={id}
+      className={cn(maybeValidationMixin, className)}
+      disabled={disabled}
+      {...otherProps}
+    />
+  )
+
+  /* ======================
+        renderLabel()
+  ====================== */
+
+  const renderLabel = () => {
+    if (!labelText) {
+      return null
+    }
+
+    return (
+      <Label
+        className={cn('text-xs', labelClassName)}
+        disabled={disabled}
+        error={error}
+        htmlFor={id}
+        labelRequired={labelRequired}
+        style={labelStyle}
+        touched={touched}
       >
-        <CheckIcon className='size-3.5' />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
+        {labelText}
+      </Label>
+    )
+  }
+
+  /* ======================
+          return
+  ====================== */
+
+  if (renderCheckboxBaseOnly) {
+    return CheckboxBaseComponent
+  }
+
+  return (
+    <div className={cn(groupBaseClassses, groupClassName)} style={groupStyle}>
+      <div className='flex items-center gap-2'>
+        {CheckboxBaseComponent}
+        {renderLabel()}
+      </div>
+
+      <FormText className={textClassName} disabled={disabled} style={textStyle}>
+        {text}
+      </FormText>
+
+      <FormError
+        className={errorClassName}
+        disabled={disabled}
+        style={errorStyle}
+        touched={touched}
+      >
+        {error}
+      </FormError>
+    </div>
   )
 }
 

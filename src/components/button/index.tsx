@@ -17,6 +17,8 @@ type ButtonProps = React.ComponentProps<'button'> &
 /* ========================================================================
                                     Button
 ======================================================================== */
+//# Restructure the internal children of Button.
+//# There should be a left side and right side.
 
 const Button = ({
   asChild = false,

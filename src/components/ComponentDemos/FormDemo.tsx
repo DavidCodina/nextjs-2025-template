@@ -17,35 +17,11 @@ import { Checkbox } from '@/components/checkbox'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
 import { RadioGroup, RadioGroupItem } from '@/components/radio-group'
-
 import { Switch } from '@/components/switch'
+import { CheckboxGroup } from '@/components/CheckboxGroup'
+import React from 'react'
 
-const checkboxItems = [
-  {
-    id: 'red',
-    label: 'Red'
-  },
-  {
-    id: 'orange',
-    label: 'Orange'
-  },
-  {
-    id: 'yellow',
-    label: 'Yellow'
-  },
-  {
-    id: 'green',
-    label: 'Green'
-  },
-  {
-    id: 'blue',
-    label: 'Blue'
-  },
-  {
-    id: 'purple',
-    label: 'Purple'
-  }
-] as const
+type Items = React.ComponentProps<typeof CheckboxGroup>['items']
 
 /* ========================================================================
 
@@ -97,36 +73,62 @@ export const FormDemo = () => {
   }
 
   /* ======================
-       renderChecks()
+    renderSingleCheckbox()
   ====================== */
 
-  const renderChecks = () => {
+  const renderSingleCheckbox = () => {
     return (
-      <div className=''>
-        <Label className='mb-2'>Colors</Label>
-
-        {checkboxItems.map((item, index) => {
-          return (
-            <div key={index} className='mb-2 flex items-center space-x-2'>
-              <Checkbox id={item.id} onCheckedChange={(_checked) => {}} />
-              <label
-                htmlFor={item.id}
-                className='cursor-pointer text-xs leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-              >
-                {item.label}
-              </label>
-            </div>
-          )
-        })}
-      </div>
+      <Checkbox
+        // disabled
+        id='singe-check'
+        labelText='Agree To Terms'
+        // labelRequired
+        name='single-check'
+        // touched
+        // error='This must be checked!'
+        // text='Do it bitch!'
+      />
     )
   }
 
   /* ======================
-        renderRadios()
+    renderCheckboxGroup()
   ====================== */
 
-  const renderRadios = () => {
+  const items: Items = [
+    { labelText: 'Red', value: 'red' },
+    { labelText: 'Orange', value: 'orange' },
+    { labelText: 'Yellow', value: 'yellow' },
+    { labelText: 'Green', value: 'green' },
+    { labelText: 'Blue', value: 'blue' },
+    { labelText: 'Purple', value: 'purple' }
+  ]
+
+  const renderCheckboxGroup = () => {
+    return (
+      <CheckboxGroup
+        //# If something is checked, but disabled, should we change the checkbox color?
+        //# Same for valid/invalid ?
+        // disabled
+        // error='At least one item must be checked.'
+        // initialValues={['red', 'orange']}
+        items={items}
+        labelText='Colors'
+        name='colors'
+        onChange={(values) => {
+          console.log(' values:', values)
+        }}
+        // text='Pick one or more...'
+        // touched
+      />
+    )
+  }
+
+  /* ======================
+      renderRadioGroup()
+  ====================== */
+
+  const renderRadioGroup = () => {
     return (
       <div>
         <Label className='mb-2'>Choose One:</Label>
@@ -290,9 +292,11 @@ export const FormDemo = () => {
 
       {renderLastName()}
 
-      {renderChecks()}
+      {renderSingleCheckbox()}
 
-      {renderRadios()}
+      {renderCheckboxGroup()}
+
+      {renderRadioGroup()}
 
       {renderSwitch()}
 

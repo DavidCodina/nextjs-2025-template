@@ -32,8 +32,46 @@ export const Label = ({
   touched = false,
   ...otherProps
 }: LabelProps) => {
+  const labelRef = React.useRef<HTMLLabelElement | null>(null)
+
+  /* ======================
+
+  ====================== */
+  // Why implement useEffect to render the <sup> element?
+  // Why not add the conditional JSX right after { children } below?
+  // In some cases, we may want to use <Label asChild><div>...</div></Label>
+  // If you do this, an Error will be thrown because the asChild (i.e., Slot)
+  // feature expects there to be only a single child
+
+  React.useEffect(() => {
+    const labelElement = labelRef.current
+    const supClasses = cn('text-destructive relative -top-1 text-[1.25em]', {
+      'text-success': !error && touched,
+      'text-[inherit]': disabled
+    })
+
+    const supElement = document.createElement('sup')
+
+    if (labelElement && labelRequired) {
+      supElement.className = supClasses
+      supElement.textContent = '*'
+      labelElement.appendChild(supElement)
+    }
+
+    return () => {
+      if (labelElement && supElement.parentNode === labelElement) {
+        labelElement.removeChild(supElement)
+      }
+    }
+  }, [labelRequired, error, touched, disabled])
+
+  /* ======================
+            return
+  ====================== */
+
   return (
     <LabelPrimitive.Root
+      ref={labelRef}
       data-slot='label'
       className={cn(baseClasses, className, {
         // Intentionally placed after className to always have precedence.
@@ -44,17 +82,6 @@ export const Label = ({
       {...otherProps}
     >
       {children}
-
-      {labelRequired && (
-        <sup
-          className={cn('text-destructive relative -top-1 text-[1.25em]', {
-            'text-success': !error && touched,
-            'text-[inherit]': disabled
-          })}
-        >
-          *
-        </sup>
-      )}
     </LabelPrimitive.Root>
   )
 }
