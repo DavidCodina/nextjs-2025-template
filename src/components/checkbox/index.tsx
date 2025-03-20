@@ -18,6 +18,8 @@ type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
+  /** Used internally by CheckboxGroup */
+  _hideError?: boolean
   labelText?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
@@ -43,6 +45,7 @@ function Checkbox({
   errorStyle = {},
   groupClassName = '',
   groupStyle = {},
+  _hideError = false,
   id = '',
   labelText = '',
   labelClassName = '',
@@ -117,14 +120,16 @@ function Checkbox({
         {text}
       </FormText>
 
-      <FormError
-        className={errorClassName}
-        disabled={disabled}
-        style={errorStyle}
-        touched={touched}
-      >
-        {error}
-      </FormError>
+      {!_hideError && (
+        <FormError
+          className={errorClassName}
+          disabled={disabled}
+          style={errorStyle}
+          touched={touched}
+        >
+          {error}
+        </FormError>
+      )}
     </div>
   )
 }

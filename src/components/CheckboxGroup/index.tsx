@@ -9,7 +9,7 @@ import { cn } from '@/utils'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-// Ultimately, this is derived from the Radix CheckboxPrimitive.Root
+// Ultimately, this is derived from the Radix Checkbox.Root
 type Value = React.ComponentProps<typeof Checkbox>['value']
 
 type Item = {
@@ -21,7 +21,7 @@ type Item = {
   id?: string
   labelText?: LabelChildren
   labelClassName?: string
-  labelRequired?: boolean // ???
+  labelRequired?: boolean
   labelStyle?: React.CSSProperties
   /** value is required. Why? When using CheckboxGroup, you're likely interested in
    * the associated values and not merely whether the box was checked.
@@ -34,7 +34,7 @@ type CheckboxGroupProps = React.ComponentProps<'div'> & {
   error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
-  initialValues?: Value[]
+  defaultValues?: Value[]
   items: Item[]
   /** The top-level label for the group of checkboxes - Technically a div. */
   labelText?: LabelChildren
@@ -60,7 +60,7 @@ export const CheckboxGroup = ({
   error = '',
   errorClassName = '',
   errorStyle = {},
-  initialValues,
+  defaultValues,
   items = [],
   labelText = '',
   labelClassName = '',
@@ -80,8 +80,8 @@ export const CheckboxGroup = ({
   ====================== */
 
   const [values, setValues] = React.useState<Value[]>(() => {
-    if (Array.isArray(initialValues) && initialValues.length > 0) {
-      return initialValues
+    if (Array.isArray(defaultValues) && defaultValues.length > 0) {
+      return defaultValues
     }
     return []
   })
@@ -127,48 +127,10 @@ export const CheckboxGroup = ({
   }
 
   /* ======================
-        renderLabel()
-  ====================== */
-
-  const renderLabel = (config: {
-    id: string
-    disabled: boolean | undefined
-    labelText?: LabelChildren
-    labelClassName?: string
-    labelRequired?: boolean
-    labelStyle?: React.CSSProperties
-  }) => {
-    if (!config.labelText) {
-      return null
-    }
-
-    return (
-      <Label
-        id={config.id}
-        className={cn('text-xs', config.labelClassName)}
-        disabled={config.disabled}
-        // This will always be the top-level error prop.
-        error={error}
-        htmlFor={config.id}
-        labelRequired={config.labelRequired}
-        style={config.labelStyle}
-        // This will always be the top-level touched prop.
-        touched={touched}
-        suppressHydrationWarning
-      >
-        {config.labelText}
-      </Label>
-    )
-  }
-
-  /* ======================
      renderCheckboxes()
   ====================== */
 
   const renderCheckboxes = () => {
-    const generateUniqueId = () =>
-      `${name}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
-
     return items.map((item, index) => {
       // value will also be on <button value="..." />
       // but that's tricker to access.
@@ -188,11 +150,6 @@ export const CheckboxGroup = ({
         ...otherCheckboxProps
       } = item
 
-      // This is going to create a hydration mismatch wherever
-      // it is applied. Use suppressHydrationWarning on those
-      // components / JSX elements.
-      const uid = checkId || generateUniqueId()
-
       return (
         <div
           key={index}
@@ -201,13 +158,19 @@ export const CheckboxGroup = ({
         >
           <div className='flex items-center gap-2'>
             <Checkbox
-              id={uid}
-              className={checkClassName}
-              style={checkStyle}
               checked={(() => {
                 return values.includes(checkValue)
               })()}
+              className={checkClassName}
               disabled={disabled || checkDisabled}
+              error={error}
+              // Used to suppress error message UI in favor of a single group error message.
+              _hideError
+              id={checkId}
+              labelText={checkLabelText}
+              labelClassName={checkLabelClassName}
+              labelRequired={checkLabelRequired}
+              labelStyle={checkLabelStyle}
               name={name}
               // ⚠️ This is currently implemented under the assumption that each
               // checkbox value will be unique. If the values could potentially be
@@ -220,22 +183,11 @@ export const CheckboxGroup = ({
                   setValues((prev) => prev.filter((v) => v !== checkValue))
                 }
               }}
-              renderCheckboxBaseOnly
-              error={error}
+              style={checkStyle}
               touched={touched}
               value={checkValue}
-              suppressHydrationWarning
               {...otherCheckboxProps}
             />
-
-            {renderLabel({
-              id: uid,
-              disabled: disabled || checkDisabled,
-              labelText: checkLabelText,
-              labelClassName: checkLabelClassName,
-              labelRequired: checkLabelRequired,
-              labelStyle: checkLabelStyle
-            })}
           </div>
         </div>
       )
@@ -247,7 +199,16 @@ export const CheckboxGroup = ({
   ====================== */
 
   return (
-    <div className={className} style={style} {...otherProps}>
+    <div
+      className={cn(
+        {
+          'cursor-not-allowed': disabled
+        },
+        className
+      )}
+      style={style}
+      {...otherProps}
+    >
       {renderGroupLabel()}
       {renderCheckboxes()}
 

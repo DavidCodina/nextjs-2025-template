@@ -16,12 +16,14 @@ import { Slider } from '@/components/slider'
 import { Checkbox } from '@/components/checkbox'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
-import { RadioGroup, RadioGroupItem } from '@/components/radio-group'
+import { RadioGroup } from '@/components/RadioGroup'
 import { Switch } from '@/components/switch'
 import { CheckboxGroup } from '@/components/CheckboxGroup'
 import React from 'react'
 
-type Items = React.ComponentProps<typeof CheckboxGroup>['items']
+type CheckboxItems = React.ComponentProps<typeof CheckboxGroup>['items']
+
+type RadioItems = React.ComponentProps<typeof RadioGroup>['items']
 
 /* ========================================================================
 
@@ -95,26 +97,26 @@ export const FormDemo = () => {
     renderCheckboxGroup()
   ====================== */
 
-  const items: Items = [
-    { labelText: 'Red', value: 'red' },
-    { labelText: 'Orange', value: 'orange' },
-    { labelText: 'Yellow', value: 'yellow' },
-    { labelText: 'Green', value: 'green' },
-    { labelText: 'Blue', value: 'blue' },
-    { labelText: 'Purple', value: 'purple' }
-  ]
-
   const renderCheckboxGroup = () => {
+    const checkboxItems: CheckboxItems = [
+      { labelText: 'Red', value: 'red' },
+      { labelText: 'Orange', value: 'orange' },
+      { labelText: 'Yellow', value: 'yellow' },
+      { labelText: 'Green', value: 'green' },
+      { labelText: 'Blue', value: 'blue' },
+      { labelText: 'Purple', value: 'purple' }
+    ]
+
     return (
       <CheckboxGroup
         //# If something is checked, but disabled, should we change the checkbox color?
         //# Same for valid/invalid ?
         // disabled
         // error='At least one item must be checked.'
-        // initialValues={['red', 'orange']}
-        items={items}
-        labelText='Colors'
-        name='colors'
+        defaultValues={['red', 'orange']}
+        items={checkboxItems}
+        labelText='Checkbox Colors'
+        name='checkbox-colors'
         onChange={(values) => {
           console.log(' values:', values)
         }}
@@ -129,31 +131,44 @@ export const FormDemo = () => {
   ====================== */
 
   const renderRadioGroup = () => {
-    return (
-      <div>
-        <Label className='mb-2'>Choose One:</Label>
+    const radioItems: RadioItems = [
+      { labelText: 'Red', value: 'red' },
+      { labelText: 'Orange', value: 'orange' },
+      { labelText: 'Yellow', value: 'yellow' },
+      { labelText: 'Green', value: 'green' },
+      { labelText: 'Blue', value: 'blue' },
+      { labelText: 'Purple', value: 'purple' }
+    ]
 
-        <RadioGroup defaultValue='option-one'>
-          <div className='flex items-center space-x-2'>
-            <RadioGroupItem value='option-one' id='option-one' />
-            <label
-              htmlFor='option-one'
-              className='cursor-pointer text-xs leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-            >
-              Option One
-            </label>
-          </div>
-          <div className='flex items-center space-x-2'>
-            <RadioGroupItem value='option-two' id='option-two' />
-            <label
-              htmlFor='option-two'
-              className='cursor-pointer text-xs leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-            >
-              Option Two
-            </label>
-          </div>
-        </RadioGroup>
-      </div>
+    return (
+      <RadioGroup
+        //# If something is checked, but disabled, should we change the radio color?
+        //# Same for valid/invalid ?
+        // disabled
+        defaultValue={radioItems[0].value}
+        // error='An item must be selected.'
+        items={radioItems}
+        labelText='Radio Colors'
+        name='radio-colors'
+        onChange={(value) => {
+          console.log('Radio value:', value)
+        }}
+        ///////////////////////////////////////////////////////////////////////////
+        //
+        // className and style are applied to the top-level <div>
+        // RadioGroupBase is a child of that <div>.
+        // For cases when you want to style the RadioGroupBase directly,
+        // use radioGroupBaseClassName and radioGroupBaseStyle. Primarily,
+        // this would be useful for increading the gap between the child
+        // <div>s that containe both the radio and the label.
+        //
+        ///////////////////////////////////////////////////////////////////////////
+
+        // radioGroupBaseClassName=''
+        // radioGroupBaseStyle={{ outline: '2px dashed deeppink' }}
+        // text='Pick one.'
+        // touched
+      />
     )
   }
 

@@ -32,6 +32,12 @@ ${FIELD_FOCUS_VISIBLE_MIXIN}
 /* ========================================================================
 
 ======================================================================== */
+// This was originally the Checkbox component from ShadCN.
+// It was renamed to CheckboxBase to avoid conflicts with
+// with the newer Checkbox component, which uses CheckboxBase
+// internally. While it's still possible to compose a Checkbox with
+// CheckboxBase, prefer the newer Checkbox (or CheckboxGroup) component,
+// which add additional features like labels, error messages, help text, etc.
 
 function CheckboxBase({
   className,

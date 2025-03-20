@@ -11,12 +11,6 @@ import {
   FIELD_FOCUS_VISIBLE_MIXIN
 } from '../component-constants'
 
-const _ariaMixin = `
-aria-invalid:ring-destructive/20
-aria-invalid:border-destructive
-dark:aria-invalid:ring-destructive/40
-`
-
 // Why is `peer` not assigned here like it is on the Checkbox?
 // The text color matters because it affects the icon's outer border color.
 const baseClasses = `
@@ -30,11 +24,17 @@ ${FIELD_DISABLED_MIXIN}
 /* ========================================================================
 
 ======================================================================== */
+// This was originally the RadioGroupItem component from ShadCN.
+// It was renamed to RadioGroupItemBase following the change of
+// RadioGroup to RadioGroupBase. While it's still possible to compose
+// Radio Groups with RadioGroupBase and RadioGroupItemBase, prefer the
+// newer RadioGroupcomponent, which abstracts away many of the
+// implementation details.
 
-function RadioGroupItem({
+export const RadioGroupItemBase = ({
   className,
   ...props
-}: React.ComponentProps<typeof RadioGroupPrimitive.Item>) {
+}: React.ComponentProps<typeof RadioGroupPrimitive.Item>) => {
   return (
     <RadioGroupPrimitive.Item
       data-slot='radio-group-item'
@@ -50,5 +50,3 @@ function RadioGroupItem({
     </RadioGroupPrimitive.Item>
   )
 }
-
-export { RadioGroupItem }
