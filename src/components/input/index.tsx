@@ -51,8 +51,6 @@ export const Input = ({
   touched = false,
   ...otherProps
 }: InputProps) => {
-  void touched
-
   // If id is not set, then fallback to using React's useId() hook.
   const uuid = React.useId()
   id = id || uuid
@@ -118,6 +116,7 @@ export const Input = ({
         className={errorClassName}
         disabled={disabled}
         style={errorStyle}
+        touched={touched}
       >
         {error}
       </FormError>

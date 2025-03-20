@@ -80,20 +80,6 @@ export const FormDemo = () => {
   ====================== */
 
   const renderLastName = () => {
-    // return (
-    //   <div>
-    //     <Label className='mb-2' htmlFor='last-name'>
-    //       Last Name
-    //     </Label>
-    //     <Input
-    //       id='last-name'
-    //       name='last_name'
-    //       type='text'
-    //       placeholder='Last Name...'
-    //     />
-    //   </div>
-    // )
-
     return (
       <Input
         // disabled
@@ -212,12 +198,18 @@ export const FormDemo = () => {
 
   const renderTextarea = () => {
     return (
-      <div>
-        <Label className='mb-2' htmlFor='message'>
-          Message
-        </Label>
-        <Textarea id='message' name='message' placeholder='Message here...' />
-      </div>
+      <Textarea
+        // disabled
+        id='message'
+        labelText={'Message'}
+        labelRequired={true}
+        // error='This is invalid!'
+        // touched={true}
+        name='message'
+        text='Write a thoughtful message...'
+        placeholder='Message here...'
+        // renderTextareaBaseOnly
+      />
     )
   }
 
