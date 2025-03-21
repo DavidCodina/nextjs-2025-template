@@ -299,20 +299,61 @@ export const FormDemo = () => {
         renderSwitch()
   ====================== */
 
-  const renderSwitch = () => {
+  const _renderFirstName = () => {
     return (
-      <div className='flex items-center space-x-2'>
-        <Switch
-          defaultChecked={switchChecked}
-          id='airplane-mode'
-          onCheckedChange={(isChecked) => {
-            setSwitchChecked(isChecked)
-          }}
-        />
-        <Label htmlFor='airplane-mode'>Airplane Mode</Label>
-      </div>
+      <Input
+        autoCapitalize='none'
+        autoComplete='off'
+        autoCorrect='off'
+        id='first-name'
+        labelText={<span>First Name</span>}
+        labelRequired={true}
+        name='first_name'
+        onChange={(e) => {
+          setFirstName(e.target.value)
+        }}
+        placeholder='First Name...'
+        spellCheck={false}
+        type='text'
+      />
     )
   }
+
+  const renderSwitch = () => {
+    return (
+      <Switch
+        defaultChecked={switchChecked}
+        // disabled
+        // error='This is invalid!'
+        id='airplane-mode'
+        // labelText='Airplane Mode'
+
+        labelOnText='Airplane Mode On'
+        labelOffText='Airplane Mode Off'
+        onCheckedChange={(isChecked) => {
+          setSwitchChecked(isChecked)
+        }}
+        // text='Switch me!'
+
+        // touched
+      />
+    )
+  }
+
+  // const renderSwitch = () => {
+  //   return (
+  //     <div className='flex items-center space-x-2'>
+  //       <Switch
+  //         defaultChecked={switchChecked}
+  //         id='airplane-mode'
+  //         onCheckedChange={(isChecked) => {
+  //           setSwitchChecked(isChecked)
+  //         }}
+  //       />
+  //       <Label htmlFor='airplane-mode'>Airplane Mode</Label>
+  //     </div>
+  //   )
+  // }
 
   /* ======================
       renderRangeSlider()

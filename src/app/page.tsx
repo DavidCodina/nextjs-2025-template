@@ -5,8 +5,12 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
+// Todo: Create a grouped version of Select, Slider and Switch.
+
 // Todo: Update globals.css to make --background-light an actual color.
 //# Then remove all instances of bg-(--background-light), etc.
+
+// Todo: add UI for the numeric position of slider thumbs.
 
 // Todo: Test controlled versions of all form fields.
 

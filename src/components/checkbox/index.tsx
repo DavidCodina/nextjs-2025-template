@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-
 import { CheckboxBase } from '../CheckboxBase'
 import { Label } from '../label'
 import { FormText } from '../FormText'
