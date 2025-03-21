@@ -21,7 +21,7 @@ export const BadgeDemo = () => {
 
   return (
     <>
-      <section className='mx-auto mb-6 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Custom Colors:</h2>
         <div className='flex flex-wrap items-center justify-center gap-4'>
           {/* Primary / Default */}
@@ -61,7 +61,7 @@ export const BadgeDemo = () => {
         </div>
       </section>
 
-      <section className='mx-auto mb-6 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Custom Colors (Links):</h2>
         <div className='flex flex-wrap items-center justify-center gap-4'>
           {/* You can use the badgeVariants helper to create a link that looks like a badge. */}
@@ -92,7 +92,7 @@ export const BadgeDemo = () => {
         </div>
       </section>
 
-      <section className='mx-auto mb-6 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Tailwind Colors:</h2>
 
         <div className='flex flex-wrap items-center justify-center gap-4'>

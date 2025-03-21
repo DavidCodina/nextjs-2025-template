@@ -8,7 +8,7 @@ import { Separator } from '@/components/separator'
 
 export const SeparatorDemo = () => {
   return (
-    <section className='mx-auto max-w-md rounded-lg border bg-(--background-light) p-4 text-sm shadow'>
+    <section className='bg-background-light mx-auto max-w-md rounded-lg border p-4 text-sm shadow'>
       <h4 className='text-sm font-medium'>Separator Demo</h4>
       <p className='text-muted-foreground mb-0'>
         An abstraction on top of{' '}

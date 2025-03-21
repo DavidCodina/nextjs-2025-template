@@ -501,7 +501,7 @@ export const FormDemo = () => {
 
   return (
     <form
-      className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'
+      className='bg-background-light mx-auto max-w-[800px] space-y-6 rounded-xl border p-6 shadow'
       key={formKey}
       onSubmit={(e) => {
         e.preventDefault()

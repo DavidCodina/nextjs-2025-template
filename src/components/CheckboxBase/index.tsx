@@ -13,7 +13,7 @@ import {
 
 const baseClasses = `
 peer
-bg-(--background-light) size-4 shrink-0 rounded-[4px] border
+bg-background-light size-4 shrink-0 rounded-[4px] border
 ${FIELD_BOX_SHADOW_MIXIN}
 transition-shadow outline-none
 data-[state=checked]:bg-primary

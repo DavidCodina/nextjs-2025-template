@@ -80,7 +80,7 @@ export const Title: TitleComponent = forwardRef(
       return (
         <Component
           className={cn(
-            `m-0 block font-['Poppins'] text-6xl leading-none font-black tracking-[1px] text-(--background-light) uppercase transition-[background-color,color,text-shadow] duration-300 ease-linear dark:hidden`,
+            `text-background-light m-0 block font-['Poppins'] text-6xl leading-none font-black tracking-[1px] uppercase transition-[background-color,color,text-shadow] duration-300 ease-linear dark:hidden`,
             className
           )}
           ref={(node) => {
@@ -124,7 +124,7 @@ export const Title: TitleComponent = forwardRef(
       return (
         <Component
           className={cn(
-            `m-0 hidden font-['Poppins'] text-6xl leading-none font-black tracking-[1px] text-(--background-light) uppercase transition-[background-color,color,text-shadow] duration-300 ease-linear dark:block`,
+            `text-background-light m-0 hidden font-['Poppins'] text-6xl leading-none font-black tracking-[1px] uppercase transition-[background-color,color,text-shadow] duration-300 ease-linear dark:block`,
             className
           )}
           ref={(node) => {

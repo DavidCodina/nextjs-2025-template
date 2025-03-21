@@ -36,7 +36,7 @@ const svgMixin = `
 
 const baseClasses = `
 flex items-center justify-between gap-2 
-bg-(--background-light) w-full
+bg-background-light w-full
 text-base leading-[1.5] whitespace-nowrap 
 px-[0.5em] py-[0.25em] rounded-[0.375em]
 border outline-none 

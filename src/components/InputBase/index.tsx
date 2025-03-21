@@ -22,7 +22,7 @@ file:inline-flex
 
 // The padding, and border radius match that of the button component.
 const baseClasses = `
-flex bg-(--background-light)
+flex bg-background-light
 w-full min-w-0 
 text-base leading-[1.5]
 [&:not([type='file'])]:px-[0.5em]

@@ -23,7 +23,7 @@ ${FIELD_DISABLED_MIXIN}
 `
 
 const thumbBaseClasses = `
-block bg-(--background-light) size-4 pointer-events-none  
+block bg-background-light size-4 pointer-events-none  
 rounded-full ring-0 transition-transform
 data-[state=unchecked]:translate-x-0
 dark:data-[state=unchecked]:bg-foreground

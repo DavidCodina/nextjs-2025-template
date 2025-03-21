@@ -22,7 +22,7 @@ Full support for the new @theme directive and @theme inline option. */
 @theme inline {
   /* Bacgkround Color - <body> color. */
   --color-background: var(--background);
-
+  --color-background-light: var(--background-light);
   /* Foreground Color - <body> text color. */
   --color-foreground: var(--foreground);
 

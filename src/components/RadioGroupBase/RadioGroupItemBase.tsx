@@ -14,7 +14,7 @@ import {
 // Why is `peer` not assigned here like it is on the Checkbox?
 // The text color matters because it affects the icon's outer border color.
 const baseClasses = `
-bg-(--background-light) text-primary size-4 shrink-0 rounded-full border aspect-square
+bg-background-light text-primary size-4 shrink-0 rounded-full border aspect-square
 transition-[color,box-shadow] outline-none
 ${FIELD_BOX_SHADOW_MIXIN}
 ${FIELD_FOCUS_VISIBLE_MIXIN}

@@ -17,7 +17,7 @@ export const AccordionDemo = () => {
     <Accordion
       type='single'
       collapsible
-      className='mx-auto mb-6 max-w-[600px] rounded-xl border bg-(--background-light) shadow'
+      className='bg-background-light mx-auto mb-6 max-w-[600px] rounded-xl border shadow'
     >
       <AccordionItem value='item-1'>
         {/* [&>svg]:text-primary */}

@@ -49,7 +49,7 @@ export const DialogDemo = () => {
                   this:
                 </p>
 
-                <pre className='text-primary border-primary rounded-xl border bg-(--background-light) shadow'>
+                <pre className='text-primary border-primary bg-background-light rounded-xl border shadow'>
                   <code>{`
   <DialogDescription asChild>
     <div>

@@ -29,8 +29,6 @@ type SwitchProps = React.ComponentProps<typeof SwitchBase> & {
   touched?: boolean
 }
 
-const groupBaseClassses = `group`
-
 /* ===================================d=====================================
 
 ======================================================================== */
@@ -164,7 +162,7 @@ export const Switch = ({
   }
 
   return (
-    <div className={cn(groupBaseClassses, groupClassName)} style={groupStyle}>
+    <div className={cn('', groupClassName)} style={groupStyle}>
       <div className='flex items-center gap-2'>
         {SwitchBaseComponent}
         {renderLabel()}

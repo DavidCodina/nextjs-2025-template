@@ -16,7 +16,7 @@ aria-invalid:border-destructive
 
 // What is field-sizing-content
 const baseClasses = `
-flex bg-(--background-light)
+flex bg-background-light
 w-full min-w-0 min-h-16 
 text-base leading-[1.5]
 px-[0.5em] py-[0.25em]

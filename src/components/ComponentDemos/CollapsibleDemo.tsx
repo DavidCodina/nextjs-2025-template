@@ -16,7 +16,7 @@ export const CollapsibleDemo = () => {
     <Collapsible
       defaultOpen={false}
       // disabled
-      className='transitiona-all mx-auto mb-6 max-w-[600px] overflow-hidden rounded-lg border bg-(--background-light) text-sm shadow'
+      className='transitiona-all bg-background-light mx-auto mb-6 max-w-[600px] overflow-hidden rounded-lg border text-sm shadow'
     >
       <CollapsibleTrigger className='group cursor-pointer p-2 font-medium'>
         <Pointer
@@ -28,7 +28,7 @@ export const CollapsibleDemo = () => {
       </CollapsibleTrigger>
       <CollapsibleContent className='CollapsibleContent border-t'>
         {/* Here it's imporant to put padding on child, not directly on CollapsibleContent. */}
-        <div className='transitiona-all bg-neutral-50 p-2 dark:bg-(--background-light)'>
+        <div className='transitiona-all dark:bg-background-light bg-neutral-50 p-2'>
           Yes. You'll find a lot of useful information and more specific details
           on the component's behavior from the{' '}
           <a

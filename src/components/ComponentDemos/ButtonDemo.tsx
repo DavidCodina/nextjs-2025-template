@@ -80,12 +80,12 @@ export const ButtonDemo = () => {
 
   return (
     <>
-      <section className='mx-auto mb-6 space-y-4 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Custom Color Variants:</h2>
         {renderCustomColorButtons()}
       </section>
 
-      <section className='mx-auto mb-6 space-y-4 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>
           Custom Color Variants (light):
         </h2>
@@ -97,14 +97,14 @@ export const ButtonDemo = () => {
         {renderCustomLightColorButtons()}
       </section>
 
-      <section className='mx-auto mb-6 space-y-4 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>
           Tailwind Color Variants:
         </h2>
         {renderTailwindColorButtons()}
       </section>
 
-      <section className='mx-auto mb-6 space-y-4 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Buttons With SVGs:</h2>
 
         <div className='flex flex-wrap items-center justify-center gap-4'>
