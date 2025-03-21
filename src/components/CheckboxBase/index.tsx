@@ -11,12 +11,6 @@ import {
   FIELD_FOCUS_VISIBLE_MIXIN
 } from '../component-constants'
 
-const _ariaMixin = `
-aria-invalid:ring-destructive/20
-aria-invalid:border-destructive
-dark:aria-invalid:ring-destructive/40
-`
-
 const baseClasses = `
 peer
 bg-(--background-light) size-4 shrink-0 rounded-[4px] border
@@ -38,6 +32,12 @@ ${FIELD_FOCUS_VISIBLE_MIXIN}
 // internally. While it's still possible to compose a Checkbox with
 // CheckboxBase, prefer the newer Checkbox (or CheckboxGroup) component,
 // which add additional features like labels, error messages, help text, etc.
+//
+// ⚠️ Internally, the Radix primitive Checkbox does implement an
+// <input type='checkbox'>. However, it's not directly accessible.
+// This means that any attempt to integrate react-hook-form
+// with this component or any component built on top of it will
+// necessarily require an RHF Controller component.
 
 function CheckboxBase({
   className,

@@ -10,6 +10,7 @@ import { cn } from '@/utils'
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 // Ultimately, this is derived from the Radix Checkbox.Root
+// The readonly string[] case specifically exists to support <input type="file">
 type Value = React.ComponentProps<typeof Checkbox>['value']
 
 type Item = {
@@ -24,7 +25,7 @@ type Item = {
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   /** value is required. Why? When using CheckboxGroup, you're likely interested in
-   * the associated values and not merely whether the box was checked.
+   * the associated values and not merely whether the checkbox was checked.
    */
   value: Value
 }
@@ -34,7 +35,7 @@ type CheckboxGroupProps = React.ComponentProps<'div'> & {
   error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
-  defaultValues?: Value[]
+  defaultValue?: Value[]
   items: Item[]
   /** The top-level label for the group of checkboxes - Technically a div. */
   labelText?: LabelChildren
@@ -48,6 +49,7 @@ type CheckboxGroupProps = React.ComponentProps<'div'> & {
   textClassName?: string
   textStyle?: React.CSSProperties
   touched?: boolean
+  value?: Value[]
 }
 
 /* ========================================================================
@@ -60,7 +62,7 @@ export const CheckboxGroup = ({
   error = '',
   errorClassName = '',
   errorStyle = {},
-  defaultValues,
+  defaultValue,
   items = [],
   labelText = '',
   labelClassName = '',
@@ -73,15 +75,36 @@ export const CheckboxGroup = ({
   textClassName = '',
   textStyle = {},
   touched = false,
+  value: controlledValue,
   ...otherProps
 }: CheckboxGroupProps) => {
   /* ======================
         state & refs
   ====================== */
+  ///////////////////////////////////////////////////////////////////////////
+  //
+  // Here we need state to track the array of checked values.
+  // However, this means that resetting value must result from either
+  // unmounting/remounting the component, or through a controlled implementation
+  // that resets it externally. This may seem to be introducing potential problems
+  // by using state here. For example, if the consuming component is drilling into
+  // the DOM through a ref, then changing the internal <input type="checkbox" />
+  // value, this will create a dissonance between the React state and the DOM.
+  // That said, after a lot of experimentation, it just doesn't seem like Radix
+  // form field primitives are designed to be reset through using refs.
+  //
+  // What they are designed for is to be reset through a controlled implementation.
+  // In practice, that means that using state here should not actually be a problem.
+  //
+  ///////////////////////////////////////////////////////////////////////////
 
-  const [values, setValues] = React.useState<Value[]>(() => {
-    if (Array.isArray(defaultValues) && defaultValues.length > 0) {
-      return defaultValues
+  const [value, setValue] = React.useState<Value[]>(() => {
+    if (Array.isArray(controlledValue)) {
+      return controlledValue
+    }
+
+    if (Array.isArray(defaultValue) && defaultValue.length > 0) {
+      return defaultValue
     }
     return []
   })
@@ -91,16 +114,65 @@ export const CheckboxGroup = ({
   /* ======================
         useEffect()
   ====================== */
-  // Whenever values changes, call onChange().
+  // Whenever value changes, call onChange().
+
+  React.useEffect(() => {
+    if (firstRenderRef.current === true) {
+      return
+    }
+    onChange?.(value)
+    // Omit onChange from the dependency array.
+  }, [value]) // eslint-disable-line
+
+  /* ======================
+        useEffect()
+  ====================== */
+  // Every time controlledValue changes, conditionally call
+  // setValue(controlledValue as Value[]) based on deep comparison.
+
+  React.useEffect(() => {
+    if (firstRenderRef.current === true) {
+      return
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // Could do this to avoid ESLint complaining about the missing `value` dependency,
+    // but running the if check on the outside is generally a better practice.
+    //
+    //   setValue((prev) => {
+    //     if (JSON.stringify(controlledValue) !== JSON.stringify(prev)) {
+    //       return controlledValue as Value[]
+    //     }
+    //     return prev
+    //   })
+    //
+    ///////////////////////////////////////////////////////////////////////////
+
+    // Note: Calling JSON.stringify([undefined]) will restult in '[null]'.
+    // Then when you parse it back you will have null for the first element.
+    // This is one of the quirks of JSON.stringify(). However, in this case,
+    // it shouldn't be an issue.
+    if (
+      typeof controlledValue !== 'undefined' &&
+      Array.isArray(controlledValue) &&
+      JSON.stringify(controlledValue) !== JSON.stringify(value)
+    ) {
+      setValue(controlledValue as Value[])
+    }
+  }, [controlledValue]) // eslint-disable-line
+
+  /* ======================
+        useEffect()
+  ====================== */
+  // Update firstRenderRef
 
   React.useEffect(() => {
     if (firstRenderRef.current === true) {
       firstRenderRef.current = false
       return
     }
-    onChange?.(values)
-    // Omit onChange from the dependency array.
-  }, [values]) // eslint-disable-line
+  }, [])
 
   /* ======================
       renderGroupLabel()
@@ -159,7 +231,7 @@ export const CheckboxGroup = ({
           <div className='flex items-center gap-2'>
             <Checkbox
               checked={(() => {
-                return values.includes(checkValue)
+                return value.includes(checkValue)
               })()}
               className={checkClassName}
               disabled={disabled || checkDisabled}
@@ -178,9 +250,9 @@ export const CheckboxGroup = ({
               // For example: { label: labelText, value: value}
               onCheckedChange={(isChecked) => {
                 if (isChecked) {
-                  setValues((prev) => [...prev, checkValue])
+                  setValue((prev) => [...prev, checkValue])
                 } else {
-                  setValues((prev) => prev.filter((v) => v !== checkValue))
+                  setValue((prev) => prev.filter((v) => v !== checkValue))
                 }
               }}
               style={checkStyle}

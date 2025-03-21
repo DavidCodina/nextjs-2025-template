@@ -1,18 +1,67 @@
 'use client'
 
 import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
 import { type VariantProps } from 'class-variance-authority'
 import { Loader2 } from 'lucide-react'
 import { cn } from '@/utils'
 import { buttonVariants } from './buttonVariants'
 
-type ButtonProps = React.ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-    loading?: boolean
-    isIcon?: boolean
-  }
+///////////////////////////////////////////////////////////////////////////
+//
+// Gotcha: The original ShadCN implementation implemented Slot for the
+// asChild feature. However, the Radix Slot has trade-offs. If the child
+// content is more than just {children}, then you'll get an error when
+// using asChild. For example:
+//
+//   <Button asChild className='mx-auto flex' variant='success' size='sm'>
+//     <span>Click Me</span>
+//   </Button>
+//
+// ❌ Error: React.Children.only expected to receive a single React element child.
+//
+// Thus whenever possible, prefer an actual polymorphic implementation.
+// Here's the basic setup:
+//
+//   type ButtonOwnProps<T extends ElementType = ElementType> = { as?: T }
+//
+//   type ButtonProps<T extends ElementType> = ButtonOwnProps<T> &
+//     Omit<ComponentProps<T>, keyof ButtonOwnProps<T>>
+//
+//   const defaultElement = 'button'
+//
+//   export const PolymorphicButton = < T extends ElementType = typeof defaultElement >({ as, children, ...otherProps}: ButtonProps<T>) => {
+//     const Component = as || defaultElement
+//     return <Component {...otherProps}>{children}</Component>
+//   }
+//
+// Polymorphic Usage:
+//
+//   <Button
+//     as='a'
+//     href='https://www.google.com'
+//     rel='noopener noreferrer'
+//     size='sm'
+//     target='_blank'
+//    variant='success'
+//   > Click Me</Button>
+//
+// See here for more info:
+//
+//   https://stevekinney.github.io/react-and-typescript/polymorphic-components
+//   https://fem-react-typescript.vercel.app/Polymorphic%20components.md
+//
+///////////////////////////////////////////////////////////////////////////
+
+type ButtonOwnProps<T extends React.ElementType = React.ElementType> = {
+  as?: T
+  loading?: boolean
+  isIcon?: boolean
+} & VariantProps<typeof buttonVariants>
+
+type ButtonProps<T extends React.ElementType> = ButtonOwnProps<T> &
+  Omit<React.ComponentProps<T>, keyof ButtonOwnProps<T>>
+
+const defaultElement = 'button'
 
 /* ========================================================================
                                     Button
@@ -20,8 +69,8 @@ type ButtonProps = React.ComponentProps<'button'> &
 //# Restructure the internal children of Button.
 //# There should be a left side and right side.
 
-const Button = ({
-  asChild = false,
+const Button = <T extends React.ElementType = typeof defaultElement>({
+  as,
   children,
   className = '',
   disabled = false,
@@ -31,15 +80,15 @@ const Button = ({
   style = {},
   variant,
   ...otherProps
-}: ButtonProps) => {
-  const Comp = asChild ? Slot : 'button'
+}: ButtonProps<T>) => {
+  const Component = as || defaultElement
 
   /* ======================
           return
   ====================== */
 
   return (
-    <Comp
+    <Component
       {...otherProps}
       disabled={disabled || loading}
       data-slot='button'
@@ -54,7 +103,7 @@ const Button = ({
     >
       {loading && <Loader2 className='animate-spin' />}
       {children}
-    </Comp>
+    </Component>
   )
 }
 

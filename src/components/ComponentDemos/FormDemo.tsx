@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 import { Input } from '@/components/input'
 import { Textarea } from '@/components/textarea'
 import {
@@ -28,8 +30,71 @@ type RadioItems = React.ComponentProps<typeof RadioGroup>['items']
 /* ========================================================================
 
 ======================================================================== */
+//# Add an onChange handler to each and log values onsubmit.
+//# Then add in a bunch of other attributes.
 
 export const FormDemo = () => {
+  const [formKey, setFormKey] = useState(0)
+
+  // const [checkboxGroupValue, setCheckboxGroupValue] = useState<string[]>([
+  //   'green',
+  //   'blue'
+  // ])
+
+  /* ======================
+      handleSubmit()()
+  ====================== */
+
+  const handleSubmit = () => {
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // Trying to get values and/or reset values through refs is extremely tedious.
+    // The fact is that Radix primitives just don't seem to be designed to be
+    // consumed in this way. Initially, I really tried to get each value through
+    // refs. The breaking point was the Slider component. The only place to find
+    // the value(s) is by drilling into the DOM to find each input. It's just
+    // way too complicated. If you try to access inner input elements through refs
+    // to force a reset, you’re essentially fighting against the component’s
+    // encapsulated state. The Select doesn't even have a <select> in it! In contrast,
+    // Checkbox includes a native <input type="checkbox" />, which can sometimes
+    // be easier to manipulate directly, but even then, the synchronization between
+    // the DOM’s native state and the rendered state in the Radix component isn't guaranteed.
+    //
+    //
+    // A better solution is to simply track all the values in local state.
+    // And if you're doing that, then your halfway to a controlled implementation,
+    // which is probably the easiest way to go because it doesn't entail hacks to
+    // reset the form, etc.
+    //
+    ///////////////////////////////////////////////////////////////////////////
+
+    //# const values = {}
+    //# console.log(values)
+
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // Trying to reset the form fields through refs gets tricky.
+    // This is what I had to do for the first few inputs:
+    //
+    //   if (firstNameRef.current) firstNameRef.current.value = ''
+    //   if (lastNameRef.current) lastNameRef.current.value = ''
+    //   if (singleCheckRef.current) {
+    //     const isChecked =
+    //       singleCheckRef.current.getAttribute('data-state') === 'checked' ? true : false
+    //     if (isChecked) { singleCheckRef.current.click() }
+    //   }
+    //
+    // However, it would get even more complex with CheckboxGroup and RadioGroup.
+    // The best solution is probably just to remount the form. One way to reset the
+    // from would be to call setShowForm(false),then reset it here with:
+    // useLayoutEffect(() => { if (!showForm) { setShowForm(true) } }, [showForm])
+    // A cleaner solution is to use a key prop.
+    //
+    ///////////////////////////////////////////////////////////////////////////
+
+    setFormKey((prev) => prev + 1)
+  }
+
   /* ======================
       renderFirstName()
   ====================== */
@@ -46,8 +111,9 @@ export const FormDemo = () => {
         // renderInputBaseOnly
         type='text'
         placeholder='First Name...'
-        error='This is invalid!'
-        text='(A hardcoded invalid example)'
+
+        // error='This is invalid!'
+        // text='(A hardcoded invalid example)'
         // textClassName='text-xs'
       />
     )
@@ -61,15 +127,15 @@ export const FormDemo = () => {
     return (
       <Input
         // disabled
+        // error=''
         id='last-name'
         labelText='Last Name'
         labelRequired={true}
         name='last_name'
-        touched={true}
-        type='text'
         placeholder='Last Name...'
-        error=''
-        text='(A hardcoded valid example)'
+        // text='(A hardcoded valid example)'
+        // touched={true}
+        type='text' //! What happens if we make this 'checkbox' or 'radio'?
       />
     )
   }
@@ -86,6 +152,7 @@ export const FormDemo = () => {
         labelText='Agree To Terms'
         // labelRequired
         name='single-check'
+        value='Single Checkbox checked!'
         // touched
         // error='This must be checked!'
         // text='Do it bitch!'
@@ -113,13 +180,17 @@ export const FormDemo = () => {
         //# Same for valid/invalid ?
         // disabled
         // error='At least one item must be checked.'
-        defaultValues={['red', 'orange']}
+        defaultValue={['red', 'orange']}
         items={checkboxItems}
         labelText='Checkbox Colors'
         name='checkbox-colors'
-        onChange={(values) => {
-          console.log(' values:', values)
+        onChange={(value) => {
+          console.log('CheckboxGroup value:', value)
+
+          // setCheckboxGroupValue(value as string[])
         }}
+        // value={checkboxGroupValue}
+
         // text='Pick one or more...'
         // touched
       />
@@ -151,8 +222,9 @@ export const FormDemo = () => {
         labelText='Radio Colors'
         name='radio-colors'
         onChange={(value) => {
-          console.log('Radio value:', value)
+          console.log('RadioGroup value:', value)
         }}
+
         ///////////////////////////////////////////////////////////////////////////
         //
         // className and style are applied to the top-level <div>
@@ -196,7 +268,7 @@ export const FormDemo = () => {
           Percent
         </Label>
         <Slider
-          defaultValue={[50]}
+          defaultValue={[25, 75]}
           id='percent'
           max={100}
           name='percent'
@@ -288,42 +360,62 @@ export const FormDemo = () => {
         <Label className='mb-2' htmlFor='email'>
           Email
         </Label>
-        <div className='flex items-center gap-2'>
-          <Input id='email' name='email' type='email' placeholder='Email...' />
-          <Button type='submit' variant='success'>
-            Subscribe
-          </Button>
-        </div>
+
+        <Input id='email' name='email' type='email' placeholder='Email...' />
       </div>
+    )
+  }
+
+  /* ======================
+          renderForm()
+    ====================== */
+
+  const renderForm = () => {
+    return (
+      <form
+        className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'
+        key={formKey}
+        onSubmit={(e) => {
+          e.preventDefault()
+        }}
+      >
+        {renderFirstName()}
+
+        {renderLastName()}
+
+        {renderSingleCheckbox()}
+
+        {renderCheckboxGroup()}
+
+        {renderRadioGroup()}
+
+        {renderSwitch()}
+
+        {renderRangeSlider()}
+
+        {renderTextarea()}
+
+        {renderSelect()}
+
+        {renderFileInput()}
+
+        {renderEmail()}
+
+        <Button
+          className='flex w-full'
+          type='button'
+          variant='success'
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
+      </form>
     )
   }
 
   /* ======================
           return
   ====================== */
-  return (
-    <section className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'>
-      {renderFirstName()}
 
-      {renderLastName()}
-
-      {renderSingleCheckbox()}
-
-      {renderCheckboxGroup()}
-
-      {renderRadioGroup()}
-
-      {renderSwitch()}
-
-      {renderRangeSlider()}
-
-      {renderTextarea()}
-
-      {renderSelect()}
-
-      {renderFileInput()}
-
-      {renderEmail()}
-    </section>
-  )
+  return renderForm()
 }

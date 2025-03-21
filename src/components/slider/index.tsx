@@ -45,10 +45,11 @@ disabled:pointer-events-none disabled:opacity-65
 function Slider({
   className,
   defaultValue,
+  onValueCommit,
   value,
   min = 0,
   max = 100,
-  ...props
+  ...otherProps
 }: React.ComponentProps<typeof SliderPrimitive.Root>) {
   const _values = React.useMemo(
     () =>
@@ -72,7 +73,10 @@ function Slider({
       min={min}
       max={max}
       className={cn(rootBaseClasses, className)}
-      {...props}
+      onValueCommit={(value) => {
+        onValueCommit?.(value)
+      }}
+      {...otherProps}
     >
       <SliderPrimitive.Track
         data-slot='slider-track'

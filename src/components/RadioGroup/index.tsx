@@ -79,6 +79,7 @@ export const RadioGroup = ({
   textClassName = '',
   textStyle = {},
   touched = false,
+  value,
   ...otherProps
 }: RadioGroupProps) => {
   /* ======================
@@ -175,12 +176,14 @@ export const RadioGroup = ({
 
       <RadioGroupBase
         {...otherProps}
-        //# When you get to the controlled implementation,
-        //# only pass defaultValue when value is undefined.
+        // In a Radix UI RadioGroup component, when both value and defaultValue props
+        // are provided (and both are defined strings), the value prop will always
+        // take precedence over the defaultValue.
         defaultValue={defaultValue}
         onValueChange={onChange}
         className={radioGroupBaseClassName}
         style={radioGroupBaseStyle}
+        value={value}
       >
         {renderRadios()}
       </RadioGroupBase>

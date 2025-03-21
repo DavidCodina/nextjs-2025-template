@@ -1,5 +1,5 @@
-import { Page, PageContainer, Title } from 'components'
-import { ComponentDemos } from '@/components/ComponentDemos'
+import { Button, Page, PageContainer, Title } from 'components'
+// import { ComponentDemos } from '@/components/ComponentDemos'
 
 /* ========================================================================
 
@@ -8,7 +8,10 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // Todo: Update globals.css to make --background-light an actual color.
 //# Then remove all instances of bg-(--background-light), etc.
 
+// Todo: Test controlled versions of all form fields.
+
 // Todo: Test Button's loading spinner.
+//# I'm concerned that when it has an svg, then it's not removed while loading.
 
 // Todo: Add not-found.tsx, global-error.tsx, error.tsx
 
@@ -24,8 +27,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //! on the accordion component.
 
 //! How can we change the offset in toolip and popover.
-
-//# I'm concerned that when it has an svg, then it's not removed while loading.
 
 //# Button has: aria-invalid:ring-destructive/20
 //# Something similar was on the badges, and I removed it.
@@ -50,7 +51,18 @@ const Home = () => {
           Home
         </Title>
 
-        <ComponentDemos />
+        <Button
+          as='a'
+          href='https://www.google.com'
+          rel='noopener noreferrer'
+          size='sm'
+          target='_blank'
+          variant='success'
+        >
+          Click Me
+        </Button>
+
+        {/* <ComponentDemos /> */}
       </PageContainer>
     </Page>
   )
