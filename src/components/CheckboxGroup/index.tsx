@@ -11,9 +11,10 @@ type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 // Ultimately, this is derived from the Radix Checkbox.Root
 // The readonly string[] case specifically exists to support <input type="file">
-type Value = React.ComponentProps<typeof Checkbox>['value']
+// Exporting this is useful for typing state when consuming.
+export type CheckboxValue = React.ComponentProps<typeof Checkbox>['value']
 
-type Item = {
+export type CheckboxItem = {
   className?: string
   style?: React.CSSProperties
   disabled?: boolean
@@ -27,16 +28,19 @@ type Item = {
   /** value is required. Why? When using CheckboxGroup, you're likely interested in
    * the associated values and not merely whether the checkbox was checked.
    */
-  value: Value
+  value: CheckboxValue
 }
 
-type CheckboxGroupProps = React.ComponentProps<'div'> & {
+// Gotcha: simply overwriting the onChange below is not
+// sufficient. You MUST omit the original `onChange` or
+// Typescript will get very confused at some point.
+type CheckboxGroupProps = Omit<React.ComponentProps<'div'>, 'onChange'> & {
   disabled?: boolean
   error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
-  defaultValue?: Value[]
-  items: Item[]
+  defaultValue?: CheckboxValue[]
+  items: CheckboxItem[]
   /** The top-level label for the group of checkboxes - Technically a div. */
   labelText?: LabelChildren
   labelClassName?: string
@@ -44,12 +48,12 @@ type CheckboxGroupProps = React.ComponentProps<'div'> & {
   labelStyle?: React.CSSProperties
   /** The name attribute shared by all check inputs. */
   name: string
-  onChange?: (values: Value[]) => void
+  onChange?: (values: CheckboxValue[]) => void
   text?: string
   textClassName?: string
   textStyle?: React.CSSProperties
   touched?: boolean
-  value?: Value[]
+  value?: CheckboxValue[]
 }
 
 /* ========================================================================
@@ -98,7 +102,7 @@ export const CheckboxGroup = ({
   //
   ///////////////////////////////////////////////////////////////////////////
 
-  const [value, setValue] = React.useState<Value[]>(() => {
+  const [value, setValue] = React.useState<CheckboxValue[]>(() => {
     if (Array.isArray(controlledValue)) {
       return controlledValue
     }
@@ -158,7 +162,7 @@ export const CheckboxGroup = ({
       Array.isArray(controlledValue) &&
       JSON.stringify(controlledValue) !== JSON.stringify(value)
     ) {
-      setValue(controlledValue as Value[])
+      setValue(controlledValue as CheckboxValue[])
     }
   }, [controlledValue]) // eslint-disable-line
 

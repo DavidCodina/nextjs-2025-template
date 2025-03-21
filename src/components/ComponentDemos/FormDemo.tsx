@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-
 import { Input } from '@/components/input'
 import { Textarea } from '@/components/textarea'
 import {
@@ -18,28 +17,42 @@ import { Slider } from '@/components/slider'
 import { Checkbox } from '@/components/checkbox'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
-import { RadioGroup } from '@/components/RadioGroup'
+import { RadioGroup, RadioItem } from '@/components/RadioGroup'
 import { Switch } from '@/components/switch'
-import { CheckboxGroup } from '@/components/CheckboxGroup'
+import {
+  CheckboxGroup,
+  CheckboxValue,
+  CheckboxItem
+} from '@/components/CheckboxGroup'
 import React from 'react'
 
-type CheckboxItems = React.ComponentProps<typeof CheckboxGroup>['items']
+//type CheckboxItems = React.ComponentProps<typeof CheckboxGroup>['items']
+type CheckboxItems = CheckboxItem[]
 
-type RadioItems = React.ComponentProps<typeof RadioGroup>['items']
+// type RadioItems = React.ComponentProps<typeof RadioGroup>['items']
+type RadioItems = RadioItem[]
 
 /* ========================================================================
 
 ======================================================================== */
-//# Add an onChange handler to each and log values onsubmit.
-//# Then add in a bunch of other attributes.
 
 export const FormDemo = () => {
   const [formKey, setFormKey] = useState(0)
-
-  // const [checkboxGroupValue, setCheckboxGroupValue] = useState<string[]>([
-  //   'green',
-  //   'blue'
-  // ])
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [singleCheck, setSingleCheck] = useState<boolean | 'indeterminate'>(
+    false
+  )
+  const [checkboxGroupValue, setCheckboxGroupValue] = useState<CheckboxValue[]>(
+    []
+  )
+  const [radioGroupValue, setRadioGroupValue] = useState<string>('')
+  const [switchChecked, setSwitchChecked] = useState(false)
+  const [rangeSliderValue, setRangeSliderValue] = useState<number[]>([50])
+  const [textareaValue, setTextareaValue] = useState('')
+  const [selectValue, setSelectValue] = useState('')
+  const [file, setFile] = useState<File | null>(null)
+  const [email, setEmail] = useState('')
 
   /* ======================
       handleSubmit()()
@@ -68,8 +81,21 @@ export const FormDemo = () => {
     //
     ///////////////////////////////////////////////////////////////////////////
 
-    //# const values = {}
-    //# console.log(values)
+    const values = {
+      firstName,
+      lastName,
+      singleCheck,
+      checkboxGroupValue,
+      radioGroupValue,
+      switchChecked,
+      rangeSliderValue,
+      textareaValue,
+      selectValue,
+      file,
+      email
+    }
+
+    console.log('Submitted values:', values)
 
     ///////////////////////////////////////////////////////////////////////////
     //
@@ -93,6 +119,17 @@ export const FormDemo = () => {
     ///////////////////////////////////////////////////////////////////////////
 
     setFormKey((prev) => prev + 1)
+    setFirstName('')
+    setLastName('')
+    setSingleCheck(false)
+    setCheckboxGroupValue([])
+    setRadioGroupValue('')
+    setSwitchChecked(false)
+    setRangeSliderValue([50])
+    setTextareaValue('')
+    setSelectValue('')
+    setFile(null)
+    setEmail('')
   }
 
   /* ======================
@@ -102,19 +139,25 @@ export const FormDemo = () => {
   const renderFirstName = () => {
     return (
       <Input
+        autoCapitalize='none'
+        autoComplete='off'
+        autoCorrect='off'
         // disabled
+        // error='This is invalid!'
         id='first-name'
         // groupClassName='mb-6'
         labelText={<span>First Name</span>}
         labelRequired={true}
         name='first_name'
-        // renderInputBaseOnly
-        type='text'
+        onChange={(e) => {
+          setFirstName(e.target.value)
+        }}
         placeholder='First Name...'
-
-        // error='This is invalid!'
+        // renderInputBaseOnly
+        spellCheck={false}
         // text='(A hardcoded invalid example)'
         // textClassName='text-xs'
+        type='text'
       />
     )
   }
@@ -126,13 +169,20 @@ export const FormDemo = () => {
   const renderLastName = () => {
     return (
       <Input
+        autoCapitalize='none'
+        autoComplete='off'
+        autoCorrect='off'
         // disabled
         // error=''
         id='last-name'
         labelText='Last Name'
         labelRequired={true}
         name='last_name'
+        onChange={(e) => {
+          setLastName(e.target.value)
+        }}
         placeholder='Last Name...'
+        spellCheck={false}
         // text='(A hardcoded valid example)'
         // touched={true}
         type='text' //! What happens if we make this 'checkbox' or 'radio'?
@@ -147,15 +197,19 @@ export const FormDemo = () => {
   const renderSingleCheckbox = () => {
     return (
       <Checkbox
+        defaultChecked={singleCheck}
         // disabled
+        // error='This must be checked!'
         id='singe-check'
         labelText='Agree To Terms'
         // labelRequired
         name='single-check'
-        value='Single Checkbox checked!'
+        onCheckedChange={(isChecked) => {
+          setSingleCheck(isChecked)
+        }}
+        // text='Do it!'
         // touched
-        // error='This must be checked!'
-        // text='Do it bitch!'
+        value='Single Checkbox checked!'
       />
     )
   }
@@ -178,19 +232,15 @@ export const FormDemo = () => {
       <CheckboxGroup
         //# If something is checked, but disabled, should we change the checkbox color?
         //# Same for valid/invalid ?
+        // defaultValue={['red', 'orange']}
         // disabled
         // error='At least one item must be checked.'
-        defaultValue={['red', 'orange']}
         items={checkboxItems}
         labelText='Checkbox Colors'
         name='checkbox-colors'
         onChange={(value) => {
-          console.log('CheckboxGroup value:', value)
-
-          // setCheckboxGroupValue(value as string[])
+          setCheckboxGroupValue(value)
         }}
-        // value={checkboxGroupValue}
-
         // text='Pick one or more...'
         // touched
       />
@@ -215,14 +265,15 @@ export const FormDemo = () => {
       <RadioGroup
         //# If something is checked, but disabled, should we change the radio color?
         //# Same for valid/invalid ?
+        defaultValue={radioGroupValue}
         // disabled
-        defaultValue={radioItems[0].value}
+
         // error='An item must be selected.'
         items={radioItems}
         labelText='Radio Colors'
         name='radio-colors'
         onChange={(value) => {
-          console.log('RadioGroup value:', value)
+          setRadioGroupValue(value)
         }}
 
         ///////////////////////////////////////////////////////////////////////////
@@ -236,8 +287,8 @@ export const FormDemo = () => {
         //
         ///////////////////////////////////////////////////////////////////////////
 
-        // radioGroupBaseClassName=''
         // radioGroupBaseStyle={{ outline: '2px dashed deeppink' }}
+        // radioGroupBaseClassName=''
         // text='Pick one.'
         // touched
       />
@@ -251,7 +302,13 @@ export const FormDemo = () => {
   const renderSwitch = () => {
     return (
       <div className='flex items-center space-x-2'>
-        <Switch id='airplane-mode' />
+        <Switch
+          defaultChecked={switchChecked}
+          id='airplane-mode'
+          onCheckedChange={(isChecked) => {
+            setSwitchChecked(isChecked)
+          }}
+        />
         <Label htmlFor='airplane-mode'>Airplane Mode</Label>
       </div>
     )
@@ -268,14 +325,16 @@ export const FormDemo = () => {
           Percent
         </Label>
         <Slider
-          defaultValue={[25, 75]}
+          // defaultValue is only used on initializattion. Even though
+          // rangeSliderValue changes often afterward, that shouldn't matter.
+          defaultValue={rangeSliderValue} // Or for multiple thumbs: [25, 75]
           id='percent'
           max={100}
           name='percent'
-          step={1}
           onValueCommit={(value) => {
-            console.log('Slider value committed:', value)
+            setRangeSliderValue(value)
           }}
+          step={1}
         />
       </div>
     )
@@ -288,16 +347,23 @@ export const FormDemo = () => {
   const renderTextarea = () => {
     return (
       <Textarea
+        autoCapitalize='none'
+        autoComplete='off'
+        autoCorrect='off'
         // disabled
+        // error='This is invalid!'
         id='message'
         labelText={'Message'}
         labelRequired={true}
-        // error='This is invalid!'
-        // touched={true}
         name='message'
-        text='Write a thoughtful message...'
+        onChange={(e) => {
+          setTextareaValue(e.target.value)
+        }}
         placeholder='Message here...'
         // renderTextareaBaseOnly
+        spellCheck={false}
+        text='Write a thoughtful message...'
+        // touched={true}
       />
     )
   }
@@ -314,7 +380,7 @@ export const FormDemo = () => {
         </Label>
         <Select
           onValueChange={(value) => {
-            console.log('Select value:', value)
+            setSelectValue(value)
           }}
         >
           <SelectTrigger className=''>
@@ -345,7 +411,17 @@ export const FormDemo = () => {
         <Label className='mb-2' htmlFor='picture'>
           Picture
         </Label>
-        <Input id='picture' name='picture' type='file' />
+        <Input
+          id='picture'
+          name='picture'
+          onChange={(e) => {
+            const file = e.target.files?.[0]
+            if (file) {
+              setFile(file)
+            }
+          }}
+          type='file'
+        />
       </div>
     )
   }
@@ -361,55 +437,20 @@ export const FormDemo = () => {
           Email
         </Label>
 
-        <Input id='email' name='email' type='email' placeholder='Email...' />
+        <Input
+          autoCapitalize='none'
+          autoComplete='off'
+          autoCorrect='off'
+          id='email'
+          name='email'
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
+          placeholder='Email...'
+          spellCheck={false}
+          type='email'
+        />
       </div>
-    )
-  }
-
-  /* ======================
-          renderForm()
-    ====================== */
-
-  const renderForm = () => {
-    return (
-      <form
-        className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'
-        key={formKey}
-        onSubmit={(e) => {
-          e.preventDefault()
-        }}
-      >
-        {renderFirstName()}
-
-        {renderLastName()}
-
-        {renderSingleCheckbox()}
-
-        {renderCheckboxGroup()}
-
-        {renderRadioGroup()}
-
-        {renderSwitch()}
-
-        {renderRangeSlider()}
-
-        {renderTextarea()}
-
-        {renderSelect()}
-
-        {renderFileInput()}
-
-        {renderEmail()}
-
-        <Button
-          className='flex w-full'
-          type='button'
-          variant='success'
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
-      </form>
     )
   }
 
@@ -417,5 +458,45 @@ export const FormDemo = () => {
           return
   ====================== */
 
-  return renderForm()
+  return (
+    <form
+      className='mx-auto max-w-[800px] space-y-6 rounded-xl border bg-(--background-light) p-6 shadow'
+      key={formKey}
+      onSubmit={(e) => {
+        e.preventDefault()
+      }}
+      noValidate
+    >
+      {renderFirstName()}
+
+      {renderLastName()}
+
+      {renderSingleCheckbox()}
+
+      {renderCheckboxGroup()}
+
+      {renderRadioGroup()}
+
+      {renderSwitch()}
+
+      {renderRangeSlider()}
+
+      {renderTextarea()}
+
+      {renderSelect()}
+
+      {renderFileInput()}
+
+      {renderEmail()}
+
+      <Button
+        className='flex w-full'
+        type='button'
+        variant='success'
+        onClick={handleSubmit}
+      >
+        Submit
+      </Button>
+    </form>
+  )
 }

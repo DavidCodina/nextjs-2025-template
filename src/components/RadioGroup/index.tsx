@@ -8,11 +8,14 @@ import { FormError } from '../FormError'
 import { cn } from '@/utils'
 
 // Ultimately, this is derived from the Radix RadioGroup.Item
-type Value = React.ComponentProps<typeof RadioGroupItemBase>['value']
+// Exporting this is useful for typing state when consuming.
+export type RadioValue = React.ComponentProps<
+  typeof RadioGroupItemBase
+>['value']
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-type Item = {
+export type RadioItem = {
   className?: string
   disabled?: boolean
   id?: string
@@ -23,17 +26,20 @@ type Item = {
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   style?: React.CSSProperties
-  value: Value
+  value: RadioValue
 }
 
+// Gotcha: simply overwriting the onChange below is not
+// sufficient. You MUST omit the original `onChange` or
+// Typescript will get very confused at some point.
 type RadioGroupProps = Omit<
   React.ComponentProps<typeof RadioGroupBase>,
-  'asChild' | 'onValueChange' | 'required' | 'orientation' | 'dir'
+  'asChild' | 'onValueChange' | 'onChange' | 'required' | 'orientation' | 'dir'
 > & {
   error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
-  items: Item[]
+  items: RadioItem[]
   /** The top-level label for the group of checkboxes - Technically a div. */
   labelText?: LabelChildren
   labelClassName?: string
@@ -45,7 +51,7 @@ type RadioGroupProps = Omit<
    */
   name: string
   // Same type as the original Radix onValueChange, but more intuitive.
-  onChange?: (value: Value) => void
+  onChange?: (value: RadioValue) => void
   radioGroupBaseClassName?: string
   radioGroupBaseStyle?: React.CSSProperties
   text?: string

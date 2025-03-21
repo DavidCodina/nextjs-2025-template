@@ -1,5 +1,5 @@
-import { Button, Page, PageContainer, Title } from 'components'
-// import { ComponentDemos } from '@/components/ComponentDemos'
+import { Page, PageContainer, Title } from 'components'
+import { ComponentDemos } from '@/components/ComponentDemos'
 
 /* ========================================================================
 
@@ -51,18 +51,7 @@ const Home = () => {
           Home
         </Title>
 
-        <Button
-          as='a'
-          href='https://www.google.com'
-          rel='noopener noreferrer'
-          size='sm'
-          target='_blank'
-          variant='success'
-        >
-          Click Me
-        </Button>
-
-        {/* <ComponentDemos /> */}
+        <ComponentDemos />
       </PageContainer>
     </Page>
   )
