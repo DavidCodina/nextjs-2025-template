@@ -1,5 +1,5 @@
 import { Page, PageContainer, Title } from 'components'
-import { ComponentDemos } from '@/components/ComponentDemos'
+//` import { ComponentDemos } from '@/components/ComponentDemos'
 
 /* ========================================================================
 
@@ -52,8 +52,6 @@ const Home = () => {
         >
           Home
         </Title>
-
-        <ComponentDemos />
       </PageContainer>
     </Page>
   )
