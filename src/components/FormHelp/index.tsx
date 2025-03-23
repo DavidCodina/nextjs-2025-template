@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { cn } from '@/utils'
 
-type FormTextProps = React.ComponentProps<'div'> & {
+type FormHelpProps = React.ComponentProps<'div'> & {
   disabled?: boolean
 }
 
@@ -13,12 +13,12 @@ hidden mt-1 text-sm text-muted-foreground
 
 ======================================================================== */
 
-export const FormText = ({
+export const FormHelp = ({
   children,
   className = '',
   disabled = false,
   ...otherProps
-}: FormTextProps) => {
+}: FormHelpProps) => {
   return (
     <div
       className={cn(

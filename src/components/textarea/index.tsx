@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { TextareaBase } from './TextareaBase'
 import { Label } from '../label'
-import { FormText } from '../FormText'
+import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
 import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
@@ -14,14 +14,14 @@ type TextareaProps = React.ComponentProps<'textarea'> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
-  labelText?: LabelChildren
+  label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderTextareaBaseOnly?: boolean
-  text?: string
-  textClassName?: string
-  textStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -38,14 +38,14 @@ export const Textarea = ({
   groupClassName = '',
   groupStyle = {},
   id = '',
-  labelText = '',
+  label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   renderTextareaBaseOnly = false,
-  text = '',
-  textClassName = '',
-  textStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   touched = false,
   ...otherProps
 }: TextareaProps) => {
@@ -73,7 +73,7 @@ export const Textarea = ({
   ====================== */
 
   const renderLabel = () => {
-    if (!labelText) {
+    if (!label) {
       return null
     }
 
@@ -87,7 +87,7 @@ export const Textarea = ({
         style={labelStyle}
         touched={touched}
       >
-        {labelText}
+        {label}
       </Label>
     )
   }
@@ -106,9 +106,9 @@ export const Textarea = ({
 
       {TextareaBaseComponent}
 
-      <FormText className={textClassName} disabled={disabled} style={textStyle}>
-        {text}
-      </FormText>
+      <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
+        {help}
+      </FormHelp>
 
       <FormError
         className={errorClassName}

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { SliderBase } from './SliderBase'
 import { Label } from '../label'
-import { FormText } from '../FormText'
+import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
 import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
@@ -16,14 +16,14 @@ type SliderProps = React.ComponentProps<typeof SliderBase> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
-  labelText?: LabelChildren
+  label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderSliderBaseOnly?: boolean
-  text?: string
-  textClassName?: string
-  textStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -41,14 +41,14 @@ function Slider({
   groupClassName = '',
   groupStyle = {},
   id = '',
-  labelText = '',
+  label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   renderSliderBaseOnly = false,
-  text = '',
-  textClassName = '',
-  textStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   touched = false,
   ...otherProps
 }: SliderProps) {
@@ -75,7 +75,7 @@ function Slider({
   ====================== */
 
   const renderLabel = () => {
-    if (!labelText) {
+    if (!label) {
       return null
     }
 
@@ -89,7 +89,7 @@ function Slider({
         style={labelStyle}
         touched={touched}
       >
-        {labelText}
+        {label}
       </Label>
     )
   }
@@ -108,9 +108,9 @@ function Slider({
 
       {SliderBaseComponent}
 
-      <FormText className={textClassName} disabled={disabled} style={textStyle}>
-        {text}
-      </FormText>
+      <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
+        {help}
+      </FormHelp>
 
       <FormError
         className={errorClassName}

@@ -8,7 +8,7 @@ import { cn } from '@/utils'
 import {
   FIELD_FOCUS_VISIBLE_MIXIN,
   FIELD_DISABLED_MIXIN
-} from '../component-constants'
+} from '@/components/component-constants'
 
 const ariaMixin = `
 aria-invalid:ring-destructive/20 

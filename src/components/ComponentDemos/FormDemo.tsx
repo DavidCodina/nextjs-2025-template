@@ -3,15 +3,8 @@
 import { useState } from 'react'
 import { Input } from '@/components/input'
 import { Textarea } from '@/components/textarea'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/components/select'
+
+import { Select, SelectItem } from '@/components/Select'
 
 import { Slider } from '@/components/slider'
 import { Checkbox } from '@/components/checkbox'
@@ -146,7 +139,7 @@ export const FormDemo = () => {
         // error='This is invalid!'
         id='first-name'
         // groupClassName='mb-6'
-        labelText={<span>First Name</span>}
+        label={<span>First Name</span>}
         labelRequired={true}
         name='first_name'
         onChange={(e) => {
@@ -155,8 +148,8 @@ export const FormDemo = () => {
         placeholder='First Name...'
         // renderInputBaseOnly
         spellCheck={false}
-        // text='(A hardcoded invalid example)'
-        // textClassName='text-xs'
+        // help='(A hardcoded invalid example)'
+        // helpClassName='text-xs'
         type='text'
       />
     )
@@ -175,7 +168,7 @@ export const FormDemo = () => {
         // disabled
         // error=''
         id='last-name'
-        labelText='Last Name'
+        label='Last Name'
         labelRequired={true}
         name='last_name'
         onChange={(e) => {
@@ -183,7 +176,7 @@ export const FormDemo = () => {
         }}
         placeholder='Last Name...'
         spellCheck={false}
-        // text='(A hardcoded valid example)'
+        // help='(A hardcoded valid example)'
         // touched={true}
         type='text' //! What happens if we make this 'checkbox' or 'radio'?
       />
@@ -201,13 +194,13 @@ export const FormDemo = () => {
         // disabled
         // error='This must be checked!'
         id='singe-check'
-        labelText='Agree To Terms'
+        label='Agree To Terms'
         // labelRequired
         name='single-check'
         onCheckedChange={(isChecked) => {
           setSingleCheck(isChecked)
         }}
-        // text='Do it!'
+        // help='Do it!'
         // touched
         value='Single Checkbox checked!'
       />
@@ -220,12 +213,12 @@ export const FormDemo = () => {
 
   const renderCheckboxGroup = () => {
     const checkboxItems: CheckboxItems = [
-      { labelText: 'Red', value: 'red' },
-      { labelText: 'Orange', value: 'orange' },
-      { labelText: 'Yellow', value: 'yellow' },
-      { labelText: 'Green', value: 'green' },
-      { labelText: 'Blue', value: 'blue' },
-      { labelText: 'Purple', value: 'purple' }
+      { label: 'Red', value: 'red' },
+      { label: 'Orange', value: 'orange' },
+      { label: 'Yellow', value: 'yellow' },
+      { label: 'Green', value: 'green' },
+      { label: 'Blue', value: 'blue' },
+      { label: 'Purple', value: 'purple' }
     ]
 
     return (
@@ -236,12 +229,12 @@ export const FormDemo = () => {
         // disabled
         // error='At least one item must be checked.'
         items={checkboxItems}
-        labelText='Checkbox Colors'
+        label='Checkbox Colors'
         name='checkbox-colors'
         onChange={(value) => {
           setCheckboxGroupValue(value)
         }}
-        // text='Pick one or more...'
+        // help='Pick one or more...'
         // touched
       />
     )
@@ -253,12 +246,12 @@ export const FormDemo = () => {
 
   const renderRadioGroup = () => {
     const radioItems: RadioItems = [
-      { labelText: 'Red', value: 'red' },
-      { labelText: 'Orange', value: 'orange' },
-      { labelText: 'Yellow', value: 'yellow' },
-      { labelText: 'Green', value: 'green' },
-      { labelText: 'Blue', value: 'blue' },
-      { labelText: 'Purple', value: 'purple' }
+      { label: 'Red', value: 'red' },
+      { label: 'Orange', value: 'orange' },
+      { label: 'Yellow', value: 'yellow' },
+      { label: 'Green', value: 'green' },
+      { label: 'Blue', value: 'blue' },
+      { label: 'Purple', value: 'purple' }
     ]
 
     return (
@@ -270,7 +263,7 @@ export const FormDemo = () => {
 
         // error='An item must be selected.'
         items={radioItems}
-        labelText='Radio Colors'
+        label='Radio Colors'
         name='radio-colors'
         onChange={(value) => {
           setRadioGroupValue(value)
@@ -289,7 +282,7 @@ export const FormDemo = () => {
 
         // radioGroupBaseStyle={{ outline: '2px dashed deeppink' }}
         // radioGroupBaseClassName=''
-        // text='Pick one.'
+        // help='Pick one.'
         // touched
       />
     )
@@ -306,14 +299,14 @@ export const FormDemo = () => {
         // disabled
         // error='This is invalid!'
         id='airplane-mode'
-        // labelText='Airplane Mode'
+        // label='Airplane Mode'
 
-        labelOnText='Airplane Mode On'
-        labelOffText='Airplane Mode Off'
+        labelOn='Airplane Mode On'
+        labelOff='Airplane Mode Off'
         onCheckedChange={(isChecked) => {
           setSwitchChecked(isChecked)
         }}
-        // text='Switch me!'
+        // help='Switch me!'
 
         // touched
       />
@@ -333,7 +326,7 @@ export const FormDemo = () => {
         // disabled
         // error='This is invalid!'
         id='percent'
-        labelText='Percent'
+        label='Percent'
         labelRequired
         max={100}
         name='percent'
@@ -342,7 +335,7 @@ export const FormDemo = () => {
           setRangeSliderValue(value)
         }}
         // step={10} // Default is 1.
-        // text='Slide me!'
+        // help='Slide me!'
         // touched={true}
       />
     )
@@ -361,7 +354,7 @@ export const FormDemo = () => {
         // disabled
         // error='This is invalid!'
         id='message'
-        labelText={'Message'}
+        label={'Message'}
         labelRequired={true}
         name='message'
         onChange={(e) => {
@@ -370,7 +363,7 @@ export const FormDemo = () => {
         placeholder='Message here...'
         // renderTextareaBaseOnly
         spellCheck={false}
-        text='Write a thoughtful message...'
+        help='Write a thoughtful message...'
         // touched={true}
       />
     )
@@ -381,31 +374,62 @@ export const FormDemo = () => {
   ====================== */
 
   const renderSelect = () => {
+    //# Test disabled, className, style
+    const selectItems: SelectItem[] = [
+      {
+        label: 'Apple',
+        value: 'apple'
+        // className: 'font-bold text-red-500'
+      },
+      {
+        label: 'Banana',
+        value: 'banana'
+        // className: 'font-bold text-yellow-500'
+      },
+      {
+        label: 'Blueberry',
+        value: 'blueberry'
+        // disabled: true
+        // style: { outline: '2px dashed deeppink' }
+      },
+      {
+        label: 'Grapes',
+        value: 'grapes'
+        // className: 'font-bold text-purple-500'
+      },
+      {
+        label: 'Pineapple',
+        value: 'pineapple'
+        // className: 'font-bold text-orange-500'
+      }
+    ]
+
     return (
-      <div>
-        <Label className='mb-2' htmlFor='fruits'>
-          Select One
-        </Label>
-        <Select
-          onValueChange={(value) => {
-            setSelectValue(value)
-          }}
-        >
-          <SelectTrigger className=''>
-            <SelectValue placeholder='Select Fruit...' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value='apple'>Apple</SelectItem>
-              <SelectItem value='banana'>Banana</SelectItem>
-              <SelectItem value='blueberry'>Blueberry</SelectItem>
-              <SelectItem value='grapes'>Grapes</SelectItem>
-              <SelectItem value='pineapple'>Pineapple</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+      <Select
+        // disabled
+        // error='This is invalid!'
+        // errorClassName='font-bold text-right'
+        // className='outline-2 outline-pink-500 outline-dashed' // Assigned to SelectTrigger
+
+        // groupClassName='outline-2 outline-pink-500 outline-dashed'
+        // groupStyle={{ outline: '2px dashed deeppink' }}
+        id='fruits'
+        items={selectItems}
+        label='Select One'
+        // labelClassName='font-bold'
+        onChange={(value) => {
+          setSelectValue(value)
+        }}
+        // placeholder={
+        //   <span className='rounded-full bg-blue-100 px-2'>Select Fruit...</span>
+        // }
+
+        // sideOffset={20}
+        // style={{ outline: '2px dashed deeppink' }}  // Assigned to SelectTrigger
+        // help='Pick a fruit...'
+        // helpClassName='font-bold'
+        // touched
+      />
     )
   }
 

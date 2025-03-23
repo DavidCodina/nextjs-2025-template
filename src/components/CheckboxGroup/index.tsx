@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Checkbox } from '../checkbox'
 import { Label } from '../label'
-import { FormText } from '../FormText'
+import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
 
@@ -21,7 +21,8 @@ export type CheckboxItem = {
   groupClassName?: string
   groupStyle?: React.CSSProperties
   id?: string
-  labelText?: LabelChildren
+
+  label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
@@ -42,16 +43,17 @@ type CheckboxGroupProps = Omit<React.ComponentProps<'div'>, 'onChange'> & {
   defaultValue?: CheckboxValue[]
   items: CheckboxItem[]
   /** The top-level label for the group of checkboxes - Technically a div. */
-  labelText?: LabelChildren
+  label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   /** The name attribute shared by all check inputs. */
   name: string
   onChange?: (values: CheckboxValue[]) => void
-  text?: string
-  textClassName?: string
-  textStyle?: React.CSSProperties
+
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   touched?: boolean
   value?: CheckboxValue[]
 }
@@ -68,16 +70,16 @@ export const CheckboxGroup = ({
   errorStyle = {},
   defaultValue,
   items = [],
-  labelText = '',
+  label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   name = '',
   onChange,
   style = {},
-  text = '',
-  textClassName = '',
-  textStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   touched = false,
   value: controlledValue,
   ...otherProps
@@ -183,7 +185,7 @@ export const CheckboxGroup = ({
   ====================== */
 
   const renderGroupLabel = () => {
-    if (!labelText) {
+    if (!label) {
       return null
     }
 
@@ -197,7 +199,7 @@ export const CheckboxGroup = ({
         style={labelStyle}
         touched={touched}
       >
-        <div>{labelText}</div>
+        <div>{label}</div>
       </Label>
     )
   }
@@ -218,7 +220,7 @@ export const CheckboxGroup = ({
         disabled: checkDisabled,
         groupClassName: checkGroupClassName,
         groupStyle: checkGroupStyle,
-        labelText: checkLabelText,
+        label: checkLabel,
         labelClassName: checkLabelClassName,
         labelRequired: checkLabelRequired,
         labelStyle: checkLabelStyle,
@@ -243,7 +245,7 @@ export const CheckboxGroup = ({
               // Used to suppress error message UI in favor of a single group error message.
               _hideError
               id={checkId}
-              labelText={checkLabelText}
+              label={checkLabel}
               labelClassName={checkLabelClassName}
               labelRequired={checkLabelRequired}
               labelStyle={checkLabelStyle}
@@ -288,9 +290,9 @@ export const CheckboxGroup = ({
       {renderGroupLabel()}
       {renderCheckboxes()}
 
-      <FormText className={textClassName} disabled={disabled} style={textStyle}>
-        {text}
-      </FormText>
+      <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
+        {help}
+      </FormHelp>
 
       <FormError
         className={errorClassName}

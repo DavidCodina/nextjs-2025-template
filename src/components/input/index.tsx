@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { InputBase } from '../InputBase'
 import { Label } from '../label'
-import { FormText } from '../FormText'
+import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
 import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
@@ -16,14 +16,14 @@ type InputProps = React.ComponentProps<typeof InputBase> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
-  labelText?: LabelChildren
+  label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderInputBaseOnly?: boolean
-  text?: string
-  textClassName?: string
-  textStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -40,19 +40,19 @@ export const Input = ({
   groupClassName = '',
   groupStyle = {},
   id = '',
-  labelText = '',
+  label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   renderInputBaseOnly = false,
-  text = '',
-  textClassName = '',
-  textStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   touched = false,
   ...otherProps
 }: InputProps) => {
-  const uuid = React.useId()
-  id = id || uuid
+  const uid = React.useId()
+  id = id || uid
 
   const maybeValidationMixin = error
     ? FIELD_INVALID_MIXIN
@@ -74,7 +74,7 @@ export const Input = ({
   ====================== */
 
   const renderLabel = () => {
-    if (!labelText) {
+    if (!label) {
       return null
     }
 
@@ -88,7 +88,7 @@ export const Input = ({
         style={labelStyle}
         touched={touched}
       >
-        {labelText}
+        {label}
       </Label>
     )
   }
@@ -107,9 +107,9 @@ export const Input = ({
 
       {InputBaseComponent}
 
-      <FormText className={textClassName} disabled={disabled} style={textStyle}>
-        {text}
-      </FormText>
+      <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
+        {help}
+      </FormHelp>
 
       <FormError
         className={errorClassName}

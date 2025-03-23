@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { RadioGroupBase, RadioGroupItemBase } from '@/components/RadioGroupBase'
 import { Label } from '../label'
-import { FormText } from '../FormText'
+import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
 
@@ -21,7 +21,7 @@ export type RadioItem = {
   id?: string
   groupClassName?: string
   groupStyle?: React.CSSProperties
-  labelText?: LabelChildren
+  label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
@@ -41,7 +41,7 @@ type RadioGroupProps = Omit<
   errorStyle?: React.CSSProperties
   items: RadioItem[]
   /** The top-level label for the group of checkboxes - Technically a div. */
-  labelText?: LabelChildren
+  label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
@@ -54,9 +54,9 @@ type RadioGroupProps = Omit<
   onChange?: (value: RadioValue) => void
   radioGroupBaseClassName?: string
   radioGroupBaseStyle?: React.CSSProperties
-  text?: string
-  textClassName?: string
-  textStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -72,7 +72,7 @@ export const RadioGroup = ({
   errorStyle = {},
   defaultValue,
   items = [],
-  labelText = '',
+  label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
@@ -80,9 +80,9 @@ export const RadioGroup = ({
   radioGroupBaseClassName = '',
   radioGroupBaseStyle = {},
   style = {},
-  text = '',
-  textClassName = '',
-  textStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   touched = false,
   value,
   ...otherProps
@@ -94,7 +94,7 @@ export const RadioGroup = ({
   ====================== */
 
   const renderLabel = () => {
-    if (!labelText) {
+    if (!label) {
       return null
     }
 
@@ -108,7 +108,7 @@ export const RadioGroup = ({
         style={labelStyle}
         touched={touched}
       >
-        <div>{labelText}</div>
+        <div>{label}</div>
       </Label>
     )
   }
@@ -126,7 +126,7 @@ export const RadioGroup = ({
         disabled: radioDisabled,
         groupClassName: radioGroupClassName,
         groupStyle: radioGroupStyle,
-        labelText: radioLabelText,
+        label: radioLabel,
         labelClassName: radioLabelClassName,
         labelRequired: radioLabelRequired,
         labelStyle: radioLabelStyle,
@@ -148,7 +148,7 @@ export const RadioGroup = ({
             value={radioValue}
           />
 
-          {radioLabelText && (
+          {radioLabel && (
             <Label
               className={cn('text-xs', radioLabelClassName)}
               disabled={disabled || radioDisabled}
@@ -158,7 +158,7 @@ export const RadioGroup = ({
               style={radioLabelStyle}
               touched={touched}
             >
-              {radioLabelText}
+              {radioLabel}
             </Label>
           )}
         </div>
@@ -188,9 +188,9 @@ export const RadioGroup = ({
         {renderRadios()}
       </RadioGroupBase>
 
-      <FormText className={textClassName} disabled={disabled} style={textStyle}>
-        {text}
-      </FormText>
+      <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
+        {help}
+      </FormHelp>
 
       <FormError
         className={errorClassName}

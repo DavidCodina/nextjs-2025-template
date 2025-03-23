@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { SwitchBase } from './SwitchBase'
 import { Label } from '../label'
-import { FormText } from '../FormText'
+import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
 import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
@@ -16,16 +16,16 @@ type SwitchProps = React.ComponentProps<typeof SwitchBase> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
-  labelText?: LabelChildren
-  labelOnText?: LabelChildren
-  labelOffText?: LabelChildren
+  label?: LabelChildren
+  labelOn?: LabelChildren
+  labelOff?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderSwitchBaseOnly?: boolean
-  text?: string
-  textClassName?: string
-  textStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -44,17 +44,17 @@ export const Switch = ({
   groupClassName = '',
   groupStyle = {},
   id = '',
-  labelText = '',
-  labelOnText = '',
-  labelOffText = '',
+  label = '',
+  labelOn = '',
+  labelOff = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   onCheckedChange,
   renderSwitchBaseOnly = false,
-  text = '',
-  textClassName = '',
-  textStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   touched = false,
   ...otherProps
 }: SwitchProps) => {
@@ -131,10 +131,10 @@ export const Switch = ({
   ====================== */
 
   const renderLabel = () => {
-    const onText = labelOnText || labelText
-    const offText = labelOffText || labelText
+    const onNode = labelOn || label
+    const offNode = labelOff || label
 
-    if (!onText || !offText) {
+    if (!onNode || !offNode) {
       return null
     }
 
@@ -148,7 +148,7 @@ export const Switch = ({
         style={labelStyle}
         touched={touched}
       >
-        {checked ? onText : offText}
+        {checked ? onNode : offNode}
       </Label>
     )
   }
@@ -168,9 +168,9 @@ export const Switch = ({
         {renderLabel()}
       </div>
 
-      <FormText className={textClassName} disabled={disabled} style={textStyle}>
-        {text}
-      </FormText>
+      <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
+        {help}
+      </FormHelp>
 
       <FormError
         className={errorClassName}

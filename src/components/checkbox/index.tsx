@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { CheckboxBase } from '../CheckboxBase'
 import { Label } from '../label'
-import { FormText } from '../FormText'
+import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 
 import { cn } from '@/utils'
@@ -19,14 +19,15 @@ type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
   groupStyle?: React.CSSProperties
   /** Used internally by CheckboxGroup */
   _hideError?: boolean
-  labelText?: LabelChildren
+  label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderCheckboxBaseOnly?: boolean
-  text?: string
-  textClassName?: string
-  textStyle?: React.CSSProperties
+
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -44,14 +45,14 @@ function Checkbox({
   groupStyle = {},
   _hideError = false,
   id = '',
-  labelText = '',
+  label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   renderCheckboxBaseOnly = false,
-  text = '',
-  textClassName = '',
-  textStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   touched = false,
   ...otherProps
 }: CheckboxProps) {
@@ -79,7 +80,7 @@ function Checkbox({
   ====================== */
 
   const renderLabel = () => {
-    if (!labelText) {
+    if (!label) {
       return null
     }
 
@@ -93,7 +94,7 @@ function Checkbox({
         style={labelStyle}
         touched={touched}
       >
-        {labelText}
+        {label}
       </Label>
     )
   }
@@ -113,9 +114,9 @@ function Checkbox({
         {renderLabel()}
       </div>
 
-      <FormText className={textClassName} disabled={disabled} style={textStyle}>
-        {text}
-      </FormText>
+      <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
+        {help}
+      </FormHelp>
 
       {!_hideError && (
         <FormError

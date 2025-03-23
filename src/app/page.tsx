@@ -5,7 +5,7 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-// Todo: Create a grouped version of Select and Slider
+// Todo Rename/Redo text to help.
 
 // Todo: Test controlled versions of all form fields.
 

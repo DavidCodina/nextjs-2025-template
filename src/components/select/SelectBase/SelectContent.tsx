@@ -5,7 +5,7 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 import { cn } from '@/utils'
 import { SelectScrollUpButton } from './SelectScrollUpButton'
 import { SelectScrollDownButton } from './SelectScrollDownButton'
-import { SELECT_ZINDEX_CLASS } from '../component-constants'
+import { SELECT_ZINDEX_CLASS } from '@/components/component-constants'
 
 // baseClasses is relying on tailwindcss-animate
 const baseClasses = `
@@ -36,7 +36,7 @@ function SelectContent({
   className,
   children,
   position = 'popper',
-  ...props
+  ...otherProps
 }: React.ComponentProps<typeof SelectPrimitive.Content>) {
   return (
     <SelectPrimitive.Portal>
@@ -50,7 +50,7 @@ function SelectContent({
           className
         )}
         position={position}
-        {...props}
+        {...otherProps}
       >
         <SelectScrollUpButton />
         <SelectPrimitive.Viewport
