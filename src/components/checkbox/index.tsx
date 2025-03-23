@@ -5,10 +5,11 @@ import { CheckboxBase } from '../CheckboxBase'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
-
 import { cn } from '@/utils'
-
 import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
+
+export { type CheckedState } from '@radix-ui/react-checkbox'
+
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
@@ -19,15 +20,14 @@ type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
   groupStyle?: React.CSSProperties
   /** Used internally by CheckboxGroup */
   _hideError?: boolean
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderCheckboxBaseOnly?: boolean
-
-  help?: string
-  helpClassName?: string
-  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -35,7 +35,7 @@ type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
 
 ======================================================================== */
 
-function Checkbox({
+export const Checkbox = ({
   className = '',
   disabled = false,
   error = '',
@@ -44,21 +44,20 @@ function Checkbox({
   groupClassName = '',
   groupStyle = {},
   _hideError = false,
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   id = '',
   label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   renderCheckboxBaseOnly = false,
-  help = '',
-  helpClassName = '',
-  helpStyle = {},
   touched = false,
   ...otherProps
-}: CheckboxProps) {
-  // If id is not set, then fallback to using React's useId() hook.
-  const uuid = React.useId()
-  id = id || uuid
+}: CheckboxProps) => {
+  const uid = React.useId()
+  id = id || uid
 
   const maybeValidationMixin = error
     ? FIELD_INVALID_MIXIN
@@ -131,5 +130,3 @@ function Checkbox({
     </div>
   )
 }
-
-export { Checkbox }

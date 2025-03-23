@@ -16,14 +16,17 @@ type InputProps = React.ComponentProps<typeof InputBase> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
+
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
+
   label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderInputBaseOnly?: boolean
-  help?: string
-  helpClassName?: string
-  helpStyle?: React.CSSProperties
+
   touched?: boolean
 }
 

@@ -9,6 +9,14 @@ import {
   FIELD_FOCUS_VISIBLE_MIXIN
 } from '../../component-constants'
 
+type SwitchBaseProps = Omit<
+  React.ComponentProps<typeof SwitchPrimitive.Root>,
+  'onChange' | 'onCheckedChange'
+> & {
+  // Same as onCheckedChange, but the naming is more intuitive.
+  onChange?: ((checked: boolean) => void) | undefined
+}
+
 const rootBaseClasses = `
 peer
 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full
@@ -37,12 +45,16 @@ dark:data-[state=checked]:bg-primary-foreground
 
 export const SwitchBase = ({
   className,
+  onChange,
   ...otherProps
-}: React.ComponentProps<typeof SwitchPrimitive.Root>) => {
+}: SwitchBaseProps) => {
   return (
     <SwitchPrimitive.Root
       data-slot='switch'
       className={cn(rootBaseClasses, className)}
+      onCheckedChange={(checked) => {
+        onChange?.(checked)
+      }}
       {...otherProps}
     >
       <SwitchPrimitive.Thumb

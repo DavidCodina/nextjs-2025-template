@@ -4,6 +4,14 @@ import * as React from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import { cn } from '@/utils'
 
+type SliderBaseProps = Omit<
+  React.ComponentProps<typeof SliderPrimitive.Root>,
+  'onValueCommit' | 'onChange'
+> & {
+  // Same as onValueCommit, but the naming is more intuitive.
+  onChange?: ((value: number[]) => void) | undefined
+}
+
 const rootBaseClasses = `
 relative flex w-full items-center
 touch-none select-none
@@ -45,12 +53,12 @@ disabled:pointer-events-none disabled:opacity-65
 export const SliderBase = ({
   className,
   defaultValue,
-  onValueCommit,
+  onChange,
   value,
   min = 0,
   max = 100,
   ...otherProps
-}: React.ComponentProps<typeof SliderPrimitive.Root>) => {
+}: SliderBaseProps) => {
   const _values = React.useMemo(
     () =>
       Array.isArray(value)
@@ -74,7 +82,7 @@ export const SliderBase = ({
       max={max}
       className={cn(rootBaseClasses, className)}
       onValueCommit={(value) => {
-        onValueCommit?.(value)
+        onChange?.(value)
       }}
       {...otherProps}
     >

@@ -1,29 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import { Input } from '@/components/input'
-import { Textarea } from '@/components/textarea'
+import { Input } from '@/components/Input'
+import { Textarea } from '@/components/Textarea'
 
-import { Select, SelectItem } from '@/components/Select'
+import { Select, SelectItemType, SelectValueType } from '@/components/Select'
 
-import { Slider } from '@/components/slider'
-import { Checkbox } from '@/components/checkbox'
+import { Slider } from '@/components/Slider'
+import { Checkbox, CheckedState } from '@/components/Checkbox'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
-import { RadioGroup, RadioItem } from '@/components/RadioGroup'
-import { Switch } from '@/components/switch'
+import { RadioGroup, RadioItemType, RadioValue } from '@/components/RadioGroup'
+import { Switch } from '@/components/Switch'
 import {
   CheckboxGroup,
   CheckboxValue,
-  CheckboxItem
+  CheckboxItemType
 } from '@/components/CheckboxGroup'
 import React from 'react'
-
-//type CheckboxItems = React.ComponentProps<typeof CheckboxGroup>['items']
-type CheckboxItems = CheckboxItem[]
-
-// type RadioItems = React.ComponentProps<typeof RadioGroup>['items']
-type RadioItems = RadioItem[]
 
 /* ========================================================================
 
@@ -33,17 +27,15 @@ export const FormDemo = () => {
   const [formKey, setFormKey] = useState(0)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [singleCheck, setSingleCheck] = useState<boolean | 'indeterminate'>(
-    false
-  )
+  const [singleCheck, setSingleCheck] = useState<CheckedState>(false)
   const [checkboxGroupValue, setCheckboxGroupValue] = useState<CheckboxValue[]>(
     []
   )
-  const [radioGroupValue, setRadioGroupValue] = useState<string>('')
+  const [radioGroupValue, setRadioGroupValue] = useState<RadioValue>('')
   const [switchChecked, setSwitchChecked] = useState(false)
   const [rangeSliderValue, setRangeSliderValue] = useState<number[]>([50])
   const [textareaValue, setTextareaValue] = useState('')
-  const [selectValue, setSelectValue] = useState('')
+  const [selectValue, setSelectValue] = useState<SelectValueType>('')
   const [file, setFile] = useState<File | null>(null)
   const [email, setEmail] = useState('')
 
@@ -197,7 +189,7 @@ export const FormDemo = () => {
         label='Agree To Terms'
         // labelRequired
         name='single-check'
-        onCheckedChange={(isChecked) => {
+        onChange={(isChecked) => {
           setSingleCheck(isChecked)
         }}
         // help='Do it!'
@@ -212,7 +204,7 @@ export const FormDemo = () => {
   ====================== */
 
   const renderCheckboxGroup = () => {
-    const checkboxItems: CheckboxItems = [
+    const checkboxItems: CheckboxItemType[] = [
       { label: 'Red', value: 'red' },
       { label: 'Orange', value: 'orange' },
       { label: 'Yellow', value: 'yellow' },
@@ -245,7 +237,7 @@ export const FormDemo = () => {
   ====================== */
 
   const renderRadioGroup = () => {
-    const radioItems: RadioItems = [
+    const radioItems: RadioItemType[] = [
       { label: 'Red', value: 'red' },
       { label: 'Orange', value: 'orange' },
       { label: 'Yellow', value: 'yellow' },
@@ -303,11 +295,10 @@ export const FormDemo = () => {
 
         labelOn='Airplane Mode On'
         labelOff='Airplane Mode Off'
-        onCheckedChange={(isChecked) => {
+        onChange={(isChecked) => {
           setSwitchChecked(isChecked)
         }}
         // help='Switch me!'
-
         // touched
       />
     )
@@ -330,8 +321,7 @@ export const FormDemo = () => {
         labelRequired
         max={100}
         name='percent'
-        onValueCommit={(value) => {
-          console.log('Slider value committed:', value)
+        onChange={(value) => {
           setRangeSliderValue(value)
         }}
         // step={10} // Default is 1.
@@ -375,7 +365,7 @@ export const FormDemo = () => {
 
   const renderSelect = () => {
     //# Test disabled, className, style
-    const selectItems: SelectItem[] = [
+    const selectItems: SelectItemType[] = [
       {
         label: 'Apple',
         value: 'apple'

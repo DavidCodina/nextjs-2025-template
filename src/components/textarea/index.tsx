@@ -14,14 +14,14 @@ type TextareaProps = React.ComponentProps<'textarea'> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderTextareaBaseOnly?: boolean
-  help?: string
-  helpClassName?: string
-  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -37,15 +37,15 @@ export const Textarea = ({
   errorStyle = {},
   groupClassName = '',
   groupStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   id = '',
   label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   renderTextareaBaseOnly = false,
-  help = '',
-  helpClassName = '',
-  helpStyle = {},
   touched = false,
   ...otherProps
 }: TextareaProps) => {

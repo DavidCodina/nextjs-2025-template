@@ -5,29 +5,29 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-// Todo Rename/Redo text to help.
+// Todo: Change all /components components to PascalCase & update components/index.ts
 
 // Todo: Test controlled versions of all form fields.
 
 // Todo: add UI for the numeric position of slider thumbs.
 
+// Todo: Update valid/invalid styles for Checkbox, CheckboxGroup and RadioGroup.
+
 // Todo: Test Button's loading spinner.
 //# I'm concerned that when it has an svg, then it's not removed while loading.
 
+// Todo: Build out controlled form demo.
+
+// Todo: Buid out RHF controlled form demo.
+
 // Todo: Add not-found.tsx, global-error.tsx, error.tsx
 
-//# https://github.com/shadcn-ui/ui/discussions/4283
-//# Maybe rather than forcing it top-down, I can actually
-//# create a variant variant that checks itself and then
-//# applies its border as needed, removes shadows, etc.
-//# Could also just ask v0.
+//# Not sure about hover:underline in AccordionTrigger.
 
-//! Not sure about hover:underline in AccordionTrigger.
+//# Find the radix primitive for allowing multiple panels to be open at once
+//# on the accordion component.
 
-//! Find the radix primitive for allowing multiple panels to be open at once
-//! on the accordion component.
-
-//! How can we change the offset in toolip and popover.
+//# How can we change the offset in toolip and popover.
 
 //# Button has: aria-invalid:ring-destructive/20
 //# Something similar was on the badges, and I removed it.

@@ -1,21 +1,19 @@
 'use client'
 
 import * as React from 'react'
-import { RadioGroupBase, RadioGroupItemBase } from '@/components/RadioGroupBase'
+import {
+  RadioGroupBase,
+  RadioGroupItemBase,
+  type RadioValue
+} from '@/components/RadioGroupBase'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
 
-// Ultimately, this is derived from the Radix RadioGroup.Item
-// Exporting this is useful for typing state when consuming.
-export type RadioValue = React.ComponentProps<
-  typeof RadioGroupItemBase
->['value']
-
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-export type RadioItem = {
+export type RadioItemType = {
   className?: string
   disabled?: boolean
   id?: string
@@ -34,12 +32,15 @@ export type RadioItem = {
 // Typescript will get very confused at some point.
 type RadioGroupProps = Omit<
   React.ComponentProps<typeof RadioGroupBase>,
-  'asChild' | 'onValueChange' | 'onChange' | 'required' | 'orientation' | 'dir'
+  'asChild' | 'required' | 'orientation' | 'dir'
 > & {
   error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
-  items: RadioItem[]
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
+  items: RadioItemType[]
   /** The top-level label for the group of checkboxes - Technically a div. */
   label?: LabelChildren
   labelClassName?: string
@@ -50,13 +51,8 @@ type RadioGroupProps = Omit<
    * Here, it is required.
    */
   name: string
-  // Same type as the original Radix onValueChange, but more intuitive.
-  onChange?: (value: RadioValue) => void
   radioGroupBaseClassName?: string
   radioGroupBaseStyle?: React.CSSProperties
-  help?: string
-  helpClassName?: string
-  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -64,25 +60,24 @@ type RadioGroupProps = Omit<
 
 ======================================================================== */
 
-export const RadioGroup = ({
+const RadioGroup = ({
   className = '',
+  defaultValue,
   disabled = false,
   error = '',
   errorClassName = '',
   errorStyle = {},
-  defaultValue,
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   items = [],
   label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
-  onChange,
   radioGroupBaseClassName = '',
   radioGroupBaseStyle = {},
   style = {},
-  help = '',
-  helpClassName = '',
-  helpStyle = {},
   touched = false,
   value,
   ...otherProps
@@ -175,12 +170,11 @@ export const RadioGroup = ({
       {renderLabel()}
 
       <RadioGroupBase
-        {...otherProps} // i.e., name gets passed throught and propogates to children inputs
+        {...otherProps} // i.e., name gets passed through and propogates to children inputs
         // In a Radix UI RadioGroup component, when both value and defaultValue props
         // are provided (and both are defined strings), the value prop will always
         // take precedence over the defaultValue.
         defaultValue={defaultValue}
-        onValueChange={onChange}
         className={radioGroupBaseClassName}
         style={radioGroupBaseStyle}
         value={value}
@@ -203,3 +197,5 @@ export const RadioGroup = ({
     </div>
   )
 }
+
+export { RadioGroup, RadioValue }

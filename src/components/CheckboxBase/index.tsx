@@ -5,6 +5,14 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { CheckIcon } from 'lucide-react'
 import { cn } from '@/utils'
 
+type CheckboxBaseProps = Omit<
+  React.ComponentProps<typeof CheckboxPrimitive.Root>,
+  'onChange' | 'onCheckedChange'
+> & {
+  // Same type as the original onCheckedChange, but more intuitive.
+  onChange?: (values: CheckboxPrimitive.CheckedState) => void
+}
+
 import {
   FIELD_BOX_SHADOW_MIXIN,
   FIELD_DISABLED_MIXIN,
@@ -41,12 +49,16 @@ ${FIELD_FOCUS_VISIBLE_MIXIN}
 
 function CheckboxBase({
   className,
+  onChange,
   ...otherProps
-}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
+}: CheckboxBaseProps) {
   return (
     <CheckboxPrimitive.Root
       data-slot='checkbox'
       className={cn(baseClasses, className)}
+      onCheckedChange={(checkedState) => {
+        onChange?.(checkedState)
+      }}
       {...otherProps}
     >
       <CheckboxPrimitive.Indicator

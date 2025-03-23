@@ -16,6 +16,9 @@ type SwitchProps = React.ComponentProps<typeof SwitchBase> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   label?: LabelChildren
   labelOn?: LabelChildren
   labelOff?: LabelChildren
@@ -23,9 +26,7 @@ type SwitchProps = React.ComponentProps<typeof SwitchBase> & {
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderSwitchBaseOnly?: boolean
-  help?: string
-  helpClassName?: string
-  helpStyle?: React.CSSProperties
+
   touched?: boolean
 }
 
@@ -43,6 +44,9 @@ export const Switch = ({
   errorStyle = {},
   groupClassName = '',
   groupStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   id = '',
   label = '',
   labelOn = '',
@@ -50,11 +54,9 @@ export const Switch = ({
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
-  onCheckedChange,
+  onChange,
   renderSwitchBaseOnly = false,
-  help = '',
-  helpClassName = '',
-  helpStyle = {},
+
   touched = false,
   ...otherProps
 }: SwitchProps) => {
@@ -98,9 +100,9 @@ export const Switch = ({
       className={cn(maybeValidationMixin, className)}
       defaultChecked={defaultChecked}
       disabled={disabled}
-      onCheckedChange={(checked) => {
+      onChange={(checked) => {
         setChecked(checked)
-        onCheckedChange?.(checked)
+        onChange?.(checked)
       }}
       {...otherProps}
     />

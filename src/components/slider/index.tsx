@@ -16,14 +16,14 @@ type SliderProps = React.ComponentProps<typeof SliderBase> & {
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderSliderBaseOnly?: boolean
-  help?: string
-  helpClassName?: string
-  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -34,21 +34,20 @@ type SliderProps = React.ComponentProps<typeof SliderBase> & {
 function Slider({
   className,
   disabled = false,
-
   error = '',
   errorClassName = '',
   errorStyle = {},
   groupClassName = '',
   groupStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   id = '',
   label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   renderSliderBaseOnly = false,
-  help = '',
-  helpClassName = '',
-  helpStyle = {},
   touched = false,
   ...otherProps
 }: SliderProps) {

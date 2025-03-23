@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Checkbox } from '../checkbox'
+import { Checkbox } from '../Checkbox'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
@@ -14,14 +14,13 @@ type LabelChildren = React.ComponentProps<typeof Label>['children']
 // Exporting this is useful for typing state when consuming.
 export type CheckboxValue = React.ComponentProps<typeof Checkbox>['value']
 
-export type CheckboxItem = {
+export type CheckboxItemType = {
   className?: string
   style?: React.CSSProperties
   disabled?: boolean
   groupClassName?: string
   groupStyle?: React.CSSProperties
   id?: string
-
   label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
@@ -41,7 +40,7 @@ type CheckboxGroupProps = Omit<React.ComponentProps<'div'>, 'onChange'> & {
   errorClassName?: string
   errorStyle?: React.CSSProperties
   defaultValue?: CheckboxValue[]
-  items: CheckboxItem[]
+  items: CheckboxItemType[]
   /** The top-level label for the group of checkboxes - Technically a div. */
   label?: LabelChildren
   labelClassName?: string
@@ -253,8 +252,7 @@ export const CheckboxGroup = ({
               // ⚠️ This is currently implemented under the assumption that each
               // checkbox value will be unique. If the values could potentially be
               // the same, then each value in values would need to be unique.
-              // For example: { label: labelText, value: value}
-              onCheckedChange={(isChecked) => {
+              onChange={(isChecked) => {
                 if (isChecked) {
                   setValue((prev) => [...prev, checkValue])
                 } else {

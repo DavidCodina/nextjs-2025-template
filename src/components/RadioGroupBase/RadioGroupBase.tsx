@@ -4,6 +4,19 @@ import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cn } from '@/utils'
 
+// Exporting this is useful for typing state when consuming.
+export type RadioValue = React.ComponentProps<
+  typeof RadioGroupPrimitive.Item
+>['value']
+
+type RadioGroupBaseProps = Omit<
+  React.ComponentProps<typeof RadioGroupPrimitive.Root>,
+  'onValueChange' | 'onChange'
+> & {
+  // Same type as the original Radix onValueChange, but more intuitive.
+  onChange?: (value: RadioValue) => void
+}
+
 /* ========================================================================
 
 ======================================================================== */
@@ -22,13 +35,17 @@ import { cn } from '@/utils'
 
 export const RadioGroupBase = ({
   className,
-  ...props
-}: React.ComponentProps<typeof RadioGroupPrimitive.Root>) => {
+  onChange,
+  ...otherProps
+}: RadioGroupBaseProps) => {
   return (
     <RadioGroupPrimitive.Root
       data-slot='radio-group'
       className={cn('flex flex-col gap-2', className)}
-      {...props}
+      onValueChange={(value) => {
+        onChange?.(value)
+      }}
+      {...otherProps}
     />
   )
 }

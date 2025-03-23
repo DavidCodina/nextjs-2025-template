@@ -3,6 +3,19 @@
 import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 
+export type SelectValueType = React.ComponentProps<
+  typeof SelectPrimitive.Item
+>['value']
+
+type SelectProps = Omit<
+  React.ComponentProps<typeof SelectPrimitive.Root>,
+  'onValueChange' | 'onChange'
+> & {
+  // onChange is the same type as onValueChange, but the
+  // naming convention is more intuitive.
+  onChange?: (value: SelectValueType) => void
+}
+
 /* ========================================================================
 
 ======================================================================== */
@@ -15,10 +28,16 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 // with this component or any component built on top of it will
 // necessarily require an RHF Controller component.
 
-function Select({
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot='select' {...props} />
+function Select({ onChange, ...otherProps }: SelectProps) {
+  return (
+    <SelectPrimitive.Root
+      {...otherProps}
+      data-slot='select'
+      onValueChange={(value) => {
+        onChange?.(value)
+      }}
+    />
+  )
 }
 
 export { Select }

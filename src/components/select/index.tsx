@@ -9,7 +9,8 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectValue
+  SelectValue,
+  SelectValueType
 } from './SelectBase'
 
 import { Label } from '../label'
@@ -20,43 +21,34 @@ import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-export type SelectValue = React.ComponentProps<typeof SelectItem>['value']
-
-export type SelectItem = {
+type SelectItemType = {
   className?: string
   disabled?: boolean
   label: React.ReactNode
   // textValue?: string // See Radix docs.
   style?: React.CSSProperties
-  value: SelectValue
+  value: SelectValueType
 }
 
-type SelectProps = Omit<
-  React.ComponentProps<typeof SelectBase>,
-  'onChange' | 'onValueChange'
-> & {
+type SelectProps = React.ComponentProps<typeof SelectBase> & {
   className?: string
   error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
-  items: SelectItem[]
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
+  id?: string
+  items: SelectItemType[]
   label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
-  // onChange is the same type as onValueChange, but the
-  // naming convention is more intuitive.
-  onChange?: (value: SelectValue) => void
-
   placeholder?: React.ReactNode
-  id?: string
   sideOffset?: number
   style?: React.CSSProperties
-  help?: string
-  helpClassName?: string
-  helpStyle?: React.CSSProperties
   touched?: boolean
 }
 
@@ -64,7 +56,7 @@ type SelectProps = Omit<
 
 ======================================================================== */
 
-export const Select = ({
+const Select = ({
   className = '',
   disabled = false,
   error = '',
@@ -72,6 +64,9 @@ export const Select = ({
   errorStyle = {},
   groupClassName = '',
   groupStyle = {},
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
   id = '',
   label = '',
   labelClassName = '',
@@ -80,11 +75,8 @@ export const Select = ({
   items = [],
   onChange,
   placeholder = 'Select...',
-  style = {},
   sideOffset = 0,
-  help = '',
-  helpClassName = '',
-  helpStyle = {},
+  style = {},
   touched = false,
   ...otherProps
 }: SelectProps) => {
@@ -121,7 +113,7 @@ export const Select = ({
     return (
       <SelectBase
         disabled={disabled}
-        onValueChange={(value) => {
+        onChange={(value) => {
           onChange?.(value)
         }}
         {...otherProps}
@@ -194,3 +186,5 @@ export const Select = ({
     </div>
   )
 }
+
+export { Select, type SelectValueType, type SelectItemType }
