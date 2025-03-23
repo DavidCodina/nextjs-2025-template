@@ -2,24 +2,25 @@
 
 import * as React from 'react'
 import { cn } from '@/utils'
-import { Input } from '@/components/InputX'
 
 /* ========================================================================
 
 ======================================================================== */
 
-function SidebarInput({
+function DropdownMenuShortcut({
   className,
   ...props
-}: React.ComponentProps<typeof Input>) {
+}: React.ComponentProps<'span'>) {
   return (
-    <Input
-      data-slot='sidebar-input'
-      data-sidebar='input'
-      className={cn('bg-background h-8 w-full shadow-none', className)}
+    <span
+      data-slot='dropdown-menu-shortcut'
+      className={cn(
+        'text-muted-foreground ml-auto text-xs tracking-widest',
+        className
+      )}
       {...props}
     />
   )
 }
 
-export { SidebarInput }
+export { DropdownMenuShortcut }

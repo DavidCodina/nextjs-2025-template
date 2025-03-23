@@ -1,25 +1,24 @@
 'use client'
 
 import * as React from 'react'
+import * as TabsPrimitive from '@radix-ui/react-tabs'
 import { cn } from '@/utils'
-import { Input } from '@/components/InputX'
 
 /* ========================================================================
 
 ======================================================================== */
 
-function SidebarInput({
+function Tabs({
   className,
   ...props
-}: React.ComponentProps<typeof Input>) {
+}: React.ComponentProps<typeof TabsPrimitive.Root>) {
   return (
-    <Input
-      data-slot='sidebar-input'
-      data-sidebar='input'
-      className={cn('bg-background h-8 w-full shadow-none', className)}
+    <TabsPrimitive.Root
+      data-slot='tabs'
+      className={cn('flex flex-col gap-2', className)}
       {...props}
     />
   )
 }
 
-export { SidebarInput }
+export { Tabs }

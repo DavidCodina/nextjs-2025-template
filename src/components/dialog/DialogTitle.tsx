@@ -1,25 +1,24 @@
 'use client'
 
 import * as React from 'react'
+import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/utils'
-import { Input } from '@/components/InputX'
 
 /* ========================================================================
 
 ======================================================================== */
 
-function SidebarInput({
+function DialogTitle({
   className,
   ...props
-}: React.ComponentProps<typeof Input>) {
+}: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
-    <Input
-      data-slot='sidebar-input'
-      data-sidebar='input'
-      className={cn('bg-background h-8 w-full shadow-none', className)}
+    <DialogPrimitive.Title
+      data-slot='dialog-title'
+      className={cn('text-lg leading-none font-semibold', className)}
       {...props}
     />
   )
 }
 
-export { SidebarInput }
+export { DialogTitle }

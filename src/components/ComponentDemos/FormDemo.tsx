@@ -1,22 +1,22 @@
 'use client'
 
 import { useState } from 'react'
-import { Input } from '@/components/Input'
-import { Textarea } from '@/components/Textarea'
+import { Input } from '@/components/InputX'
+import { Textarea } from '@/components/TextareaX'
 
 import { Select, SelectItemType, SelectValueType } from '@/components/Select'
 
-import { Slider } from '@/components/Slider'
-import { Checkbox, CheckedState } from '@/components/Checkbox'
+import { Slider } from '@/components/SliderX'
+import { Checkbox, CheckedState } from '@/components/CheckboxX'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
-import { RadioGroup, RadioItemType, RadioValue } from '@/components/RadioGroup'
-import { Switch } from '@/components/Switch'
+import { RadioGroup, RadioItemType, RadioValue } from '@/components/RadioGroupX'
+import { Switch } from '@/components/SwitchX'
 import {
   CheckboxGroup,
   CheckboxValue,
   CheckboxItemType
-} from '@/components/CheckboxGroup'
+} from '@/components/CheckboxGroupX'
 import React from 'react'
 
 /* ========================================================================

@@ -2,24 +2,22 @@
 
 import * as React from 'react'
 import { cn } from '@/utils'
-import { Input } from '@/components/InputX'
 
 /* ========================================================================
 
 ======================================================================== */
 
-function SidebarInput({
+function AlertDialogHeader({
   className,
   ...props
-}: React.ComponentProps<typeof Input>) {
+}: React.ComponentProps<'div'>) {
   return (
-    <Input
-      data-slot='sidebar-input'
-      data-sidebar='input'
-      className={cn('bg-background h-8 w-full shadow-none', className)}
+    <div
+      data-slot='alert-dialog-header'
+      className={cn('flex flex-col gap-2 text-center sm:text-left', className)}
       {...props}
     />
   )
 }
 
-export { SidebarInput }
+export { AlertDialogHeader }
