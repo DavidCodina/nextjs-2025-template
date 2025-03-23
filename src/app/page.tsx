@@ -7,9 +7,9 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 // Todo: Create a grouped version of Select and Slider
 
-// Todo: add UI for the numeric position of slider thumbs.
-
 // Todo: Test controlled versions of all form fields.
+
+// Todo: add UI for the numeric position of slider thumbs.
 
 // Todo: Test Button's loading spinner.
 //# I'm concerned that when it has an svg, then it's not removed while loading.

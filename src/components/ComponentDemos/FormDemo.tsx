@@ -299,26 +299,6 @@ export const FormDemo = () => {
         renderSwitch()
   ====================== */
 
-  const _renderFirstName = () => {
-    return (
-      <Input
-        autoCapitalize='none'
-        autoComplete='off'
-        autoCorrect='off'
-        id='first-name'
-        labelText={<span>First Name</span>}
-        labelRequired={true}
-        name='first_name'
-        onChange={(e) => {
-          setFirstName(e.target.value)
-        }}
-        placeholder='First Name...'
-        spellCheck={false}
-        type='text'
-      />
-    )
-  }
-
   const renderSwitch = () => {
     return (
       <Switch
@@ -340,44 +320,31 @@ export const FormDemo = () => {
     )
   }
 
-  // const renderSwitch = () => {
-  //   return (
-  //     <div className='flex items-center space-x-2'>
-  //       <Switch
-  //         defaultChecked={switchChecked}
-  //         id='airplane-mode'
-  //         onCheckedChange={(isChecked) => {
-  //           setSwitchChecked(isChecked)
-  //         }}
-  //       />
-  //       <Label htmlFor='airplane-mode'>Airplane Mode</Label>
-  //     </div>
-  //   )
-  // }
-
   /* ======================
       renderRangeSlider()
   ====================== */
 
   const renderRangeSlider = () => {
     return (
-      <div>
-        <Label className='mb-2' htmlFor='percent'>
-          Percent
-        </Label>
-        <Slider
-          // defaultValue is only used on initializattion. Even though
-          // rangeSliderValue changes often afterward, that shouldn't matter.
-          defaultValue={rangeSliderValue} // Or for multiple thumbs: [25, 75]
-          id='percent'
-          max={100}
-          name='percent'
-          onValueCommit={(value) => {
-            setRangeSliderValue(value)
-          }}
-          step={1}
-        />
-      </div>
+      <Slider
+        // defaultValue is only used on initializattion. Even though
+        // rangeSliderValue changes often afterward, that shouldn't matter.
+        defaultValue={rangeSliderValue} // Or for multiple thumbs: [25, 75]
+        // disabled
+        // error='This is invalid!'
+        id='percent'
+        labelText='Percent'
+        labelRequired
+        max={100}
+        name='percent'
+        onValueCommit={(value) => {
+          console.log('Slider value committed:', value)
+          setRangeSliderValue(value)
+        }}
+        // step={10} // Default is 1.
+        // text='Slide me!'
+        // touched={true}
+      />
     )
   }
 

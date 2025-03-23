@@ -25,8 +25,6 @@ type TextareaProps = React.ComponentProps<'textarea'> & {
   touched?: boolean
 }
 
-const groupBaseClassses = `group`
-
 /* ========================================================================
 
 ======================================================================== */
@@ -103,7 +101,7 @@ export const Textarea = ({
   }
 
   return (
-    <div className={cn(groupBaseClassses, groupClassName)} style={groupStyle}>
+    <div className={groupClassName} style={groupStyle}>
       {renderLabel()}
 
       {TextareaBaseComponent}

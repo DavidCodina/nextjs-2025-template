@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react'
 import { InputBase } from '../InputBase'
 import { Label } from '../label'
@@ -25,8 +27,6 @@ type InputProps = React.ComponentProps<typeof InputBase> & {
   touched?: boolean
 }
 
-const groupBaseClassses = `group`
-
 /* ========================================================================
 
 ======================================================================== */
@@ -51,7 +51,6 @@ export const Input = ({
   touched = false,
   ...otherProps
 }: InputProps) => {
-  // If id is not set, then fallback to using React's useId() hook.
   const uuid = React.useId()
   id = id || uuid
 
@@ -103,7 +102,7 @@ export const Input = ({
   }
 
   return (
-    <div className={cn(groupBaseClassses, groupClassName)} style={groupStyle}>
+    <div className={groupClassName} style={groupStyle}>
       {renderLabel()}
 
       {InputBaseComponent}

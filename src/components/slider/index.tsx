@@ -1,42 +1,31 @@
 'use client'
 
 import * as React from 'react'
-import * as SliderPrimitive from '@radix-ui/react-slider'
+import { SliderBase } from './SliderBase'
+import { Label } from '../label'
+import { FormText } from '../FormText'
+import { FormError } from '../FormError'
 import { cn } from '@/utils'
+import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
 
-const rootBaseClasses = `
-relative flex w-full items-center
-touch-none select-none
-data-[disabled]:opacity-50
-data-[orientation=vertical]:h-full
-data-[orientation=vertical]:min-h-44
-data-[orientation=vertical]:w-auto
-data-[orientation=vertical]:flex-col
-`
+type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-const trackBaseClasses = `
-bg-accent relative grow overflow-hidden rounded-full
-data-[orientation=horizontal]:h-1.5
-data-[orientation=horizontal]:w-full
-data-[orientation=vertical]:h-full
-data-[orientation=vertical]:w-1.5
-`
-
-const rangeBaseClasses = `
-absolute bg-primary
-data-[orientation=horizontal]:h-full
-data-[orientation=vertical]:w-full
-`
-
-const thumbBaseClasses = `
-block size-4 shrink-0
-border-primary bg-background-light
-rounded-full border shadow
-transition-[color,box-shadow]
-ring-primary/50 hover:ring-4
-focus-visible:ring-4 focus-visible:outline-hidden
-disabled:pointer-events-none disabled:opacity-65
-`
+type SliderProps = React.ComponentProps<typeof SliderBase> & {
+  error?: string
+  errorClassName?: string
+  errorStyle?: React.CSSProperties
+  groupClassName?: string
+  groupStyle?: React.CSSProperties
+  labelText?: LabelChildren
+  labelClassName?: string
+  labelRequired?: boolean
+  labelStyle?: React.CSSProperties
+  renderSliderBaseOnly?: boolean
+  text?: string
+  textClassName?: string
+  textStyle?: React.CSSProperties
+  touched?: boolean
+}
 
 /* ========================================================================
 
@@ -44,58 +33,94 @@ disabled:pointer-events-none disabled:opacity-65
 
 function Slider({
   className,
-  defaultValue,
-  onValueCommit,
-  value,
-  min = 0,
-  max = 100,
+  disabled = false,
+
+  error = '',
+  errorClassName = '',
+  errorStyle = {},
+  groupClassName = '',
+  groupStyle = {},
+  id = '',
+  labelText = '',
+  labelClassName = '',
+  labelRequired = false,
+  labelStyle = {},
+  renderSliderBaseOnly = false,
+  text = '',
+  textClassName = '',
+  textStyle = {},
+  touched = false,
   ...otherProps
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
-  const _values = React.useMemo(
-    () =>
-      Array.isArray(value)
-        ? value
-        : Array.isArray(defaultValue)
-          ? defaultValue
-          : [min, max],
-    [value, defaultValue, min, max]
+}: SliderProps) {
+  const uuid = React.useId()
+  id = id || uuid
+
+  const maybeValidationMixin = error
+    ? FIELD_INVALID_MIXIN
+    : touched && !error
+      ? FIELD_VALID_MIXIN
+      : ''
+
+  const SliderBaseComponent = (
+    <SliderBase
+      disabled={disabled}
+      className={cn(maybeValidationMixin, className)}
+      id={id}
+      {...otherProps}
+    />
   )
+
+  /* ======================
+        renderLabel()
+  ====================== */
+
+  const renderLabel = () => {
+    if (!labelText) {
+      return null
+    }
+
+    return (
+      <Label
+        className={cn('mb-2', labelClassName)}
+        disabled={disabled}
+        error={error}
+        htmlFor={id}
+        labelRequired={labelRequired}
+        style={labelStyle}
+        touched={touched}
+      >
+        {labelText}
+      </Label>
+    )
+  }
 
   /* ======================
           return
   ====================== */
 
-  return (
-    <SliderPrimitive.Root
-      data-slot='slider'
-      defaultValue={defaultValue}
-      value={value}
-      min={min}
-      max={max}
-      className={cn(rootBaseClasses, className)}
-      onValueCommit={(value) => {
-        onValueCommit?.(value)
-      }}
-      {...otherProps}
-    >
-      <SliderPrimitive.Track
-        data-slot='slider-track'
-        className={cn(trackBaseClasses)}
-      >
-        <SliderPrimitive.Range
-          data-slot='slider-range'
-          className={cn(rangeBaseClasses)}
-        />
-      </SliderPrimitive.Track>
+  if (renderSliderBaseOnly) {
+    return SliderBaseComponent
+  }
 
-      {Array.from({ length: _values.length }, (_, index) => (
-        <SliderPrimitive.Thumb
-          data-slot='slider-thumb'
-          key={index}
-          className={thumbBaseClasses}
-        />
-      ))}
-    </SliderPrimitive.Root>
+  return (
+    <div className={groupClassName} style={groupStyle}>
+      {renderLabel()}
+
+      {SliderBaseComponent}
+
+      <FormText className={textClassName} disabled={disabled} style={textStyle}>
+        {text}
+      </FormText>
+
+      <FormError
+        className={errorClassName}
+        disabled={disabled}
+        style={errorStyle}
+        touched={touched}
+      >
+        {error}
+      </FormError>
+    </div>
   )
 }
 

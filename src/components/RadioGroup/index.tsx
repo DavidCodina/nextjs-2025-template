@@ -76,7 +76,6 @@ export const RadioGroup = ({
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
-  name = '',
   onChange,
   radioGroupBaseClassName = '',
   radioGroupBaseStyle = {},
@@ -88,6 +87,8 @@ export const RadioGroup = ({
   value,
   ...otherProps
 }: RadioGroupProps) => {
+  const uid = React.useId()
+
   /* ======================
       renderLabel()
   ====================== */
@@ -118,11 +119,8 @@ export const RadioGroup = ({
 
   const renderRadios = () => {
     return items.map((item, index) => {
-      const generateId = () =>
-        `radio-${name}-${index + 1}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
-
       const {
-        id: radioId,
+        id: _radioId,
         className: radioClassName,
         style: radioStyle,
         disabled: radioDisabled,
@@ -135,9 +133,7 @@ export const RadioGroup = ({
         value: radioValue
       } = item
 
-      // This will cause a hytration mismatch. Use suppressHydrationWarning
-      // on the associated components/JSX elements.
-      const uid = radioId || generateId()
+      const radioId = _radioId || `${uid}-${index + 1}`
 
       return (
         <div
@@ -147,9 +143,8 @@ export const RadioGroup = ({
         >
           <RadioGroupItemBase
             className={radioClassName}
-            id={uid}
+            id={radioId}
             style={radioStyle}
-            suppressHydrationWarning
             value={radioValue}
           />
 
@@ -158,10 +153,9 @@ export const RadioGroup = ({
               className={cn('text-xs', radioLabelClassName)}
               disabled={disabled || radioDisabled}
               error={error}
-              htmlFor={uid}
+              htmlFor={radioId}
               labelRequired={radioLabelRequired}
               style={radioLabelStyle}
-              suppressHydrationWarning
               touched={touched}
             >
               {radioLabelText}
@@ -181,7 +175,7 @@ export const RadioGroup = ({
       {renderLabel()}
 
       <RadioGroupBase
-        {...otherProps}
+        {...otherProps} // i.e., name gets passed throught and propogates to children inputs
         // In a Radix UI RadioGroup component, when both value and defaultValue props
         // are provided (and both are defined strings), the value prop will always
         // take precedence over the defaultValue.

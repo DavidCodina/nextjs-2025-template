@@ -30,8 +30,6 @@ type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
   touched?: boolean
 }
 
-const groupBaseClassses = `group`
-
 /* ========================================================================
 
 ======================================================================== */
@@ -109,7 +107,7 @@ function Checkbox({
   }
 
   return (
-    <div className={cn(groupBaseClassses, groupClassName)} style={groupStyle}>
+    <div className={groupClassName} style={groupStyle}>
       <div className='flex items-center gap-2'>
         {CheckboxBaseComponent}
         {renderLabel()}

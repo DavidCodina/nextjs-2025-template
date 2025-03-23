@@ -162,7 +162,7 @@ export const Switch = ({
   }
 
   return (
-    <div className={cn('', groupClassName)} style={groupStyle}>
+    <div className={groupClassName} style={groupStyle}>
       <div className='flex items-center gap-2'>
         {SwitchBaseComponent}
         {renderLabel()}
