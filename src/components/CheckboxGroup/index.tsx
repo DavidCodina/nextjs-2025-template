@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Checkbox } from '@/components/CheckboxX'
+import { Checkbox } from '@/components/Checkbox'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'

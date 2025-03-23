@@ -5,7 +5,7 @@ import {
   RadioGroupBase,
   RadioGroupItemBase,
   type RadioValue
-} from '@/components/RadioGroupBaseX'
+} from '@/components/RadioGroupBase'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'

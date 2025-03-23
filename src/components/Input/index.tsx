@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { InputBase } from '../InputBaseX'
+import { InputBase } from '../InputBase'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
