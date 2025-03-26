@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { CheckboxBase } from '../CheckboxBase'
+import { CheckboxBase } from './CheckboxBase'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
@@ -62,11 +62,35 @@ export const Checkbox = ({
   const uid = React.useId()
   id = id || uid
 
-  const maybeValidationMixin = error
-    ? FIELD_INVALID_MIXIN
-    : touched && !error
-      ? FIELD_VALID_MIXIN
-      : ''
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? `
+      data-[state=checked]:bg-neutral-400
+      data-[state=checked]:text-white
+      data-[state=checked]:border-neutral-400
+    `
+    : error // i.e., !disabled && error
+      ? `
+      ${FIELD_INVALID_MIXIN}
+      data-[state=checked]:bg-destructive
+      data-[state=checked]:text-destructive-foreground
+      data-[state=checked]:border-destructive
+      `
+      : touched // i.e., !disabled && !error && touched
+        ? `
+         ${FIELD_VALID_MIXIN}
+        data-[state=checked]:bg-success
+        data-[state=checked]:text-success-foreground
+        data-[state=checked]:border-success
+        `
+        : ``
+
+  /* ======================
+    CheckboxBaseComponent
+  ====================== */
 
   const CheckboxBaseComponent = (
     <CheckboxBase

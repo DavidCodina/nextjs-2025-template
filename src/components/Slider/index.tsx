@@ -6,7 +6,6 @@ import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
-import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
@@ -54,11 +53,34 @@ function Slider({
   const uuid = React.useId()
   id = id || uuid
 
-  const maybeValidationMixin = error
-    ? FIELD_INVALID_MIXIN
-    : touched && !error
-      ? FIELD_VALID_MIXIN
-      : ''
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+  // In this case, FIELD_INVALID_MIXIN & FIELD_VALID_MIXIN no difference here.
+
+  const maybeValidationMixin = disabled
+    ? `
+    pointer-events-none opacity-65
+    [&_[data-slot=slider-range]]:bg-neutral-400
+    [&_[data-slot=slider-thumb]]:border-neutral-400
+    `
+    : error // i.e., !disabled && error
+      ? `
+      [&_[data-slot=slider-range]]:bg-destructive
+      [&_[data-slot=slider-thumb]]:ring-destructive/40
+      [&_[data-slot=slider-thumb]]:border-destructive
+      `
+      : touched // i.e., !disabled && !error && touched
+        ? `
+         [&_[data-slot=slider-range]]:bg-success
+         [&_[data-slot=slider-thumb]]:ring-success/40
+         [&_[data-slot=slider-thumb]]:border-success
+        `
+        : ``
+
+  /* ======================
+    SliderBaseComponent
+  ====================== */
 
   const SliderBaseComponent = (
     <SliderBase

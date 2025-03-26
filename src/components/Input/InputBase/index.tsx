@@ -4,7 +4,7 @@ import {
   FIELD_BOX_SHADOW_MIXIN,
   FIELD_FOCUS_VISIBLE_MIXIN,
   FIELD_DISABLED_MIXIN
-} from '../component-constants'
+} from '@/components/component-constants'
 
 const fileMixin = `
 file:text-primary-foreground 

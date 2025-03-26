@@ -5,11 +5,16 @@ import {
   RadioGroupBase,
   RadioGroupItemBase,
   type RadioValue
-} from '@/components/RadioGroupBase'
+} from './RadioGroupBase'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
+
+import {
+  FIELD_VALID_MIXIN,
+  FIELD_INVALID_MIXIN
+} from '@/components/component-constants'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
@@ -79,15 +84,25 @@ const RadioGroup = ({
   onBlur,
   radioGroupBaseClassName = '',
   radioGroupBaseStyle = {},
-
   style = {},
   touched = false,
   value,
   ...otherProps
 }: RadioGroupProps) => {
   const uid = React.useId()
-
   const radioGroupRef = React.useRef<HTMLDivElement>(null)
+
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? `data-[state=checked]:text-neutral-400`
+    : error // i.e., !disabled && touched
+      ? `${FIELD_INVALID_MIXIN} data-[state=checked]:text-destructive`
+      : touched // i.e., !disabled && !error && touched
+        ? `${FIELD_VALID_MIXIN} data-[state=checked]:text-success`
+        : ``
 
   /* ======================
       renderLabel()
@@ -142,7 +157,7 @@ const RadioGroup = ({
           style={radioGroupStyle}
         >
           <RadioGroupItemBase
-            className={radioClassName}
+            className={cn(maybeValidationMixin, radioClassName)}
             id={radioId}
             style={radioStyle}
             value={radioValue}
@@ -180,6 +195,7 @@ const RadioGroup = ({
         // are provided (and both are defined strings), the value prop will always
         // take precedence over the defaultValue.
         defaultValue={defaultValue}
+        disabled={disabled}
         className={radioGroupBaseClassName}
         onBlur={(e) => {
           const currentTarget = e.currentTarget

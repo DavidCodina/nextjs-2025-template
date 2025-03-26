@@ -20,10 +20,9 @@ import {
   FIELD_BOX_SHADOW_MIXIN,
   FIELD_DISABLED_MIXIN,
   FIELD_FOCUS_VISIBLE_MIXIN
-} from '../component-constants'
+} from '@/components/component-constants'
 
 const baseClasses = `
-peer
 bg-background-light size-4 shrink-0 rounded-[4px] border
 ${FIELD_BOX_SHADOW_MIXIN}
 transition-shadow outline-none
@@ -56,21 +55,31 @@ function CheckboxBase({
   onChange,
   ...otherProps
 }: CheckboxBaseProps) {
+  /* ======================
+       handleBlur()
+  ====================== */
+
+  const handleBlur = (e: React.FocusEvent<HTMLButtonElement, Element>) => {
+    const dataState = e.target.getAttribute('data-state')
+    const checkedState: CheckedState =
+      dataState === 'checked'
+        ? true
+        : dataState === 'unchecked'
+          ? false
+          : 'indeterminate'
+
+    onBlur?.(checkedState)
+  }
+
+  /* ======================
+          return
+  ====================== */
+
   return (
     <CheckboxPrimitive.Root
       data-slot='checkbox'
       className={cn(baseClasses, className)}
-      onBlur={(e) => {
-        const dataState = e.target.getAttribute('data-state')
-        const checkedState: CheckedState =
-          dataState === 'checked'
-            ? true
-            : dataState === 'unchecked'
-              ? false
-              : 'indeterminate'
-
-        onBlur?.(checkedState)
-      }}
+      onBlur={handleBlur}
       onCheckedChange={(checkedState) => {
         onChange?.(checkedState)
       }}

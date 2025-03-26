@@ -9,7 +9,6 @@ import { Select, SelectItemType, SelectValueType } from '@/components/Select'
 
 import { Slider } from '@/components/Slider'
 import { Checkbox, CheckedState } from '@/components/Checkbox'
-import { Label } from '@/components/label'
 import { Button } from '@/components/button'
 import { RadioGroup, RadioItemType, RadioValue } from '@/components/RadioGroup'
 import { Switch } from '@/components/Switch'
@@ -26,7 +25,9 @@ import { toast /* useSonner */ } from 'sonner'
 ======================================================================== */
 
 export const ControlledFormDemo = () => {
-  const [formKey, setFormKey] = useState(0)
+  // The key hack is not necessary since this form is fully controlled,
+  // and can therefore be reset through resetting state.
+  // const [formKey, setFormKey] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [firstName, setFirstName] = useState('')
@@ -67,8 +68,15 @@ export const ControlledFormDemo = () => {
   const [selectError, setSelectError] = useState('')
   const [selectTouched, setSelectTouched] = useState(false)
 
-  const [file, setFile] = useState<File | null>(null)
+  const [file, setFile] = useState<File>()
+  // const [fileValue, setFileValue] = useState('')
+  const [fileError, setFileError] = useState('')
+  const [fileTouched, setFileTouched] = useState(false)
+  const fileRef = React.useRef<HTMLInputElement>(null)
+
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [emailTouched, setEmailTouched] = useState(false)
 
   /* ======================
       validateFirstName()
@@ -309,6 +317,68 @@ export const ControlledFormDemo = () => {
   }
 
   /* ======================
+      validateFile()
+  ====================== */
+
+  const validateFile = (value?: File | '') => {
+    value = typeof value !== 'undefined' ? value : file
+    let error = ''
+
+    if (value === '') {
+      error = 'Required'
+      setFileError(error)
+      return error
+    }
+
+    if (!(value instanceof File)) {
+      error = 'Invalid type'
+      setFileError(error)
+      return error
+    }
+
+    // Example check: limit file size to 5MB
+    if (value.size > 5 * 1024 * 1024) {
+      error = 'File size must be less than 5MB'
+      setFileError(error)
+      return error
+    }
+
+    setFileError('')
+    return ''
+  }
+
+  /* ======================
+      validateEmail()
+  ====================== */
+
+  const validateEmail = (value?: string) => {
+    value = typeof value === 'string' ? value : email
+    let error = ''
+
+    if (typeof value !== 'string') {
+      error = 'Invalid type'
+      setEmailError(error)
+      return error
+    }
+
+    if (value.trim() === '') {
+      error = 'Required'
+      setEmailError(error)
+      return error
+    }
+
+    if (!value.includes('@')) {
+      error = 'Invalid email'
+      setEmailError(error)
+      return error
+    }
+
+    // Otherwise unset the title error in state and return ''
+    setEmailError('')
+    return ''
+  }
+
+  /* ======================
         validate()
   ====================== */
 
@@ -325,7 +395,9 @@ export const ControlledFormDemo = () => {
       setSwitchTouched,
       setRangeSliderTouched,
       setTextareaTouched,
-      setSelectTouched
+      setSelectTouched,
+      setFileTouched,
+      setEmailTouched
     ]
 
     touchers.forEach((toucher) => {
@@ -341,7 +413,9 @@ export const ControlledFormDemo = () => {
       validateSwitch,
       validateRangeSlider,
       validateTextarea,
-      validateSelect
+      validateSelect,
+      validateFile,
+      validateEmail
     ]
 
     validators.forEach((validator) => {
@@ -370,11 +444,11 @@ export const ControlledFormDemo = () => {
   // refs. The breaking point was the Slider component. The only place to find
   // the value(s) is by drilling into the DOM to find each input. It's just
   // way too complicated. If you try to access inner input elements through refs
-  // to force a reset, you’re essentially fighting against the component’s
+  // to force a reset, you're essentially fighting against the component's
   // encapsulated state. The Select doesn't even have a <select> in it! In contrast,
   // Checkbox includes a native <input type="checkbox" />, which can sometimes
   // be easier to manipulate directly, but even then, the synchronization between
-  // the DOM’s native state and the rendered state in the Radix component isn't guaranteed.
+  // the DOM's native state and the rendered state in the Radix component isn't guaranteed.
   //
   //
   // A better solution is to simply track all the values in local state.
@@ -390,7 +464,6 @@ export const ControlledFormDemo = () => {
     const { isValid } = validate()
 
     if (!isValid) {
-      // console.log('Returning early from handleSubmit() because of errors.', errors)
       toast.error('Unable to submit the form!')
       return
     }
@@ -417,7 +490,7 @@ export const ControlledFormDemo = () => {
       console.log('requestData:', requestData)
       toast.success('Form validation success!')
 
-      setFormKey((prev) => prev + 1)
+      // setFormKey((prev) => prev + 1)
       setIsSubmitting(false)
 
       setFirstName('')
@@ -445,20 +518,36 @@ export const ControlledFormDemo = () => {
       setSwitchTouched(false)
 
       setRangeSliderValue([50])
+      setRangeSliderError('')
+      setRangeSliderTouched(false)
+
       setTextareaValue('')
+      setTextareaError('')
+      setTextareaTouched(false)
 
       setSelectValue('')
       setSelectError('')
       setSelectTouched(false)
 
-      setFile(null)
+      setFile(undefined)
+      setFileError('')
+      setFileTouched(false)
+
+      // Again, we could do this: setFileValue('')
+      // But, it's still preferable to use a ref. Resetting the
+      //  value property actually resets the FileList, which
+      // may seem unintuitive, but it works.
+      if (fileRef.current) {
+        fileRef.current.value = ''
+      }
+
       setEmail('')
+      setEmailError('')
+      setEmailTouched(false)
     } catch (err) {
       console.log(err)
       toast.error('Unable to submit the form!')
     }
-
-    // finally {}
 
     ///////////////////////////////////////////////////////////////////////////
     //
@@ -613,8 +702,6 @@ export const ControlledFormDemo = () => {
 
     return (
       <CheckboxGroup
-        //# If something is checked, but disabled, should we change the checkbox color?
-        //# Same for valid/invalid ?
         // defaultValue={['red', 'orange']}
         // disabled
         error={checkboxGroupError}
@@ -630,7 +717,7 @@ export const ControlledFormDemo = () => {
         onChange={(value) => {
           setCheckboxGroupValue(value)
 
-          if (singleCheckTouched) {
+          if (checkboxGroupTouched) {
             validateCheckboxGroup(value)
           }
         }}
@@ -657,11 +744,8 @@ export const ControlledFormDemo = () => {
 
     return (
       <RadioGroup
-        //# If something is checked, but disabled, should we change the radio color?
-        //# Same for valid/invalid ?
         defaultValue={radioGroupValue}
         // disabled
-
         error={radioGroupError}
         items={radioItems}
         label='Radio Colors'
@@ -693,6 +777,7 @@ export const ControlledFormDemo = () => {
         // radioGroupBaseClassName=''
         // help='Pick one.'
         touched={radioGroupTouched}
+        value={radioGroupValue}
       />
     )
   }
@@ -748,7 +833,6 @@ export const ControlledFormDemo = () => {
         max={100}
         name='percent'
         onBlur={(value) => {
-          console.log('Range Slider value on blur:', value)
           if (!rangeSliderTouched) {
             setRangeSliderTouched(true)
           }
@@ -891,24 +975,93 @@ export const ControlledFormDemo = () => {
       renderFileInput()
   ====================== */
 
-  const _renderFileInput = () => {
+  const renderFileInput = () => {
     return (
-      <div>
-        <Label className='mb-2' htmlFor='picture'>
-          Picture
-        </Label>
-        <Input
-          id='picture'
-          name='picture'
-          onChange={(e) => {
-            const file = e.target.files?.[0]
-            if (file) {
-              setFile(file)
+      <Input
+        // disabled
+        error={fileError}
+        // help='Upload a picture...'
+        id='picture'
+        label='Picture'
+        labelRequired
+        name='picture'
+        onBlur={(e) => {
+          const currentTarget = e.currentTarget
+          const fileOrUndefined = e.target.files?.[0]
+
+          setTimeout(() => {
+            // For file inputs, run an extra check to avoid executing blur logic
+            // on file browser open.  Strangely, even though a blur occurs when
+            // the computer's file browser opens, the activeElement is still the
+            // input element. This seems to be true regardless of whether or not
+            // this logic is wrapped in a setTimeout (i.e., new macrotask), so
+            // setTimeout is likely not necessary.
+            const activeElement = document.activeElement
+
+            if (activeElement === currentTarget) {
+              return
             }
-          }}
-          type='file'
-        />
-      </div>
+
+            if (!fileTouched) {
+              setFileTouched(true)
+            }
+
+            validateFile(fileOrUndefined || '')
+          }, 0)
+        }}
+        onChange={(e) => {
+          const fileOrUndefined = e.target.files?.[0]
+
+          // Gotcha: Don't do this: if (file){ setFile(file) }
+          // That will allow the user to open the computer's file browser,
+          // then cancel out, thereby clearing the file, but the file state
+          // will now be out of sync.
+          setFile(fileOrUndefined)
+          // setFileValue(e.target.value)
+
+          if (fileTouched) {
+            // In this case, we want to pass false and not undefined.
+            // This is important for how the current validateFile() function works.
+            validateFile(fileOrUndefined || '')
+          }
+        }}
+        ref={fileRef}
+        touched={fileTouched}
+        type='file'
+        ///////////////////////////////////////////////////////////////////////////
+        //
+        // https://legacy.reactjs.org/docs/forms.html#the-file-input-tag
+        // "Because its value is read-only, it is an uncontrolled component in React."
+        //
+        // https://legacy.reactjs.org/docs/uncontrolled-components.html#the-file-input-tag
+        // In React, an <input type="file" /> is always an uncontrolled component because
+        // its value can only be set by a user, and not programmatically.
+        //
+        // File inputs are never controlled! However, this means you need
+        // to use a ref to remove e.target.files when resetting the form.
+        //
+        // Technically, you can create additional `fileValue` state that actually tracks the
+        // fileValue (i.e., not the FileList), then you could do setFileValue('') in the
+        // handleSubmit() when resetting the form.
+        //
+        //   value={fileValue}
+        //
+        // The argument against this approach is that it may work in many modern browsers, but overall
+        // could be inconsistent.
+        //
+        // The "don't control file inputs" advice is largely based on historical browser behaviors,
+        // but modern browsers have become much more consistent. The original concerns stemmed from
+        // browsers like:
+        //
+        //   - Internet Explorer (pre-IE10)
+        //   - Very old versions of Firefox and Chrome (pre-2012)
+        //
+        // In any case, if a user has an old browser, in this app we've got bigger problems because
+        // Tailwind v4 will fail. That said, it's still a good idea to stick to the ref approach.
+        //
+        ///////////////////////////////////////////////////////////////////////////
+        // ❌ value={file}
+      />
     )
   }
 
@@ -916,27 +1069,36 @@ export const ControlledFormDemo = () => {
       renderEmail()
   ====================== */
 
-  const _renderEmail = () => {
+  const renderEmail = () => {
     return (
-      <div>
-        <Label className='mb-2' htmlFor='email'>
-          Email
-        </Label>
+      <Input
+        autoCapitalize='none'
+        autoComplete='off'
+        autoCorrect='off'
+        error={emailError}
+        id='email'
+        label='Email'
+        labelRequired
+        name='email'
+        onBlur={(e) => {
+          if (!emailTouched) {
+            setEmailTouched(true)
+          }
+          validateEmail(e.target.value)
+        }}
+        onChange={(e) => {
+          setEmail(e.target.value)
 
-        <Input
-          autoCapitalize='none'
-          autoComplete='off'
-          autoCorrect='off'
-          id='email'
-          name='email'
-          onChange={(e) => {
-            setEmail(e.target.value)
-          }}
-          placeholder='Email...'
-          spellCheck={false}
-          type='email'
-        />
-      </div>
+          if (emailTouched) {
+            validateEmail(e.target.value)
+          }
+        }}
+        placeholder='Email...'
+        spellCheck={false}
+        touched={emailTouched}
+        type='email'
+        value={email}
+      />
     )
   }
 
@@ -947,7 +1109,7 @@ export const ControlledFormDemo = () => {
   return (
     <form
       className='bg-background-light mx-auto max-w-[800px] space-y-6 rounded-xl border p-6 shadow'
-      key={formKey}
+      // key={formKey}
       onSubmit={(e) => {
         e.preventDefault()
       }}
@@ -971,10 +1133,9 @@ export const ControlledFormDemo = () => {
 
       {renderSelect()}
 
-      {/* 
       {renderFileInput()}
 
-      {renderEmail()} */}
+      {renderEmail()}
 
       <Button
         loading={isSubmitting}

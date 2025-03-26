@@ -76,6 +76,8 @@ focus-visible:border-destructive
 focus-visible:ring-destructive/40
 `
 
+// disabled:cursor-not-allowed works for now, but it could get you into trouble.
+// It's more common (e.g., Bootstrap) to use pointer-events:none.
 export const FIELD_DISABLED_MIXIN = `
 disabled:cursor-not-allowed 
 disabled:opacity-65

@@ -9,8 +9,6 @@ export * from './badge'
 export * from './button'
 export * from './ButtonGroup'
 export * from './card'
-
-export * from './CheckboxBase'
 export * from './Checkbox'
 export * from './CheckboxGroup'
 
@@ -24,7 +22,7 @@ export * from './Input'
 export * from './label'
 export * from './Page'
 export * from './popover'
-export * from './RadioGroupBase'
+
 export * from './RadioGroup'
 export * from './Select'
 export * from './separator'

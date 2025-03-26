@@ -16,11 +16,11 @@ type SliderBaseProps = Omit<
 const rootBaseClasses = `
 relative flex w-full items-center
 touch-none select-none
-data-[disabled]:opacity-50
 data-[orientation=vertical]:h-full
 data-[orientation=vertical]:min-h-44
 data-[orientation=vertical]:w-auto
 data-[orientation=vertical]:flex-col
+data-[disabled]:opacity-65
 `
 
 const trackBaseClasses = `
@@ -32,19 +32,24 @@ data-[orientation=vertical]:w-1.5
 `
 
 const rangeBaseClasses = `
-absolute bg-primary
+bg-primary absolute
 data-[orientation=horizontal]:h-full
 data-[orientation=vertical]:w-full
 `
 
+// Gotcha: ShadCN originally used the `disabled:` variant.
+// However, the SliderPrimitive.Root doesn't actually get the
+// disabled attribute. Instead it gets `data-disabled`. The
+// management of disabled styles has been moved into the
+// maybeValidationMixin in the Slider component.
 const thumbBaseClasses = `
 block size-4 shrink-0
 border-primary bg-background-light
 rounded-full border shadow
 transition-[color,box-shadow]
-ring-primary/50 hover:ring-4
-focus-visible:ring-4 focus-visible:outline-hidden
-disabled:pointer-events-none disabled:opacity-65
+ring-primary/40
+hover:ring-[3px] focus-visible:ring-[3px]
+focus-visible:outline-hidden
 `
 
 /* ========================================================================

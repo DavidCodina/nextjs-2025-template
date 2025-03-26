@@ -19,7 +19,6 @@ type SwitchBaseProps = Omit<
 }
 
 const rootBaseClasses = `
-peer
 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full
 border border-transparent cursor-pointer
 transition-all outline-none

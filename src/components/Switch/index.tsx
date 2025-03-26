@@ -83,14 +83,39 @@ export const Switch = ({
   const firstRenderRef = React.useRef(true)
 
   /* ======================
-
+    maybeValidationMixin
   ====================== */
 
-  const maybeValidationMixin = error
-    ? FIELD_INVALID_MIXIN
-    : touched && !error
-      ? FIELD_VALID_MIXIN
-      : ''
+  // const _maybeValidationMixin = error
+  //   ? FIELD_INVALID_MIXIN
+  //   : touched && !error
+  //     ? FIELD_VALID_MIXIN
+  //     : ''
+
+  const maybeValidationMixin = disabled
+    ? `
+    data-[state=checked]:bg-neutral-400
+    data-[state=unchecked]:bg-neutral-400
+    
+    `
+    : error // i.e., !disabled && error
+      ? `
+      ${FIELD_INVALID_MIXIN}
+      data-[state=checked]:bg-destructive
+      data-[state=unchecked]:bg-destructive
+   
+      `
+      : touched // i.e., !disabled && !error && touched
+        ? `
+         ${FIELD_VALID_MIXIN}
+         data-[state=checked]:bg-success
+          data-[state=unchecked]:bg-success
+        `
+        : ``
+
+  /* ======================
+    SwitchBaseComponent
+  ====================== */
 
   const SwitchBaseComponent = (
     <SwitchBase

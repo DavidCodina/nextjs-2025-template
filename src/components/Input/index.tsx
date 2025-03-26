@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { InputBase } from '../InputBase'
+import { InputBase } from './InputBase'
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
@@ -57,11 +57,35 @@ export const Input = ({
   const uid = React.useId()
   id = id || uid
 
-  const maybeValidationMixin = error
-    ? FIELD_INVALID_MIXIN
-    : touched && !error
-      ? FIELD_VALID_MIXIN
-      : ''
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? `
+    file:text-white
+    file:bg-neutral-400
+    file:border-neutral-400
+    `
+    : error // i.e., !disabled && error
+      ? `
+      ${FIELD_INVALID_MIXIN}
+      file:text-destructive-foreground
+      file:bg-destructive
+      file:border-destructive
+      `
+      : touched // i.e., !disabled && !error && touched
+        ? `
+         ${FIELD_VALID_MIXIN}
+         file:text-success-foreground
+         file:bg-success
+         file:border-success
+        `
+        : ``
+
+  /* ======================
+      InputBaseComponent
+  ====================== */
 
   const InputBaseComponent = (
     <InputBase
