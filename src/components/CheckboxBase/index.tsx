@@ -5,12 +5,15 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { CheckIcon } from 'lucide-react'
 import { cn } from '@/utils'
 
+type CheckedState = CheckboxPrimitive.CheckedState
+
 type CheckboxBaseProps = Omit<
   React.ComponentProps<typeof CheckboxPrimitive.Root>,
-  'onChange' | 'onCheckedChange'
+  'onChange' | 'onCheckedChange' | 'onBlur'
 > & {
   // Same type as the original onCheckedChange, but more intuitive.
-  onChange?: (values: CheckboxPrimitive.CheckedState) => void
+  onChange?: (checkedState: CheckedState) => void
+  onBlur?: (checkedState: CheckedState) => void
 }
 
 import {
@@ -49,6 +52,7 @@ ${FIELD_FOCUS_VISIBLE_MIXIN}
 
 function CheckboxBase({
   className,
+  onBlur,
   onChange,
   ...otherProps
 }: CheckboxBaseProps) {
@@ -56,6 +60,17 @@ function CheckboxBase({
     <CheckboxPrimitive.Root
       data-slot='checkbox'
       className={cn(baseClasses, className)}
+      onBlur={(e) => {
+        const dataState = e.target.getAttribute('data-state')
+        const checkedState: CheckedState =
+          dataState === 'checked'
+            ? true
+            : dataState === 'unchecked'
+              ? false
+              : 'indeterminate'
+
+        onBlur?.(checkedState)
+      }}
       onCheckedChange={(checkedState) => {
         onChange?.(checkedState)
       }}

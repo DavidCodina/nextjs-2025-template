@@ -23,7 +23,7 @@ import React from 'react'
 
 ======================================================================== */
 
-export const FormDemo = () => {
+export const UncontrolledFormDemo = () => {
   const [formKey, setFormKey] = useState(0)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -321,7 +321,8 @@ export const FormDemo = () => {
         labelRequired
         max={100}
         name='percent'
-        onChange={(value) => {
+        // onCommit is only practical in an uncontrolled implementation.
+        onCommit={(value) => {
           setRangeSliderValue(value)
         }}
         // step={10} // Default is 1.

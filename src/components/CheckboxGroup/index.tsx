@@ -34,12 +34,18 @@ export type CheckboxItemType = {
 // Gotcha: simply overwriting the onChange below is not
 // sufficient. You MUST omit the original `onChange` or
 // Typescript will get very confused at some point.
-type CheckboxGroupProps = Omit<React.ComponentProps<'div'>, 'onChange'> & {
+type CheckboxGroupProps = Omit<
+  React.ComponentProps<'div'>,
+  'onChange' | 'onBlur'
+> & {
   disabled?: boolean
   error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
   defaultValue?: CheckboxValue[]
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
   items: CheckboxItemType[]
   /** The top-level label for the group of checkboxes - Technically a div. */
   label?: LabelChildren
@@ -49,10 +55,7 @@ type CheckboxGroupProps = Omit<React.ComponentProps<'div'>, 'onChange'> & {
   /** The name attribute shared by all check inputs. */
   name: string
   onChange?: (values: CheckboxValue[]) => void
-
-  help?: string
-  helpClassName?: string
-  helpStyle?: React.CSSProperties
+  onBlur?: (values: CheckboxValue[]) => void
   touched?: boolean
   value?: CheckboxValue[]
 }
@@ -68,17 +71,21 @@ export const CheckboxGroup = ({
   errorClassName = '',
   errorStyle = {},
   defaultValue,
+
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
+
   items = [],
   label = '',
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
   name = '',
+  onBlur,
   onChange,
+  ref,
   style = {},
-  help = '',
-  helpClassName = '',
-  helpStyle = {},
   touched = false,
   value: controlledValue,
   ...otherProps
@@ -115,6 +122,8 @@ export const CheckboxGroup = ({
   })
 
   const firstRenderRef = React.useRef(true)
+
+  const checkboxGroupRef = React.useRef<HTMLDivElement>(null)
 
   /* ======================
         useEffect()
@@ -233,38 +242,51 @@ export const CheckboxGroup = ({
           className={cn('mb-2 flex items-center gap-2', checkGroupClassName)}
           style={checkGroupStyle}
         >
-          <div className='flex items-center gap-2'>
-            <Checkbox
-              checked={(() => {
-                return value.includes(checkValue)
-              })()}
-              className={checkClassName}
-              disabled={disabled || checkDisabled}
-              error={error}
-              // Used to suppress error message UI in favor of a single group error message.
-              _hideError
-              id={checkId}
-              label={checkLabel}
-              labelClassName={checkLabelClassName}
-              labelRequired={checkLabelRequired}
-              labelStyle={checkLabelStyle}
-              name={name}
-              // ⚠️ This is currently implemented under the assumption that each
-              // checkbox value will be unique. If the values could potentially be
-              // the same, then each value in values would need to be unique.
-              onChange={(isChecked) => {
-                if (isChecked) {
-                  setValue((prev) => [...prev, checkValue])
-                } else {
-                  setValue((prev) => prev.filter((v) => v !== checkValue))
+          <Checkbox
+            checked={(() => {
+              return value.includes(checkValue)
+            })()}
+            className={checkClassName}
+            disabled={disabled || checkDisabled}
+            error={error}
+            // Used to suppress error message UI in favor of a single group error message.
+            _hideError
+            id={checkId}
+            label={checkLabel}
+            labelClassName={checkLabelClassName}
+            labelRequired={checkLabelRequired}
+            labelStyle={checkLabelStyle}
+            name={name}
+            onBlur={(_checkedState) => {
+              // Use setTimeout to create a new macrotask.
+              setTimeout(() => {
+                // The onBlur should only run when the element that gets
+                // focus is outside of the checkbox group container.
+                // This creates the effect of a group blur.
+                const checkboxGroup = checkboxGroupRef.current
+                const activeElement = document.activeElement
+                if (checkboxGroup && checkboxGroup.contains(activeElement)) {
+                  return
                 }
-              }}
-              style={checkStyle}
-              touched={touched}
-              value={checkValue}
-              {...otherCheckboxProps}
-            />
-          </div>
+                onBlur?.(value)
+              }, 0)
+            }}
+            // ⚠️ This is currently implemented under the assumption that each
+            // checkbox value will be unique. If the values could potentially be
+            // the same, then each value in values would need to be unique.
+            onChange={(checkedState) => {
+              if (checkedState === true) {
+                setValue((prev) => [...prev, checkValue])
+              } else if (checkedState === false) {
+                setValue((prev) => prev.filter((v) => v !== checkValue))
+              }
+              // If checkedState is indeterminate, then do nothing...
+            }}
+            style={checkStyle}
+            touched={touched}
+            value={checkValue}
+            {...otherCheckboxProps}
+          />
         </div>
       )
     })
@@ -276,14 +298,22 @@ export const CheckboxGroup = ({
 
   return (
     <div
+      {...otherProps}
       className={cn(
         {
           'cursor-not-allowed': disabled
         },
         className
       )}
+      ref={(node) => {
+        if (ref && 'current' in ref) {
+          ref.current = node
+        } else if (typeof ref === 'function') {
+          ref?.(node)
+        }
+        checkboxGroupRef.current = node
+      }}
       style={style}
-      {...otherProps}
     >
       {renderGroupLabel()}
       {renderCheckboxes()}

@@ -46,6 +46,7 @@ type SelectProps = React.ComponentProps<typeof SelectBase> & {
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
+  onBlur?: (value: SelectValueType) => void
   placeholder?: React.ReactNode
   sideOffset?: number
   style?: React.CSSProperties
@@ -58,6 +59,7 @@ type SelectProps = React.ComponentProps<typeof SelectBase> & {
 
 const Select = ({
   className = '',
+  defaultValue,
   disabled = false,
   error = '',
   errorClassName = '',
@@ -73,21 +75,63 @@ const Select = ({
   labelRequired = false,
   labelStyle = {},
   items = [],
+  onBlur,
   onChange,
   placeholder = 'Select...',
   sideOffset = 0,
   style = {},
   touched = false,
+  value: controlledValue,
   ...otherProps
 }: SelectProps) => {
   const uid = React.useId()
   id = id || uid
+
+  /* ======================
+      state & refs
+  ====================== */
+
+  // It's very difficult to get the actual value from the Select component other
+  // than on mount and onChange. The value state is used internally to store that
+  // value, which can then be used by onBlur. However, we have to add a useEffect
+  // and a state setter within onChange to make sure everythign stays in sync.
+  const [value, setValue] = React.useState<SelectValueType>(() => {
+    if (controlledValue && typeof controlledValue === 'string') {
+      return controlledValue
+    }
+
+    if (defaultValue && typeof defaultValue === 'string') {
+      return defaultValue
+    }
+    return ''
+  })
+
+  const selectContainerRef = React.useRef<HTMLDivElement>(null)
+  const selectContentRef = React.useRef<HTMLDivElement>(null)
+  const firstRenderRef = React.useRef(true)
 
   const maybeValidationMixin = error
     ? FIELD_INVALID_MIXIN
     : touched && !error
       ? FIELD_VALID_MIXIN
       : ''
+
+  /* ======================
+        useEffect()
+  ====================== */
+  // Every time controlledValue changes, conditionally call
+  // setValue(controlledValue)
+
+  React.useEffect(() => {
+    if (firstRenderRef.current === true) {
+      firstRenderRef.current = false
+      return
+    }
+
+    if (typeof controlledValue !== 'undefined' && controlledValue !== value) {
+      setValue(controlledValue)
+    }
+  }, [controlledValue]) // eslint-disable-line
 
   /* ======================
       renderSelectItems()
@@ -112,21 +156,44 @@ const Select = ({
   const renderSelectComponent = () => {
     return (
       <SelectBase
+        defaultValue={defaultValue}
         disabled={disabled}
         onChange={(value) => {
+          setValue(value)
           onChange?.(value)
         }}
+        value={controlledValue}
         {...otherProps}
       >
         <SelectTrigger
           id={id}
           className={cn(maybeValidationMixin, className)}
           style={style}
+          onBlur={() => {
+            setTimeout(() => {
+              // The onBlur should only run when the element that gets
+              // focus is outside of the select container.
+              // This creates the effect of a group blur.
+              const selectContainer = selectContainerRef.current
+              const selectContent = selectContentRef.current
+              const activeElement = document.activeElement
+
+              // The selectContent check is needed because the menu is likely portaled in.
+              if (
+                (selectContainer && selectContainer.contains(activeElement)) ||
+                (selectContent && selectContent.contains(activeElement))
+              ) {
+                return
+              }
+
+              onBlur?.(value)
+            }, 0)
+          }}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
 
-        <SelectContent sideOffset={sideOffset}>
+        <SelectContent ref={selectContentRef} sideOffset={sideOffset}>
           <SelectGroup>
             {label && <SelectLabel>{label}</SelectLabel>}
 
@@ -166,7 +233,12 @@ const Select = ({
   ====================== */
 
   return (
-    <div className={groupClassName} style={groupStyle}>
+    <div
+      id='my-select-container'
+      className={groupClassName}
+      ref={selectContainerRef}
+      style={groupStyle}
+    >
       {renderLabel()}
 
       {renderSelectComponent()}

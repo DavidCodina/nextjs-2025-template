@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { type VariantProps } from 'class-variance-authority'
-import { Loader2 } from 'lucide-react'
+//import { Loader2 } from 'lucide-react'
 import { cn } from '@/utils'
 import { buttonVariants } from './buttonVariants'
 
@@ -54,7 +54,12 @@ import { buttonVariants } from './buttonVariants'
 
 type ButtonOwnProps<T extends React.ElementType = React.ElementType> = {
   as?: T
+  leftSection?: React.ReactNode
+  rightSection?: React.ReactNode
   loading?: boolean
+  loadingStyle?: React.CSSProperties
+  loadingClassName?: string
+  loader?: React.ReactNode
   isIcon?: boolean
 } & VariantProps<typeof buttonVariants>
 
@@ -66,8 +71,6 @@ const defaultElement = 'button'
 /* ========================================================================
                                     Button
 ======================================================================== */
-//# Restructure the internal children of Button.
-//# There should be a left side and right side.
 
 const Button = <T extends React.ElementType = typeof defaultElement>({
   as,
@@ -76,12 +79,59 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
   disabled = false,
   isIcon = false,
   loading = false,
+  loader = null,
+  loadingClassName = '',
+  loadingStyle = {},
+  leftSection = null,
+  rightSection = null,
   size,
   style = {},
   variant,
   ...otherProps
 }: ButtonProps<T>) => {
   const Component = as || defaultElement
+
+  /* ======================
+        renderLoader()
+    ====================== */
+
+  const renderLoader = () => {
+    if (!loading) {
+      return null
+    }
+
+    if (loader) {
+      return loader
+    }
+
+    // <Loader2 className='animate-spin' />
+    return (
+      <svg
+        // Adjust color and size here as needed.
+        className={`block animate-spin${
+          loadingClassName ? ` ${loadingClassName}` : ''
+        }`}
+        fill='none'
+        viewBox='0 0 24 24'
+        style={loadingStyle}
+      >
+        <circle
+          className='opacity-25'
+          cx='12'
+          cy='12'
+          r='10'
+          stroke='currentColor'
+          strokeWidth='4'
+        ></circle>
+
+        <path
+          className='opacity-75'
+          fill='currentColor'
+          d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+        ></path>
+      </svg>
+    )
+  }
 
   /* ======================
           return
@@ -101,8 +151,9 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
       )}
       style={style}
     >
-      {loading && <Loader2 className='animate-spin' />}
-      {children}
+      {loading && !isIcon ? renderLoader() : leftSection}
+      {loading && isIcon ? renderLoader() : children}
+      {rightSection}
     </Component>
   )
 }

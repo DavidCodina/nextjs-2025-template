@@ -10,6 +10,8 @@ import {
   FIELD_DISABLED_MIXIN
 } from '@/components/component-constants'
 
+//# onBlur?: (value: SelectValueType) => void
+
 const ariaMixin = `
 aria-invalid:ring-destructive/20 
 aria-invalid:border-destructive

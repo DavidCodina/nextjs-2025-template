@@ -11,10 +11,11 @@ import {
 
 type SwitchBaseProps = Omit<
   React.ComponentProps<typeof SwitchPrimitive.Root>,
-  'onChange' | 'onCheckedChange'
+  'onChange' | 'onCheckedChange' | 'onBlur'
 > & {
   // Same as onCheckedChange, but the naming is more intuitive.
   onChange?: ((checked: boolean) => void) | undefined
+  onBlur?: ((checked: boolean) => void) | undefined
 }
 
 const rootBaseClasses = `
@@ -46,16 +47,21 @@ dark:data-[state=checked]:bg-primary-foreground
 export const SwitchBase = ({
   className,
   onChange,
+  onBlur,
   ...otherProps
 }: SwitchBaseProps) => {
   return (
     <SwitchPrimitive.Root
+      {...otherProps}
       data-slot='switch'
       className={cn(rootBaseClasses, className)}
       onCheckedChange={(checked) => {
         onChange?.(checked)
       }}
-      {...otherProps}
+      onBlur={(e) => {
+        const dataState = e.target.getAttribute('data-state')
+        onBlur?.(dataState === 'checked')
+      }}
     >
       <SwitchPrimitive.Thumb
         data-slot='switch-thumb'

@@ -2,6 +2,7 @@
 
 import { ComponentProps } from 'react'
 import { Button } from '@/components/button'
+import { Loader2 } from 'lucide-react'
 
 import {
   Rocket,
@@ -116,33 +117,33 @@ export const ButtonDemo = () => {
             <Rocket />
           </Button>
 
-          <Button size='md' variant='red'>
-            <Rocket />
+          <Button loading size='md' variant='red' leftSection={<Rocket />}>
             Click Me
           </Button>
 
-          <Button size='md' variant='orange'>
-            <Omega />
+          <Button size='md' variant='orange' leftSection={<Omega />}>
             Click Me
           </Button>
 
-          <Button size='md' variant='yellow'>
-            <Zap />
+          <Button
+            loading
+            loader={<Loader2 className='animate-spin' />}
+            leftSection={<Zap />}
+            size='md'
+            variant='yellow'
+          >
+            Custom Loader
+          </Button>
+
+          <Button leftSection={<CircleCheck />} size='md' variant='green'>
             Click Me
           </Button>
 
-          <Button size='md' variant='green'>
-            <CircleCheck />
+          <Button leftSection={<CircleUserRound />} size='md' variant='blue'>
             Click Me
           </Button>
 
-          <Button size='md' variant='blue'>
-            <CircleUserRound />
-            Click Me
-          </Button>
-
-          <Button size='md' variant='purple'>
-            <Music4 />
+          <Button rightSection={<Music4 />} size='md' variant='purple'>
             Click Me
           </Button>
         </div>

@@ -11,7 +11,8 @@ import { CardDemo } from './CardDemo'
 import { CollapsibleDemo } from './CollapsibleDemo'
 import { DialogDemo } from './DialogDemo'
 import { DropdownMenuDemo } from './DropdownMenuDemo'
-import { FormDemo } from './FormDemo'
+import { UncontrolledFormDemo } from './UncontrolledFormDemo'
+import { ControlledFormDemo } from './ControlledFormDemo'
 import { PopoverDemo } from './PopoverDemo'
 import { SeparatorDemo } from './SeparatorDemo'
 import { SheetDemo } from './SheetDemo'
@@ -26,7 +27,7 @@ import { TooltipDemo } from './TooltipDemo'
 
 export const ComponentDemos = () => {
   return (
-    <Tabs defaultValue='form' className='mx-auto mb-6 gap-6'>
+    <Tabs defaultValue='controlled-form' className='mx-auto mb-6 gap-6'>
       <TabsList className='grid w-full grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'>
         <TabsTrigger value='accordion'>Accordion</TabsTrigger>
         <TabsTrigger value='alert'>Alert</TabsTrigger>
@@ -38,7 +39,8 @@ export const ComponentDemos = () => {
         <TabsTrigger value='collapsible'>Collapsible</TabsTrigger>
         <TabsTrigger value='dialog'>Dialog</TabsTrigger>
         <TabsTrigger value='dropdown-menu'>Dropdown Menu</TabsTrigger>
-        <TabsTrigger value='form'>Form</TabsTrigger>
+        <TabsTrigger value='uncontrolled-form'>Uncontrolled Form</TabsTrigger>
+        <TabsTrigger value='controlled-form'>Controlled Form</TabsTrigger>
         <TabsTrigger value='popover'>Popover</TabsTrigger>
         <TabsTrigger value='separator'>Separator</TabsTrigger>
         <TabsTrigger value='sheet'>Sheet</TabsTrigger>
@@ -110,8 +112,14 @@ export const ComponentDemos = () => {
 
       {/* ================= */}
 
-      <TabsContent value='form'>
-        <FormDemo />
+      <TabsContent value='uncontrolled-form'>
+        <UncontrolledFormDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='controlled-form'>
+        <ControlledFormDemo />
       </TabsContent>
 
       {/* ================= */}

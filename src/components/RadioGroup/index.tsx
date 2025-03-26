@@ -32,7 +32,7 @@ export type RadioItemType = {
 // Typescript will get very confused at some point.
 type RadioGroupProps = Omit<
   React.ComponentProps<typeof RadioGroupBase>,
-  'asChild' | 'required' | 'orientation' | 'dir'
+  'asChild' | 'required' | 'orientation' | 'dir' | 'onBlur'
 > & {
   error?: string
   errorClassName?: string
@@ -51,6 +51,7 @@ type RadioGroupProps = Omit<
    * Here, it is required.
    */
   name: string
+  onBlur?: (value: RadioValue) => void
   radioGroupBaseClassName?: string
   radioGroupBaseStyle?: React.CSSProperties
   touched?: boolean
@@ -75,14 +76,18 @@ const RadioGroup = ({
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
+  onBlur,
   radioGroupBaseClassName = '',
   radioGroupBaseStyle = {},
+
   style = {},
   touched = false,
   value,
   ...otherProps
 }: RadioGroupProps) => {
   const uid = React.useId()
+
+  const radioGroupRef = React.useRef<HTMLDivElement>(null)
 
   /* ======================
       renderLabel()
@@ -166,7 +171,7 @@ const RadioGroup = ({
   ====================== */
 
   return (
-    <div className={cn('', className)} style={style}>
+    <div className={cn('', className)} style={style} ref={radioGroupRef}>
       {renderLabel()}
 
       <RadioGroupBase
@@ -176,6 +181,41 @@ const RadioGroup = ({
         // take precedence over the defaultValue.
         defaultValue={defaultValue}
         className={radioGroupBaseClassName}
+        onBlur={(e) => {
+          const currentTarget = e.currentTarget
+          // Use setTimeout to create a new macrotask.
+          setTimeout(() => {
+            let value = ''
+            ///////////////////////////////////////////////////////////////////////////
+            //
+            // The onBlur should only run when the element that gets
+            // focus is outside of the radio group container.
+            // This creates the effect of a group blur.
+            // Without this, the RadioGroup actually blurs on focus!
+            // This happens because focus is initially on the group <div> itself,
+            // then moves the the specific 'radio' button - one of the many quirks
+            // of Radix primitives!
+            //
+            ///////////////////////////////////////////////////////////////////////////
+
+            const radioGroup = radioGroupRef.current
+            const activeElement = document.activeElement
+            if (radioGroup && radioGroup.contains(activeElement)) {
+              return
+            }
+
+            // Find the first button with data-state="checked".
+            const checkedButton = Array.from(
+              currentTarget.querySelectorAll('button[data-state="checked"]')
+            )[0]
+
+            if (checkedButton) {
+              value = checkedButton.getAttribute('value') || ''
+            }
+
+            onBlur?.(value)
+          }, 0)
+        }}
         style={radioGroupBaseStyle}
         value={value}
       >

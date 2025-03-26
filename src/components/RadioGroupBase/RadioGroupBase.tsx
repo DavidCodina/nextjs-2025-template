@@ -38,14 +38,18 @@ export const RadioGroupBase = ({
   onChange,
   ...otherProps
 }: RadioGroupBaseProps) => {
+  /* ======================
+          return
+  ====================== */
+
   return (
     <RadioGroupPrimitive.Root
+      {...otherProps}
       data-slot='radio-group'
       className={cn('flex flex-col gap-2', className)}
       onValueChange={(value) => {
         onChange?.(value)
       }}
-      {...otherProps}
     />
   )
 }

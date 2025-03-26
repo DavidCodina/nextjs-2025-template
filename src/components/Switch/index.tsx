@@ -26,7 +26,6 @@ type SwitchProps = React.ComponentProps<typeof SwitchBase> & {
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderSwitchBaseOnly?: boolean
-
   touched?: boolean
 }
 

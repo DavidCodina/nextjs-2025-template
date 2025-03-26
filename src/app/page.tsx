@@ -4,18 +4,15 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 /* ========================================================================
 
 ======================================================================== */
-// Random change for update...
 
 // Todo: Change all /components components to PascalCase & update components/index.ts
+//# Watch out for Vercel Gotcha - name append 'X' temporarily.
 
 // Todo: Test controlled versions of all form fields.
 
 // Todo: add UI for the numeric position of slider thumbs.
 
 // Todo: Update valid/invalid styles for Checkbox, CheckboxGroup and RadioGroup.
-
-// Todo: Test Button's loading spinner.
-//# I'm concerned that when it has an svg, then it's not removed while loading.
 
 // Todo: Build out controlled form demo.
 
