@@ -4,6 +4,7 @@ import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { ChevronDownIcon } from 'lucide-react'
 import { cn } from '@/utils'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 import {
   FIELD_FOCUS_VISIBLE_MIXIN,
@@ -11,15 +12,6 @@ import {
   FIELD_VALID_MIXIN,
   FIELD_INVALID_MIXIN
 } from '@/components/component-constants'
-
-type SelectTriggerProps = React.ComponentProps<
-  typeof SelectPrimitive.Trigger
-> & {
-  disabled?: boolean
-  error?: string
-  touched?: boolean
-  //! size?: 'sm' | 'default'
-}
 
 //^ The class*='size-' may not work as expected.
 const svgMixin = `
@@ -29,37 +21,49 @@ const svgMixin = `
 [&_svg:not([class*='text-'])]:text-muted-foreground
 `
 
-///////////////////////////////////////////////////////////////////////////
-//
-// ❌ The default ShadCN implementation used a data-size attribute.
-//  This is not a great practice. What should actually be happpening is
-// we create size variants here.
-// data-[size=default]:h-9
-// data-[size=sm]:h-8
-//
-///////////////////////////////////////////////////////////////////////////
-
 const baseClasses = `
-flex items-center justify-between gap-2 
-bg-background-light w-full
-text-base leading-[1.5] whitespace-nowrap 
+flex items-center justify-between gap-2
+bg-background-light w-full whitespace-nowrap
 px-[0.5em] py-[0.25em] rounded-[0.375em]
-border outline-none 
+border outline-none
 shadow-[0_1px_2px_rgba(0,0,0,0.15)]
 data-[placeholder]:text-muted-foreground
-
-*:data-[slot=select-value]:line-clamp-1 
+*:data-[slot=select-value]:line-clamp-1
 *:data-[slot=select-value]:flex
-*:data-[slot=select-value]:items-center 
+*:data-[slot=select-value]:items-center
 *:data-[slot=select-value]:gap-2
-
 transition-[color,box-shadow]
 ${FIELD_FOCUS_VISIBLE_MIXIN}
 ${FIELD_DISABLED_MIXIN}
 ${svgMixin}
 `
 
-// Todo: Create size variants
+/* ======================
+  selectTriggerVariants
+====================== */
+
+export const selectTriggerVariants = cva(baseClasses, {
+  variants: {
+    fieldSize: {
+      xs: 'text-xs leading-[1.5]',
+      sm: 'text-sm leading-[1.5]',
+      md: 'text-base leading-[1.5]',
+      lg: 'text-lg leading-[1.5]',
+      xl: 'text-xl leading-[1.5]'
+    },
+    defaultVariants: {
+      fieldSize: 'md'
+    }
+  }
+})
+
+type SelectTriggerProps = React.ComponentProps<
+  typeof SelectPrimitive.Trigger
+> & {
+  disabled?: boolean
+  error?: string
+  touched?: boolean
+} & VariantProps<typeof selectTriggerVariants>
 
 /* ========================================================================
 
@@ -70,7 +74,7 @@ function SelectTrigger({
   className,
   disabled = false,
   error = '',
-  //! size = 'default',
+  fieldSize,
   touched = false,
   ...otherProps
 }: SelectTriggerProps) {
@@ -95,11 +99,14 @@ function SelectTrigger({
       data-slot='select-trigger'
       // No need to pass disabled={disabled}. When the Radix SelectPrimitive.Root
       // receives disabled, it assigns it to SelectTrigger internally.
-      //! data-size={size} is stupid! Why not just create a variant?
-      //! data-size={size}
+
       // maybeValidationMixin is intentionally last to
       // give precedence over the consumer className.
-      className={cn(baseClasses, className, maybeValidationMixin)}
+      className={cn(
+        selectTriggerVariants({ fieldSize }),
+        className,
+        maybeValidationMixin
+      )}
       {...otherProps}
     >
       {children}

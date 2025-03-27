@@ -5,12 +5,8 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-// Todo: Move onBlur definitions back to the associated base component.
-
 // Todo: Change all /components components to PascalCase & update components/index.ts
 //# Watch out for Vercel Gotcha - name append 'X' temporarily.
-
-// Todo: Add size variant to form fields, but call it controlSize or fieldSize.
 
 // Todo: Review what CSS properties have been added/removed to globals.css
 //# since ShadCN initializtion.

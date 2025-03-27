@@ -1106,45 +1106,47 @@ export const ControlledFormDemo = () => {
   ====================== */
 
   return (
-    <form
-      className='bg-background-light mx-auto max-w-[800px] space-y-6 rounded-xl border p-6 shadow'
-      // key={formKey}
-      onSubmit={(e) => {
-        e.preventDefault()
-      }}
-      noValidate
-    >
-      {renderFirstName()}
-
-      {renderLastName()}
-
-      {renderSingleCheckbox()}
-
-      {renderCheckboxGroup()}
-
-      {renderRadioGroup()}
-
-      {renderSwitch()}
-
-      {renderRangeSlider()}
-
-      {renderTextarea()}
-
-      {renderSelect()}
-
-      {renderFileInput()}
-
-      {renderEmail()}
-
-      <Button
-        loading={isSubmitting}
-        className='flex w-full'
-        type='button'
-        variant='success'
-        onClick={handleSubmit}
+    <>
+      <form
+        className='bg-background-light mx-auto max-w-[800px] space-y-6 rounded-xl border p-6 shadow'
+        // key={formKey}
+        onSubmit={(e) => {
+          e.preventDefault()
+        }}
+        noValidate
       >
-        {isSubmitting ? 'Submitting...' : 'Submit'}
-      </Button>
-    </form>
+        {renderFirstName()}
+
+        {renderLastName()}
+
+        {renderSingleCheckbox()}
+
+        {renderCheckboxGroup()}
+
+        {renderRadioGroup()}
+
+        {renderSwitch()}
+
+        {renderRangeSlider()}
+
+        {renderTextarea()}
+
+        {renderSelect()}
+
+        {renderFileInput()}
+
+        {renderEmail()}
+
+        <Button
+          loading={isSubmitting}
+          className='flex w-full'
+          type='button'
+          variant='success'
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </Button>
+      </form>
+    </>
   )
 }

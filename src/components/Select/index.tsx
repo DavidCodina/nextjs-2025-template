@@ -19,6 +19,8 @@ import { cn } from '@/utils'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
+type FieldSize = React.ComponentProps<typeof SelectTrigger>['fieldSize']
+
 type SelectItemType = {
   className?: string
   disabled?: boolean
@@ -33,6 +35,7 @@ type SelectProps = React.ComponentProps<typeof SelectBase> & {
   error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
+  fieldSize?: FieldSize
   groupClassName?: string
   groupStyle?: React.CSSProperties
   help?: string
@@ -62,6 +65,7 @@ const Select = ({
   error = '',
   errorClassName = '',
   errorStyle = {},
+  fieldSize,
   groupClassName = '',
   groupStyle = {},
   help = '',
@@ -162,6 +166,7 @@ const Select = ({
           className={className}
           disabled={disabled}
           error={error}
+          fieldSize={fieldSize}
           onBlur={() => {
             setTimeout(() => {
               // The onBlur should only run when the element that gets
