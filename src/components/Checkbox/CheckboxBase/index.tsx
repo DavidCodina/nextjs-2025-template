@@ -7,9 +7,9 @@ import { cn } from '@/utils'
 
 type CheckedState = CheckboxPrimitive.CheckedState
 
-// Gotcha: simply overwriting the onChange below is not
-// sufficient. You MUST omit the original `onChange` or
-// Typescript will get very confused at some point.
+// Gotcha: simply overwriting the onChange, onBlur below is not
+// sufficient. You MUST omit the original `onChange` and `onBlur`
+// or Typescript will get very confused at some point.
 type CheckboxBaseProps = Omit<
   React.ComponentProps<typeof CheckboxPrimitive.Root>,
   'onChange' | 'onCheckedChange' | 'onBlur'

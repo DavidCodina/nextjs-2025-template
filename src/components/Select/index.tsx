@@ -167,6 +167,8 @@ const Select = ({
               // The onBlur should only run when the element that gets
               // focus is outside of the select container.
               // This creates the effect of a group blur.
+              // In other words, it prevents blur behavior from occurring
+              // when focus switches from the trigger to the menu.
               const selectContainer = selectContainerRef.current
               const selectContent = selectContentRef.current
               const activeElement = document.activeElement
