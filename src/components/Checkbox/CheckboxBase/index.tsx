@@ -7,19 +7,26 @@ import { cn } from '@/utils'
 
 type CheckedState = CheckboxPrimitive.CheckedState
 
+// Gotcha: simply overwriting the onChange below is not
+// sufficient. You MUST omit the original `onChange` or
+// Typescript will get very confused at some point.
 type CheckboxBaseProps = Omit<
   React.ComponentProps<typeof CheckboxPrimitive.Root>,
   'onChange' | 'onCheckedChange' | 'onBlur'
 > & {
+  error?: string
   // Same type as the original onCheckedChange, but more intuitive.
   onChange?: (checkedState: CheckedState) => void
   onBlur?: (checkedState: CheckedState) => void
+  touched?: boolean
 }
 
 import {
   FIELD_BOX_SHADOW_MIXIN,
   FIELD_DISABLED_MIXIN,
-  FIELD_FOCUS_VISIBLE_MIXIN
+  FIELD_FOCUS_VISIBLE_MIXIN,
+  FIELD_VALID_MIXIN,
+  FIELD_INVALID_MIXIN
 } from '@/components/component-constants'
 
 const baseClasses = `
@@ -36,13 +43,6 @@ ${FIELD_FOCUS_VISIBLE_MIXIN}
 /* ========================================================================
 
 ======================================================================== */
-// This was originally the Checkbox component from ShadCN.
-// It was renamed to CheckboxBase to avoid conflicts with
-// with the newer Checkbox component, which uses CheckboxBase
-// internally. While it's still possible to compose a Checkbox with
-// CheckboxBase, prefer the newer Checkbox (or CheckboxGroup) component,
-// which add additional features like labels, error messages, help text, etc.
-//
 // ⚠️ Internally, the Radix primitive Checkbox does implement an
 // <input type='checkbox'>. However, it's not directly accessible.
 // This means that any attempt to integrate react-hook-form
@@ -51,10 +51,39 @@ ${FIELD_FOCUS_VISIBLE_MIXIN}
 
 function CheckboxBase({
   className,
+  disabled = false,
+  error = '',
   onBlur,
   onChange,
+  touched = false,
   ...otherProps
 }: CheckboxBaseProps) {
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? `
+      data-[state=checked]:bg-neutral-400
+      data-[state=checked]:text-white
+      data-[state=checked]:border-neutral-400
+    `
+    : error // i.e., !disabled && error
+      ? `
+      ${FIELD_INVALID_MIXIN}
+      data-[state=checked]:bg-destructive
+      data-[state=checked]:text-destructive-foreground
+      data-[state=checked]:border-destructive
+      `
+      : touched // i.e., !disabled && !error && touched
+        ? `
+         ${FIELD_VALID_MIXIN}
+        data-[state=checked]:bg-success
+        data-[state=checked]:text-success-foreground
+        data-[state=checked]:border-success
+        `
+        : ``
+
   /* ======================
        handleBlur()
   ====================== */
@@ -78,7 +107,10 @@ function CheckboxBase({
   return (
     <CheckboxPrimitive.Root
       data-slot='checkbox'
-      className={cn(baseClasses, className)}
+      disabled={disabled}
+      // maybeValidationMixin is intentionally last to
+      // give precedence over the consumer className.
+      className={cn(baseClasses, className, maybeValidationMixin)}
       onBlur={handleBlur}
       onCheckedChange={(checkedState) => {
         onChange?.(checkedState)

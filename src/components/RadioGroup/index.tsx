@@ -11,11 +11,6 @@ import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
 
-import {
-  FIELD_VALID_MIXIN,
-  FIELD_INVALID_MIXIN
-} from '@/components/component-constants'
-
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 export type RadioItemType = {
@@ -30,11 +25,9 @@ export type RadioItemType = {
   labelStyle?: React.CSSProperties
   style?: React.CSSProperties
   value: RadioValue
+  // Todo: Could add data-testid
 }
 
-// Gotcha: simply overwriting the onChange below is not
-// sufficient. You MUST omit the original `onChange` or
-// Typescript will get very confused at some point.
 type RadioGroupProps = Omit<
   React.ComponentProps<typeof RadioGroupBase>,
   'asChild' | 'required' | 'orientation' | 'dir' | 'onBlur'
@@ -92,17 +85,17 @@ const RadioGroup = ({
   const uid = React.useId()
   const radioGroupRef = React.useRef<HTMLDivElement>(null)
 
-  /* ======================
-    maybeValidationMixin
-  ====================== */
+  // /* ======================
+  //   maybeValidationMixin
+  // ====================== */
 
-  const maybeValidationMixin = disabled
-    ? `data-[state=checked]:text-neutral-400`
-    : error // i.e., !disabled && touched
-      ? `${FIELD_INVALID_MIXIN} data-[state=checked]:text-destructive`
-      : touched // i.e., !disabled && !error && touched
-        ? `${FIELD_VALID_MIXIN} data-[state=checked]:text-success`
-        : ``
+  // const maybeValidationMixin = disabled
+  //   ? `data-[state=checked]:text-neutral-400`
+  //   : error // i.e., !disabled && touched
+  //     ? `${FIELD_INVALID_MIXIN} data-[state=checked]:text-destructive`
+  //     : touched // i.e., !disabled && !error && touched
+  //       ? `${FIELD_VALID_MIXIN} data-[state=checked]:text-success`
+  //       : ``
 
   /* ======================
       renderLabel()
@@ -157,9 +150,12 @@ const RadioGroup = ({
           style={radioGroupStyle}
         >
           <RadioGroupItemBase
-            className={cn(maybeValidationMixin, radioClassName)}
+            className={radioClassName}
+            disabled={disabled || radioDisabled}
+            error={error}
             id={radioId}
             style={radioStyle}
+            touched={touched}
             value={radioValue}
           />
 

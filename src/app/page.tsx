@@ -8,13 +8,22 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // Todo: Change all /components components to PascalCase & update components/index.ts
 //# Watch out for Vercel Gotcha - name append 'X' temporarily.
 
-// Todo: Test controlled versions of all form fields.
+// Todo: Move onBlur definitions back to the associated base component.
+
+// Todo: Add size variant to form fields, but call it controlSize or fieldSize.
+
+// Todo: Review what CSS properties have been added/removed to globals.css
+//# since ShadCN initializtion.
+
+// Todo: Add validation logic to UncoontrolledFormDemo.
+
+// Todo: Review whether render*BaseOnly is a good idea.
+
+// Todo: Update to latest Next.js due to recent auth security vulnerability.
+
+// Todo: Review https://react.dev/reference/react-dom/components/input
 
 // Todo: add UI for the numeric position of slider thumbs.
-
-// Todo: Update valid/invalid styles for Checkbox, CheckboxGroup and RadioGroup.
-
-// Todo: Build out controlled form demo.
 
 // Todo: Buid out RHF controlled form demo.
 

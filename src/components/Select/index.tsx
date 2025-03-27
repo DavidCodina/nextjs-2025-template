@@ -12,12 +12,10 @@ import {
   SelectValue,
   SelectValueType
 } from './SelectBase'
-
 import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
-import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
@@ -110,12 +108,6 @@ const Select = ({
   const selectContentRef = React.useRef<HTMLDivElement>(null)
   const firstRenderRef = React.useRef(true)
 
-  const maybeValidationMixin = error
-    ? FIELD_INVALID_MIXIN
-    : touched && !error
-      ? FIELD_VALID_MIXIN
-      : ''
-
   /* ======================
         useEffect()
   ====================== */
@@ -167,8 +159,9 @@ const Select = ({
       >
         <SelectTrigger
           id={id}
-          className={cn(maybeValidationMixin, className)}
-          style={style}
+          className={className}
+          disabled={disabled}
+          error={error}
           onBlur={() => {
             setTimeout(() => {
               // The onBlur should only run when the element that gets
@@ -189,6 +182,8 @@ const Select = ({
               onBlur?.(value)
             }, 0)
           }}
+          style={style}
+          touched={touched}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

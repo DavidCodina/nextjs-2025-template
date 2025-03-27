@@ -29,6 +29,7 @@ export type CheckboxItemType = {
    * the associated values and not merely whether the checkbox was checked.
    */
   value: CheckboxValue
+  // Todo: Could add data-testid
 }
 
 // Gotcha: simply overwriting the onChange below is not

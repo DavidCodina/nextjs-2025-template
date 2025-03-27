@@ -8,8 +8,17 @@ import { cn } from '@/utils'
 import {
   FIELD_BOX_SHADOW_MIXIN,
   FIELD_DISABLED_MIXIN,
-  FIELD_FOCUS_VISIBLE_MIXIN
+  FIELD_FOCUS_VISIBLE_MIXIN,
+  FIELD_VALID_MIXIN,
+  FIELD_INVALID_MIXIN
 } from '@/components/component-constants'
+
+type RadioGroupItemBaseProps = React.ComponentProps<
+  typeof RadioGroupPrimitive.Item
+> & {
+  error?: string
+  touched?: boolean
+}
 
 // The text color matters because it affects the icon's outer border color.
 // and the fill color.
@@ -24,22 +33,38 @@ ${FIELD_DISABLED_MIXIN}
 /* ========================================================================
 
 ======================================================================== */
-// This was originally the RadioGroupItem component from ShadCN.
-// It was renamed to RadioGroupItemBase following the change of
-// RadioGroup to RadioGroupBase. While it's still possible to compose
-// Radio Groups with RadioGroupBase and RadioGroupItemBase, prefer the
-// newer RadioGroupcomponent, which abstracts away many of the
-// implementation details.
 
 export const RadioGroupItemBase = ({
   className,
-  ...props
-}: React.ComponentProps<typeof RadioGroupPrimitive.Item>) => {
+  error = '',
+  disabled = false,
+  touched = false,
+  ...otherProps
+}: RadioGroupItemBaseProps) => {
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? `data-[state=checked]:text-neutral-400`
+    : error // i.e., !disabled && touched
+      ? `${FIELD_INVALID_MIXIN} data-[state=checked]:text-destructive`
+      : touched // i.e., !disabled && !error && touched
+        ? `${FIELD_VALID_MIXIN} data-[state=checked]:text-success`
+        : ``
+
+  /* ======================
+          return
+  ====================== */
+
   return (
     <RadioGroupPrimitive.Item
       data-slot='radio-group-item'
-      className={cn(baseClasses, className)}
-      {...props}
+      disabled={disabled}
+      // maybeValidationMixin is intentionally last to
+      // give precedence over the consumer className.
+      className={cn(baseClasses, className, maybeValidationMixin)}
+      {...otherProps}
     >
       <RadioGroupPrimitive.Indicator
         data-slot='radio-group-indicator'

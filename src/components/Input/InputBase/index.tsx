@@ -3,7 +3,9 @@ import { cn } from '@/utils'
 import {
   FIELD_BOX_SHADOW_MIXIN,
   FIELD_FOCUS_VISIBLE_MIXIN,
-  FIELD_DISABLED_MIXIN
+  FIELD_DISABLED_MIXIN,
+  FIELD_VALID_MIXIN,
+  FIELD_INVALID_MIXIN
 } from '@/components/component-constants'
 
 const fileMixin = `
@@ -29,19 +31,12 @@ text-base leading-[1.5]
 [&:not([type='file'])]:py-[0.25em]
 rounded-[0.375em]
 border outline-none
-
 placeholder:text-muted-foreground
 transition-[color,box-shadow]
 ${fileMixin}
 ${FIELD_BOX_SHADOW_MIXIN}
 ${FIELD_FOCUS_VISIBLE_MIXIN}
 ${FIELD_DISABLED_MIXIN}
-`
-
-const ariaMixin = `
-aria-invalid:ring-destructive/20
-dark:aria-invalid:ring-destructive/40
-aria-invalid:border-destructive
 `
 
 // Todo: Add CVA variant of sizes. This should match that of Button.
@@ -55,23 +50,63 @@ aria-invalid:border-destructive
 //   xl: 'text-xl leading-[1.5]'
 // }
 
-//# Actually, `size` might not be the best name for this prop.
-//# It's better  not to override the defualt meaning of size.
-type InputBaseProps = Omit<React.ComponentProps<'input'>, 'size' | 'value'> & {
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  value?: string
+type InputBaseProps = React.ComponentProps<'input'> & {
+  error?: string
+  fieldSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  touched?: boolean
 }
 
 /* ========================================================================
 
 ======================================================================== */
 
-function InputBase({ className, size, ...otherProps }: InputBaseProps) {
-  void size //# Temporary
+function InputBase({
+  className,
+  disabled = false,
+  error = '',
+  fieldSize,
+  touched = false,
+  ...otherProps
+}: InputBaseProps) {
+  void fieldSize //# Temporary
+
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? `
+    file:text-white
+    file:bg-neutral-400
+    file:border-neutral-400
+    `
+    : error // i.e., !disabled && error
+      ? `
+      ${FIELD_INVALID_MIXIN}
+      file:text-destructive-foreground
+      file:bg-destructive
+      file:border-destructive
+      `
+      : touched // i.e., !disabled && !error && touched
+        ? `
+         ${FIELD_VALID_MIXIN}
+         file:text-success-foreground
+         file:bg-success
+         file:border-success
+        `
+        : ``
+
+  /* ======================
+          return
+  ====================== */
+
   return (
     <input
       data-slot='input'
-      className={cn(baseClasses, ariaMixin, className)}
+      disabled={disabled}
+      // maybeValidationMixin is intentionally last to
+      // give precedence over the consumer className.
+      className={cn(baseClasses, className, maybeValidationMixin)}
       {...otherProps}
     />
   )

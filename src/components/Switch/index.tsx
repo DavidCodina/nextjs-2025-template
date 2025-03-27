@@ -6,12 +6,10 @@ import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
-import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 type SwitchProps = React.ComponentProps<typeof SwitchBase> & {
-  error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
   groupClassName?: string
@@ -26,7 +24,6 @@ type SwitchProps = React.ComponentProps<typeof SwitchBase> & {
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderSwitchBaseOnly?: boolean
-  touched?: boolean
 }
 
 /* ===================================d=====================================
@@ -55,7 +52,6 @@ export const Switch = ({
   labelStyle = {},
   onChange,
   renderSwitchBaseOnly = false,
-
   touched = false,
   ...otherProps
 }: SwitchProps) => {
@@ -83,51 +79,22 @@ export const Switch = ({
   const firstRenderRef = React.useRef(true)
 
   /* ======================
-    maybeValidationMixin
-  ====================== */
-
-  // const _maybeValidationMixin = error
-  //   ? FIELD_INVALID_MIXIN
-  //   : touched && !error
-  //     ? FIELD_VALID_MIXIN
-  //     : ''
-
-  const maybeValidationMixin = disabled
-    ? `
-    data-[state=checked]:bg-neutral-400
-    data-[state=unchecked]:bg-neutral-400
-    
-    `
-    : error // i.e., !disabled && error
-      ? `
-      ${FIELD_INVALID_MIXIN}
-      data-[state=checked]:bg-destructive
-      data-[state=unchecked]:bg-destructive
-   
-      `
-      : touched // i.e., !disabled && !error && touched
-        ? `
-         ${FIELD_VALID_MIXIN}
-         data-[state=checked]:bg-success
-          data-[state=unchecked]:bg-success
-        `
-        : ``
-
-  /* ======================
     SwitchBaseComponent
   ====================== */
 
   const SwitchBaseComponent = (
     <SwitchBase
-      id={id}
       checked={controlledChecked}
-      className={cn(maybeValidationMixin, className)}
+      className={className}
       defaultChecked={defaultChecked}
       disabled={disabled}
+      error={error}
+      id={id}
       onChange={(checked) => {
         setChecked(checked)
         onChange?.(checked)
       }}
+      touched={touched}
       {...otherProps}
     />
   )

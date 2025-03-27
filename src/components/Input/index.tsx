@@ -6,28 +6,22 @@ import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
-import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 type InputProps = React.ComponentProps<typeof InputBase> & {
-  error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
   groupClassName?: string
   groupStyle?: React.CSSProperties
-
   help?: string
   helpClassName?: string
   helpStyle?: React.CSSProperties
-
   label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderInputBaseOnly?: boolean
-
-  touched?: boolean
 }
 
 /* ========================================================================
@@ -58,40 +52,16 @@ export const Input = ({
   id = id || uid
 
   /* ======================
-    maybeValidationMixin
-  ====================== */
-
-  const maybeValidationMixin = disabled
-    ? `
-    file:text-white
-    file:bg-neutral-400
-    file:border-neutral-400
-    `
-    : error // i.e., !disabled && error
-      ? `
-      ${FIELD_INVALID_MIXIN}
-      file:text-destructive-foreground
-      file:bg-destructive
-      file:border-destructive
-      `
-      : touched // i.e., !disabled && !error && touched
-        ? `
-         ${FIELD_VALID_MIXIN}
-         file:text-success-foreground
-         file:bg-success
-         file:border-success
-        `
-        : ``
-
-  /* ======================
       InputBaseComponent
   ====================== */
 
   const InputBaseComponent = (
     <InputBase
-      id={id}
-      className={cn(maybeValidationMixin, className)}
+      className={className}
       disabled={disabled}
+      error={error}
+      id={id}
+      touched={touched}
       {...otherProps}
     />
   )

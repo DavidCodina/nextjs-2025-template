@@ -3,16 +3,15 @@ import { cn } from '@/utils'
 import {
   FIELD_BOX_SHADOW_MIXIN,
   FIELD_FOCUS_VISIBLE_MIXIN,
-  FIELD_DISABLED_MIXIN
-} from '../component-constants'
+  FIELD_DISABLED_MIXIN,
+  FIELD_VALID_MIXIN,
+  FIELD_INVALID_MIXIN
+} from '@/components/component-constants'
 
-type TextareaBaseProps = React.ComponentProps<'textarea'>
-// Same as Input
-const _ariaMixin = `
-aria-invalid:ring-destructive/20
-dark:aria-invalid:ring-destructive/40
-aria-invalid:border-destructive
-`
+type TextareaBaseProps = React.ComponentProps<'textarea'> & {
+  error?: string
+  touched?: boolean
+}
 
 // What is field-sizing-content
 const baseClasses = `
@@ -36,12 +35,34 @@ ${FIELD_DISABLED_MIXIN}
 
 export const TextareaBase = ({
   className,
+  disabled = false,
+  error = '',
+  touched = false,
   ...otherProps
 }: TextareaBaseProps) => {
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? ``
+    : error // i.e., !disabled && error
+      ? `${FIELD_INVALID_MIXIN}`
+      : touched // i.e., !disabled && !error && touched
+        ? `${FIELD_VALID_MIXIN}`
+        : ``
+
+  /* ======================
+          return
+  ====================== */
+
   return (
     <textarea
       data-slot='textarea'
-      className={cn(baseClasses, className)}
+      disabled={disabled}
+      // maybeValidationMixin is intentionally last to
+      // give precedence over the consumer className.
+      className={cn(baseClasses, className, maybeValidationMixin)}
       {...otherProps}
     />
   )

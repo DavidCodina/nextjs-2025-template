@@ -7,16 +7,19 @@ import { cn } from '@/utils'
 
 import {
   FIELD_FOCUS_VISIBLE_MIXIN,
-  FIELD_DISABLED_MIXIN
+  FIELD_DISABLED_MIXIN,
+  FIELD_VALID_MIXIN,
+  FIELD_INVALID_MIXIN
 } from '@/components/component-constants'
 
-//# onBlur?: (value: SelectValueType) => void
-
-const ariaMixin = `
-aria-invalid:ring-destructive/20 
-aria-invalid:border-destructive
-dark:aria-invalid:ring-destructive/40 
-`
+type SelectTriggerProps = React.ComponentProps<
+  typeof SelectPrimitive.Trigger
+> & {
+  disabled?: boolean
+  error?: string
+  touched?: boolean
+  //! size?: 'sm' | 'default'
+}
 
 //^ The class*='size-' may not work as expected.
 const svgMixin = `
@@ -53,7 +56,6 @@ data-[placeholder]:text-muted-foreground
 transition-[color,box-shadow]
 ${FIELD_FOCUS_VISIBLE_MIXIN}
 ${FIELD_DISABLED_MIXIN}
-${ariaMixin}
 ${svgMixin}
 `
 
@@ -64,20 +66,41 @@ ${svgMixin}
 ======================================================================== */
 
 function SelectTrigger({
-  className,
-  size = 'default',
   children,
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
-  size?: 'sm' | 'default'
-}) {
+  className,
+  disabled = false,
+  error = '',
+  //! size = 'default',
+  touched = false,
+  ...otherProps
+}: SelectTriggerProps) {
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? ``
+    : error // i.e., !disabled && error
+      ? `${FIELD_INVALID_MIXIN}`
+      : touched // i.e., !disabled && !error && touched
+        ? `${FIELD_VALID_MIXIN}`
+        : ``
+
+  /* ======================
+          return
+  ====================== */
+
   return (
     <SelectPrimitive.Trigger
       data-slot='select-trigger'
+      // No need to pass disabled={disabled}. When the Radix SelectPrimitive.Root
+      // receives disabled, it assigns it to SelectTrigger internally.
       //! data-size={size} is stupid! Why not just create a variant?
-      data-size={size}
-      className={cn(baseClasses, className)}
-      {...props}
+      //! data-size={size}
+      // maybeValidationMixin is intentionally last to
+      // give precedence over the consumer className.
+      className={cn(baseClasses, className, maybeValidationMixin)}
+      {...otherProps}
     >
       {children}
       <SelectPrimitive.Icon asChild>

@@ -10,7 +10,6 @@ import { cn } from '@/utils'
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 type SliderProps = React.ComponentProps<typeof SliderBase> & {
-  error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
   groupClassName?: string
@@ -23,7 +22,6 @@ type SliderProps = React.ComponentProps<typeof SliderBase> & {
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderSliderBaseOnly?: boolean
-  touched?: boolean
 }
 
 /* ========================================================================
@@ -54,39 +52,16 @@ function Slider({
   id = id || uuid
 
   /* ======================
-    maybeValidationMixin
-  ====================== */
-  // In this case, FIELD_INVALID_MIXIN & FIELD_VALID_MIXIN no difference here.
-
-  const maybeValidationMixin = disabled
-    ? `
-    pointer-events-none opacity-65
-    [&_[data-slot=slider-range]]:bg-neutral-400
-    [&_[data-slot=slider-thumb]]:border-neutral-400
-    `
-    : error // i.e., !disabled && error
-      ? `
-      [&_[data-slot=slider-range]]:bg-destructive
-      [&_[data-slot=slider-thumb]]:ring-destructive/40
-      [&_[data-slot=slider-thumb]]:border-destructive
-      `
-      : touched // i.e., !disabled && !error && touched
-        ? `
-         [&_[data-slot=slider-range]]:bg-success
-         [&_[data-slot=slider-thumb]]:ring-success/40
-         [&_[data-slot=slider-thumb]]:border-success
-        `
-        : ``
-
-  /* ======================
     SliderBaseComponent
   ====================== */
 
   const SliderBaseComponent = (
     <SliderBase
+      className={className}
       disabled={disabled}
-      className={cn(maybeValidationMixin, className)}
+      error={error}
       id={id}
+      touched={touched}
       {...otherProps}
     />
   )

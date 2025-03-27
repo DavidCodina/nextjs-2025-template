@@ -6,16 +6,20 @@ import { cn } from '@/utils'
 import {
   FIELD_BOX_SHADOW_MIXIN,
   FIELD_DISABLED_MIXIN,
-  FIELD_FOCUS_VISIBLE_MIXIN
-} from '../../component-constants'
+  FIELD_FOCUS_VISIBLE_MIXIN,
+  FIELD_VALID_MIXIN,
+  FIELD_INVALID_MIXIN
+} from '@/components/component-constants'
 
 type SwitchBaseProps = Omit<
   React.ComponentProps<typeof SwitchPrimitive.Root>,
   'onChange' | 'onCheckedChange' | 'onBlur'
 > & {
+  error?: string
   // Same as onCheckedChange, but the naming is more intuitive.
   onChange?: ((checked: boolean) => void) | undefined
   onBlur?: ((checked: boolean) => void) | undefined
+  touched?: boolean
 }
 
 const rootBaseClasses = `
@@ -45,15 +49,50 @@ dark:data-[state=checked]:bg-primary-foreground
 
 export const SwitchBase = ({
   className,
+  disabled = false,
+  error = '',
   onChange,
   onBlur,
+  touched = false,
   ...otherProps
 }: SwitchBaseProps) => {
+  /* ======================
+    maybeValidationMixin
+  ====================== */
+
+  const maybeValidationMixin = disabled
+    ? `
+    data-[state=checked]:bg-neutral-400
+    data-[state=unchecked]:bg-neutral-400
+    
+    `
+    : error // i.e., !disabled && error
+      ? `
+      ${FIELD_INVALID_MIXIN}
+      data-[state=checked]:bg-destructive
+      data-[state=unchecked]:bg-destructive
+   
+      `
+      : touched // i.e., !disabled && !error && touched
+        ? `
+         ${FIELD_VALID_MIXIN}
+         data-[state=checked]:bg-success
+          data-[state=unchecked]:bg-success
+        `
+        : ``
+
+  /* ======================
+          return
+  ====================== */
+
   return (
     <SwitchPrimitive.Root
       {...otherProps}
       data-slot='switch'
-      className={cn(rootBaseClasses, className)}
+      disabled={disabled}
+      // maybeValidationMixin is intentionally last to
+      // give precedence over the consumer className.
+      className={cn(rootBaseClasses, className, maybeValidationMixin)}
       onCheckedChange={(checked) => {
         onChange?.(checked)
       }}

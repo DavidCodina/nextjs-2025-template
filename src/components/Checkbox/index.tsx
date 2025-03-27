@@ -6,17 +6,12 @@ import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
-import {
-  FIELD_VALID_MIXIN,
-  FIELD_INVALID_MIXIN
-} from '@/components/component-constants'
 
 export { type CheckedState } from '@radix-ui/react-checkbox'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
-  error?: string
   errorClassName?: string
   errorStyle?: React.CSSProperties
   groupClassName?: string
@@ -31,7 +26,6 @@ type CheckboxProps = React.ComponentProps<typeof CheckboxBase> & {
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderCheckboxBaseOnly?: boolean
-  touched?: boolean
 }
 
 /* ========================================================================
@@ -63,40 +57,16 @@ export const Checkbox = ({
   id = id || uid
 
   /* ======================
-    maybeValidationMixin
-  ====================== */
-
-  const maybeValidationMixin = disabled
-    ? `
-      data-[state=checked]:bg-neutral-400
-      data-[state=checked]:text-white
-      data-[state=checked]:border-neutral-400
-    `
-    : error // i.e., !disabled && error
-      ? `
-      ${FIELD_INVALID_MIXIN}
-      data-[state=checked]:bg-destructive
-      data-[state=checked]:text-destructive-foreground
-      data-[state=checked]:border-destructive
-      `
-      : touched // i.e., !disabled && !error && touched
-        ? `
-         ${FIELD_VALID_MIXIN}
-        data-[state=checked]:bg-success
-        data-[state=checked]:text-success-foreground
-        data-[state=checked]:border-success
-        `
-        : ``
-
-  /* ======================
     CheckboxBaseComponent
   ====================== */
 
   const CheckboxBaseComponent = (
     <CheckboxBase
-      id={id}
-      className={cn(maybeValidationMixin, className)}
+      className={className}
       disabled={disabled}
+      error={error}
+      id={id}
+      touched={touched}
       {...otherProps}
     />
   )

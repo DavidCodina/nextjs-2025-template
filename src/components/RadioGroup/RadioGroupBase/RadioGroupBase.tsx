@@ -20,13 +20,6 @@ type RadioGroupBaseProps = Omit<
 /* ========================================================================
 
 ======================================================================== */
-// This was originally the RadioGroup component from ShadCN.
-// It was renamed to RadioGroupBase to avoid conflicts with
-// with the newer RadioGroup component, which uses RadioGroupBase
-// internally. While it's still possible to compose Radio Groups with
-// RadioGroupBase and RadioGroupItemBase, prefer the newer RadioGroup
-// component, which abstracts away many of the implementation details.
-//
 // ⚠️ Internally, the Radix primitive RadioGroup does implement an
 // <input type='radio'>. However, it's not directly accessible.
 // This means that any attempt to integrate react-hook-form

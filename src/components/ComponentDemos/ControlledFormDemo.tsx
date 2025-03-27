@@ -900,7 +900,6 @@ export const ControlledFormDemo = () => {
   ====================== */
 
   const renderSelect = () => {
-    //# Test disabled, className, style
     const selectItems: SelectItemType[] = [
       {
         label: 'Apple',

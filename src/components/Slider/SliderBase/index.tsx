@@ -8,9 +8,11 @@ type SliderBaseProps = Omit<
   React.ComponentProps<typeof SliderPrimitive.Root>,
   'onValueCommit' | 'onBlur' | 'onChange' | 'onValueChange'
 > & {
+  error?: string
   onChange?: ((value: number[]) => void) | undefined
   onCommit?: ((value: number[]) => void) | undefined
   onBlur?: ((value: number[]) => void) | undefined
+  touched?: boolean
 }
 
 const rootBaseClasses = `
@@ -59,6 +61,8 @@ focus-visible:outline-hidden
 export const SliderBase = ({
   className,
   defaultValue,
+  disabled = false,
+  error = '',
   onBlur,
   onChange,
   onCommit,
@@ -66,6 +70,7 @@ export const SliderBase = ({
   value: controlledValue,
   min = 0,
   max = 100,
+  touched = false,
   ...otherProps
 }: SliderBaseProps) => {
   /* ======================
@@ -98,6 +103,31 @@ export const SliderBase = ({
   // )
 
   /* ======================
+    maybeValidationMixin
+  ====================== */
+  // In this case, FIELD_INVALID_MIXIN & FIELD_VALID_MIXIN make no difference here.
+
+  const maybeValidationMixin = disabled
+    ? `
+    pointer-events-none opacity-65
+    [&_[data-slot=slider-range]]:bg-neutral-400
+    [&_[data-slot=slider-thumb]]:border-neutral-400
+    `
+    : error // i.e., !disabled && error
+      ? `
+      [&_[data-slot=slider-range]]:bg-destructive
+      [&_[data-slot=slider-thumb]]:ring-destructive/40
+      [&_[data-slot=slider-thumb]]:border-destructive
+      `
+      : touched // i.e., !disabled && !error && touched
+        ? `
+         [&_[data-slot=slider-range]]:bg-success
+         [&_[data-slot=slider-thumb]]:ring-success/40
+         [&_[data-slot=slider-thumb]]:border-success
+        `
+        : ``
+
+  /* ======================
         useEffect()
   ====================== */
   // Every time controlledValue changes, conditionally call
@@ -123,7 +153,10 @@ export const SliderBase = ({
 
   return (
     <SliderPrimitive.Root
-      className={cn(rootBaseClasses, className)}
+      // maybeValidationMixin is intentionally last to
+      // give precedence over the consumer className.
+      className={cn(rootBaseClasses, className, maybeValidationMixin)}
+      disabled={disabled}
       data-slot='slider'
       defaultValue={defaultValue}
       min={min}

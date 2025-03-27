@@ -4,12 +4,10 @@ import { Label } from '../label'
 import { FormHelp } from '../FormHelp'
 import { FormError } from '../FormError'
 import { cn } from '@/utils'
-import { FIELD_VALID_MIXIN, FIELD_INVALID_MIXIN } from '../component-constants'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-type TextareaProps = React.ComponentProps<'textarea'> & {
-  error?: string
+type TextareaProps = React.ComponentProps<typeof TextareaBase> & {
   errorClassName?: string
   errorStyle?: React.CSSProperties
   groupClassName?: string
@@ -22,7 +20,6 @@ type TextareaProps = React.ComponentProps<'textarea'> & {
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
   renderTextareaBaseOnly?: boolean
-  touched?: boolean
 }
 
 /* ========================================================================
@@ -49,21 +46,16 @@ export const Textarea = ({
   touched = false,
   ...otherProps
 }: TextareaProps) => {
-  // If id is not set, then fallback to using React's useId() hook.
-  const uuid = React.useId()
-  id = id || uuid
-
-  const maybeValidationMixin = error
-    ? FIELD_INVALID_MIXIN
-    : touched && !error
-      ? FIELD_VALID_MIXIN
-      : ''
+  const uid = React.useId()
+  id = id || uid
 
   const TextareaBaseComponent = (
     <TextareaBase
       id={id}
-      className={cn(maybeValidationMixin, className)}
+      className={className}
       disabled={disabled}
+      error={error}
+      touched={touched}
       {...otherProps}
     />
   )
