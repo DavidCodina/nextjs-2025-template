@@ -1,11 +1,12 @@
 'use client'
 
 import * as React from 'react'
+import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { Slot } from '@radix-ui/react-slot'
 import { VariantProps, cva } from 'class-variance-authority'
 import { cn } from '@/utils'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/tooltip'
 import { useSidebar } from './SidebarProvider'
+import { Tooltip } from '@/components/tooltip'
 
 /* ======================
  sidebarMenuButtonVariants 
@@ -45,10 +46,12 @@ const sidebarMenuButtonVariants = cva(sidebarMenuButtonBaseClasses, {
   }
 })
 
+type TooltipContentProps = React.ComponentProps<typeof TooltipPrimitive.Content>
+
 type SidebarMenuButtonProps = React.ComponentProps<'button'> & {
   asChild?: boolean
   isActive?: boolean
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>
+  tooltip?: string | TooltipContentProps
 } & VariantProps<typeof sidebarMenuButtonVariants>
 
 /* ========================================================================
@@ -94,22 +97,27 @@ function SidebarMenuButton({
   /* ======================
           return
   ====================== */
+  // By default, the tooltip feature is intended to work only when the
+  // Sidebar is collapsed (i.e., when collapsible='icon'). That said,
+  // the Sidebar is collapsed when isMobile, so it's also hidden when
+  // isMobile. Change this as needed...
+
+  if (state !== 'collapsed' || isMobile || collapsible === 'none') {
+    return button
+  }
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent
-        side={side}
-        align='center'
-        // By default, the tooltip feature is intended to work only when the
-        // Sidebar is collapsed (i.e., when collapsible='icon'). That said,
-        // the Sidebar is collapsed when isMobile, so it's also hidden when
-        // isMobile. Change this as needed...
-        hidden={state !== 'collapsed' || isMobile || collapsible === 'none'}
-        {...tooltip}
-        className={side === 'left' ? 'translate-x-2' : '-translate-x-2'}
-      />
-    </Tooltip>
+    <Tooltip
+      arrowStyle={{
+        width: 10,
+        height: 6
+      }}
+      delayDuration={0}
+      trigger={button}
+      side={side}
+      {...tooltip}
+      sideOffset={15}
+    />
   )
 }
 

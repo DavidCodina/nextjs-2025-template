@@ -161,7 +161,7 @@ export const ComponentDemos = () => {
       {/* ================= */}
 
       <TabsContent value='tooltip'>
-        <TooltipDemo />
+        <TooltipDemo />{' '}
       </TabsContent>
     </Tabs>
   )
