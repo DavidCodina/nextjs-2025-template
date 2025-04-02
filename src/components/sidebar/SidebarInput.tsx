@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '@/utils'
-import { Input } from '@/components/input'
+import { Input } from '@/components/Input'
 
 /* ========================================================================
 

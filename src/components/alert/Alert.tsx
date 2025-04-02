@@ -3,8 +3,6 @@
 import * as React from 'react'
 import { type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
-import { AlertTitle } from './AlertTitle'
-import { AlertDescription } from './AlertDescription'
 import { alertVariants } from './alertVariants'
 
 type AlertProps = React.ComponentProps<'div'> &
@@ -14,7 +12,7 @@ type AlertProps = React.ComponentProps<'div'> &
 
 ======================================================================== */
 
-const Alert = ({
+export const Alert = ({
   children,
   className = '',
   style = {},
@@ -37,5 +35,3 @@ const Alert = ({
     </div>
   )
 }
-
-export { Alert, AlertTitle, AlertDescription }

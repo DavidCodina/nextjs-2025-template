@@ -101,26 +101,26 @@ export const AlertDemo = () => {
 
   return (
     <>
-      <section className='mx-auto mb-6 max-w-[800px] space-y-6 rounded-lg border bg-(--background-light) p-6 shadow'>
+      <section className='bg-background-light mx-auto mb-6 max-w-[800px] space-y-6 rounded-lg border p-6 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Custom Color Variants:</h2>
         {renderCustomColorAlerts()}
       </section>
 
-      <section className='mx-auto mb-6 max-w-[800px] space-y-6 rounded-lg border bg-(--background-light) p-6 shadow'>
+      <section className='bg-background-light mx-auto mb-6 max-w-[800px] space-y-6 rounded-lg border p-6 shadow'>
         <h2 className='text-primary mb-4 font-bold'>
           Custom Color Variants (Outline):
         </h2>
         {renderCustomOutlineAlerts()}
       </section>
 
-      <section className='mx-auto mb-6 max-w-[800px] space-y-6 rounded-lg border bg-(--background-light) p-6 shadow'>
+      <section className='bg-background-light mx-auto mb-6 max-w-[800px] space-y-6 rounded-lg border p-6 shadow'>
         <h2 className='text-primary mb-4 font-bold'>
           Tailwind Color Variants:
         </h2>
         {renderTailwindColorAlerts()}
       </section>
 
-      <section className='mx-auto mb-6 max-w-[800px] space-y-6 rounded-lg border bg-(--background-light) p-6 shadow'>
+      <section className='bg-background-light mx-auto mb-6 max-w-[800px] space-y-6 rounded-lg border p-6 shadow'>
         <h2 className='text-primary mb-4 font-bold'>
           Tailwind Color Variants (Outline):
         </h2>

@@ -39,6 +39,21 @@ type SidebarProps = React.ComponentProps<'div'> & {
   ///////////////////////////////////////////////////////////////////////////
 }
 
+//! Temporary: min-h-[100px]
+// Added group-data-[variant=floating]:overflow-hidden to prevent SidebarHeader and/or
+// SidebarFooter content from overflowing when collapsible='icon'. This does not affect tooltips.
+
+const sidebarBaseClasses = `
+!min-h-[100px]
+bg-sidebar
+flex h-full w-full flex-col 
+group-data-[variant=floating]:overflow-hidden
+group-data-[variant=floating]:border-sidebar-border
+group-data-[variant=floating]:border
+group-data-[variant=floating]:rounded-lg 
+group-data-[variant=floating]:shadow-sm
+`
+
 /* ========================================================================
                                   Sidebar
 ======================================================================== */
@@ -169,6 +184,7 @@ function Sidebar({
         className={cn(
           'relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear',
           'group-data-[collapsible=offcanvas]:w-0',
+
           // This doesn't really make any sense to do here. It's from the original ShadCN
           // implementation, but seems like a mistake. The intention was likely to try to
           // move the element to the right side the container.
@@ -181,10 +197,66 @@ function Sidebar({
       />
 
       <div
-        // Added overflow-hidden to prevent SidebarHeader and/or SidebarFooter content from overflowing.
-        // When collapsible='icon'. This does not affect tooltips.
+        ///////////////////////////////////////////////////////////////////////////
+        //
+        // Initially, overflow-hidden was added to prevent SidebarHeader and/or
+        // SidebarFooter content from overflowing when defaultCollapsible='icon'
+        // on the SidebarProvider (in layout.tsx). This does not affect tooltips from showing.
+        //
+        // ⚠️ 3-Way Gotcha: Focus Visibility, Overflow Constraints and Flex Layout Distribution
+        //
+        // When tabbing off the menu icon, it would create epic layout instability related
+        // to the flex implemenation in AppSidebar that wrapped SidebarTrigger, SidebarHeader and
+        // ThemeToggle. Part of the solution was to use overflow-clip instead.
+        //
+        // The key difference is how they handle layout calculations:
+        //
+        //   overflow-hidden creates a new Block Formatting Context (BFC) and can trigger layout
+        //   recalculations when content changes or focus moves.
+        //
+        //   overflow-clip is more strict - it just clips content without creating a new BFC and
+        //   doesn't participate in layout recalculations.
+        //
+        // So when using overflow-hidden with flexbox in the collapsed icon mode:
+        //
+        //   1. Tab moves focus
+        //   2. Focus styles trigger a small size change
+        //   3. overflow-hidden creates a BFC and participates in layout recalculation
+        //   4. This layout recalculation combines with flexbox's space distribution algorithm
+        //   5. In the extremely tight space, this creates a feedback loop that crashes the layout
+        //
+        // But with overflow-clip:
+        //
+        //   1. Tab moves focus
+        //   2. Focus styles trigger a small size change
+        //   3. overflow-clip just clips without participating in layout
+        //   4. No new layout calculations are triggered
+        //   5. The flexbox stays stable because it's not getting conflicting layout information
+        //
+        // This is why overflow-clip fixes it - it prevents the cascade of layout recalculations
+        // that was happening with overflow-hidden in that extremely constrained space.
+        // It's a subtle but important difference in how these two overflow properties
+        // interact with layout algorithms!
+        //
+        // The other part of the solution was to do this in AppSidebar:
+        //
+        //   <ThemeToggle tabIndex={isClosed ? -1 : 0} />
+        //
+        // In fact, that alone seemed to be sufficient, and allowed me to optionally move back
+        // to using overflow-hidden. This suggests the root issue was actually more about focus behavior
+        // than pure layout instability. When focus moved to ThemeToggle, the browser was trying
+        // to scroll/adjust to make the focused element visible and was fighting with both the
+        // overflow-hidden and the flex layout.
+        //
+        // By making the ThemeToggle unfocusable when closed, focus never attempts to go to ThemeToggle,
+        // the browser never attempts to make it visible, and no conflict occurs between focus behavior
+        // and overflow/layout. So while there might still be some flex layout instability in play,
+        // the primary issue seemed to be about focus management in overflow contexts.
+        //
+        ///////////////////////////////////////////////////////////////////////////
+
         className={cn(
-          'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) overflow-hidden transition-[left,right,width] duration-200 ease-linear md:flex',
+          'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) overflow-clip transition-[left,right,width] duration-200 ease-linear md:flex',
 
           side === 'left'
             ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
@@ -200,16 +272,9 @@ function Sidebar({
             : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l',
           className
         )}
-        style={style}
         {...props}
       >
-        <div
-          data-sidebar='sidebar'
-          // Added group-data-[variant=floating]:overflow-hidden to prevent SidebarHeader and/or
-          // SidebarFooter content from overflowing when collapsible='icon'. This does not affect tooltips.
-
-          className={`bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:overflow-hidden group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm`}
-        >
+        <div data-sidebar='sidebar' className={sidebarBaseClasses}>
           {children}
         </div>
       </div>

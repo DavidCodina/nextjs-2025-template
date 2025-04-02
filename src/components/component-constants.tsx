@@ -38,8 +38,47 @@ export const ALERT_DIALOG_ZINDEX_CLASS = 'z-50'
 // Used by SheetContent and SheetOverlay
 export const SHEET_ZINDEX_CLASS = 'z-50'
 
+// Used by SelectContent
+export const SELECT_ZINDEX_CLASS = 'z-50'
+
 //# Test permanently open popover against open mobile sidebar, open alert dialog, and open sheet.
 //# Test permanently open dropdown menut against open mobile sidebar, open alert dialog, and open sheet.
 //# Test permanantly open popover against open dropdown.
 
 //# Sonner
+
+/* ======================
+
+====================== */
+
+export const FIELD_BOX_SHADOW_MIXIN = `
+shadow-xs
+`
+
+export const FIELD_FOCUS_VISIBLE_MIXIN = `
+focus-visible:shadow-none
+focus-visible:border-primary
+focus-visible:ring-[3px]
+focus-visible:ring-primary/40
+`
+
+export const FIELD_VALID_MIXIN = `
+not-disabled:border-success
+focus-visible:border-success
+focus-visible:ring-success/40
+`
+
+// This assumes FIELD_FOCUS_VISIBLE_MIXIN is already
+// being used, and so only modifies border and ring.
+export const FIELD_INVALID_MIXIN = `
+not-disabled:border-destructive
+focus-visible:border-destructive
+focus-visible:ring-destructive/40
+`
+
+// disabled:cursor-not-allowed works for now, but it could get you into trouble.
+// It's more common (e.g., Bootstrap) to use pointer-events:none.
+export const FIELD_DISABLED_MIXIN = `
+disabled:cursor-not-allowed 
+disabled:opacity-65
+`

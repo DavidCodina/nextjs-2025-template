@@ -6,16 +6,24 @@ import { AlertDemo } from './AlertDemo'
 import { AlertDialogDemo } from './AlertDialogDemo'
 import { BadgeDemo } from './BadgeDemo'
 import { ButtonDemo } from './ButtonDemo'
+import { ButtonGroupDemo } from './ButtonGroupDemo'
 import { CardDemo } from './CardDemo'
 import { CollapsibleDemo } from './CollapsibleDemo'
+import { DatePickerDemo } from './DatePickerDemo'
 import { DialogDemo } from './DialogDemo'
 import { DropdownMenuDemo } from './DropdownMenuDemo'
+import { UncontrolledFormDemo } from './UncontrolledFormDemo'
+import { ControlledFormDemo } from './ControlledFormDemo'
 import { PopoverDemo } from './PopoverDemo'
+import { SelectNativeDemo } from './SelectNativeDemo'
 import { SeparatorDemo } from './SeparatorDemo'
 import { SheetDemo } from './SheetDemo'
 import { SkeletonDemo } from './SkeletonDemo'
+import { SonnerDemo } from './SonnerDemo'
+import { TableDemo } from './TableDemo'
 import { TabsDemo } from './TabsDemo'
 import { TooltipDemo } from './TooltipDemo'
+import { CalendarDemo } from './CalendarDemo'
 
 /* ========================================================================
 
@@ -23,21 +31,29 @@ import { TooltipDemo } from './TooltipDemo'
 
 export const ComponentDemos = () => {
   return (
-    <Tabs defaultValue='accordion' className='mx-auto mb-6 gap-6'>
+    <Tabs defaultValue='controlled-form' className='mx-auto mb-6 gap-6'>
       <TabsList className='grid w-full grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'>
         <TabsTrigger value='accordion'>Accordion</TabsTrigger>
         <TabsTrigger value='alert'>Alert</TabsTrigger>
         <TabsTrigger value='alert-dialog'>Alert Dialog</TabsTrigger>
         <TabsTrigger value='badge'>Badge</TabsTrigger>
         <TabsTrigger value='button'>Button</TabsTrigger>
+        <TabsTrigger value='button-group'>Button Group</TabsTrigger>
+        <TabsTrigger value='calendar'>Calendar</TabsTrigger>
         <TabsTrigger value='card'>Card</TabsTrigger>
         <TabsTrigger value='collapsible'>Collapsible</TabsTrigger>
+        <TabsTrigger value='date-picker'>Date Picker</TabsTrigger>
         <TabsTrigger value='dialog'>Dialog</TabsTrigger>
         <TabsTrigger value='dropdown-menu'>Dropdown Menu</TabsTrigger>
+        <TabsTrigger value='uncontrolled-form'>Uncontrolled Form</TabsTrigger>
+        <TabsTrigger value='controlled-form'>Controlled Form</TabsTrigger>
         <TabsTrigger value='popover'>Popover</TabsTrigger>
+        <TabsTrigger value='select-native'>Select Native</TabsTrigger>
         <TabsTrigger value='separator'>Separator</TabsTrigger>
         <TabsTrigger value='sheet'>Sheet</TabsTrigger>
         <TabsTrigger value='skeleton'>Skeleton</TabsTrigger>
+        <TabsTrigger value='sonner'>Sonner</TabsTrigger>
+        <TabsTrigger value='table'>Table</TabsTrigger>
         <TabsTrigger value='tabs'>Tabs</TabsTrigger>
         <TabsTrigger value='tooltip'>Tooltip</TabsTrigger>
       </TabsList>
@@ -74,6 +90,18 @@ export const ComponentDemos = () => {
 
       {/* ================= */}
 
+      <TabsContent value='button-group'>
+        <ButtonGroupDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='calendar'>
+        <CalendarDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
       <TabsContent value='card'>
         <CardDemo />
       </TabsContent>
@@ -82,6 +110,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='collapsible'>
         <CollapsibleDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='date-picker'>
+        <DatePickerDemo />
       </TabsContent>
 
       {/* ================= */}
@@ -98,8 +132,26 @@ export const ComponentDemos = () => {
 
       {/* ================= */}
 
+      <TabsContent value='uncontrolled-form'>
+        <UncontrolledFormDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='controlled-form'>
+        <ControlledFormDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
       <TabsContent value='popover'>
         <PopoverDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='select-native'>
+        <SelectNativeDemo />
       </TabsContent>
 
       {/* ================= */}
@@ -122,6 +174,18 @@ export const ComponentDemos = () => {
 
       {/* ================= */}
 
+      <TabsContent value='sonner'>
+        <SonnerDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='table'>
+        <TableDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
       <TabsContent value='tabs'>
         <TabsDemo />
       </TabsContent>
@@ -129,7 +193,7 @@ export const ComponentDemos = () => {
       {/* ================= */}
 
       <TabsContent value='tooltip'>
-        <TooltipDemo />
+        <TooltipDemo />{' '}
       </TabsContent>
     </Tabs>
   )

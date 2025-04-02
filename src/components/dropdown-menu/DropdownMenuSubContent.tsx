@@ -6,7 +6,8 @@ import { cn } from '@/utils'
 import { DROPDOWN_MENU_ZINDEX_CLASS } from '../component-constants'
 
 const baseClasses = `
-bg-popover text-popover-foreground
+bg-background-light text-foreground
+min-w-[8rem] overflow-hidden rounded-md border p-1 shadow-lg
 data-[state=open]:animate-in
 data-[state=closed]:animate-out
 data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0
@@ -16,7 +17,6 @@ data-[side=bottom]:slide-in-from-top-2
 data-[side=left]:slide-in-from-right-2
 data-[side=right]:slide-in-from-left-2
 data-[side=top]:slide-in-from-bottom-2
-min-w-[8rem] overflow-hidden rounded-md border p-1 shadow-lg
 ${DROPDOWN_MENU_ZINDEX_CLASS}
 `
 /* ========================================================================

@@ -82,6 +82,7 @@ const items = [
 ]
 
 import { SIDEBAR_ZINDEX_CLASS } from 'components/component-constants'
+import { cn } from '@/utils'
 
 /* ========================================================================
 
@@ -290,6 +291,7 @@ export const AppSidebar = () => {
         <SidebarGroup>
           <SidebarGroupLabel asChild>
             <CollapsibleTrigger
+              tabIndex={isClosed ? -1 : 0}
               style={{
                 ...isIconTextWrappingFix
               }}
@@ -346,7 +348,7 @@ export const AppSidebar = () => {
   }
 
   /* ======================
-         return
+          return
   ====================== */
 
   return (
@@ -371,7 +373,9 @@ export const AppSidebar = () => {
       in the sense that it's unaffected by content scrolling. */}
 
       <div
-        className={`flex items-center px-2 ${isNone ? '' : 'justify-between'}`}
+        className={cn('flex items-center px-2', {
+          'justify-between': !isNone
+        })}
         style={{
           // When floating or inset, the Sidebar component sets `p-2`. This offsets that.
           minWidth:
@@ -401,7 +405,13 @@ export const AppSidebar = () => {
 
         <SidebarHeader>Sidebar Header</SidebarHeader>
 
-        <ThemeToggle />
+        {/* Conditionally setting tabIndex to -1 is very important! 
+        When defaultCollapsible='icon', the content is hidden with
+        overflow-hidden (now overflow-clip) in Sidebar.tsx. If you try 
+        to tab to an element that is effectively hidden, the browser will 
+        have a meltdown and crash the layout. This ultimately was causing
+        all of SidebarContent to momentarily disappear! */}
+        <ThemeToggle tabIndex={isClosed ? -1 : 0} />
       </div>
 
       <SidebarSeparator />

@@ -1,7 +1,7 @@
 'use client'
 
 import { toast /* useSonner */ } from 'sonner'
-import { Button } from '@/components/button'
+import { Button } from '@/components'
 // import { Trophy } from 'lucide-react'
 
 /* ========================================================================

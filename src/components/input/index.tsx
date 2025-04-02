@@ -1,42 +1,125 @@
+'use client'
+
 import * as React from 'react'
+import { InputBase } from './InputBase'
+import { Label } from '../label'
+import { FormHelp } from '../FormHelp'
+import { FormError } from '../FormError'
 import { cn } from '@/utils'
 
-const baseClasses = `
-border-input file:text-foreground placeholder:text-muted-foreground
-selection:bg-primary selection:text-primary-foreground
-flex h-9 w-full min-w-0 rounded-md border bg-transparent
-px-3 py-1 text-base shadow-xs transition-[color,box-shadow]
-outline-none file:inline-flex file:h-7 file:border-0
-file:bg-transparent file:text-sm file:font-medium
-disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50
-md:text-sm
-`
+type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-const focusMixin = `
-focus-visible:border-ring
-focus-visible:ring-ring/50
-focus-visible:ring-[3px]
-`
-
-const ariaMixin = `
-aria-invalid:ring-destructive/20
-dark:aria-invalid:ring-destructive/40
-aria-invalid:border-destructive
-`
+type InputProps = React.ComponentProps<typeof InputBase> & {
+  errorClassName?: string
+  errorStyle?: React.CSSProperties
+  groupClassName?: string
+  groupStyle?: React.CSSProperties
+  help?: string
+  helpClassName?: string
+  helpStyle?: React.CSSProperties
+  label?: LabelChildren
+  labelClassName?: string
+  labelRequired?: boolean
+  labelStyle?: React.CSSProperties
+  renderInputBaseOnly?: boolean
+  renderInputBase?: (inputBase: React.JSX.Element) => React.JSX.Element
+}
 
 /* ========================================================================
 
 ======================================================================== */
 
-function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
-  return (
-    <input
-      type={type}
-      data-slot='input'
-      className={cn(baseClasses, focusMixin, ariaMixin, className)}
-      {...props}
+export const Input = ({
+  className = '',
+  disabled = false,
+  error = '',
+  errorClassName = '',
+  errorStyle = {},
+  groupClassName = '',
+  groupStyle = {},
+  id = '',
+  label = '',
+  labelClassName = '',
+  labelRequired = false,
+  labelStyle = {},
+  renderInputBaseOnly = false,
+  renderInputBase,
+  help = '',
+  helpClassName = '',
+  helpStyle = {},
+  touched = false,
+  ...otherProps
+}: InputProps) => {
+  const uid = React.useId()
+  id = id || uid
+
+  /* ======================
+      InputBaseComponent
+  ====================== */
+
+  const InputBaseComponent = (
+    <InputBase
+      className={className}
+      disabled={disabled}
+      error={error}
+      id={id}
+      touched={touched}
+      {...otherProps}
     />
   )
-}
 
-export { Input }
+  /* ======================
+        renderLabel()
+  ====================== */
+
+  const renderLabel = () => {
+    if (!label) {
+      return null
+    }
+
+    return (
+      <Label
+        className={cn('mb-1', labelClassName)}
+        disabled={disabled}
+        error={error}
+        htmlFor={id}
+        labelRequired={labelRequired}
+        style={labelStyle}
+        touched={touched}
+      >
+        {label}
+      </Label>
+    )
+  }
+
+  /* ======================
+          return
+  ====================== */
+
+  if (renderInputBaseOnly) {
+    return InputBaseComponent
+  }
+
+  return (
+    <div className={groupClassName} style={groupStyle}>
+      {renderLabel()}
+
+      {typeof renderInputBase === 'function'
+        ? renderInputBase(InputBaseComponent)
+        : InputBaseComponent}
+
+      <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
+        {help}
+      </FormHelp>
+
+      <FormError
+        className={errorClassName}
+        disabled={disabled}
+        style={errorStyle}
+        touched={touched}
+      >
+        {error}
+      </FormError>
+    </div>
+  )
+}

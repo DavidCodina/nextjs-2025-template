@@ -63,7 +63,7 @@ export default async function RootLayout({
           to implement the optional 'persisted State' feature with cookies. */}
           <SidebarProvider
             defaultSide='left'
-            // defaultCollapsible='icon'
+            defaultCollapsible='icon'
             // defaultVariant='inset'
             forceMobile={false}
             // For multiple sidebars in your application, you can use the style prop to set

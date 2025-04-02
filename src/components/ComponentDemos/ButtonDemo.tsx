@@ -1,7 +1,8 @@
 'use client'
 
 import { ComponentProps } from 'react'
-import { Button } from '@/components/button'
+import { Button } from '@/components'
+import { Loader2 } from 'lucide-react'
 
 import {
   Rocket,
@@ -80,12 +81,12 @@ export const ButtonDemo = () => {
 
   return (
     <>
-      <section className='mx-auto mb-6 space-y-4 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Custom Color Variants:</h2>
         {renderCustomColorButtons()}
       </section>
 
-      <section className='mx-auto mb-6 space-y-4 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>
           Custom Color Variants (light):
         </h2>
@@ -97,14 +98,14 @@ export const ButtonDemo = () => {
         {renderCustomLightColorButtons()}
       </section>
 
-      <section className='mx-auto mb-6 space-y-4 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>
           Tailwind Color Variants:
         </h2>
         {renderTailwindColorButtons()}
       </section>
 
-      <section className='mx-auto mb-6 space-y-4 rounded-lg border bg-(--background-light) p-4 shadow'>
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Buttons With SVGs:</h2>
 
         <div className='flex flex-wrap items-center justify-center gap-4'>
@@ -116,51 +117,62 @@ export const ButtonDemo = () => {
             <Rocket />
           </Button>
 
-          <Button size='md' variant='red'>
-            <Rocket />
+          <Button loading size='md' variant='red' leftSection={<Rocket />}>
             Click Me
           </Button>
 
-          <Button size='md' variant='orange'>
-            <Omega />
+          <Button size='md' variant='orange' leftSection={<Omega />}>
             Click Me
           </Button>
 
-          <Button size='md' variant='yellow'>
-            <Zap />
+          <Button
+            loading
+            loader={<Loader2 className='animate-spin' />}
+            leftSection={<Zap />}
+            size='md'
+            variant='yellow'
+          >
+            Custom Loader
+          </Button>
+
+          <Button leftSection={<CircleCheck />} size='md' variant='green'>
             Click Me
           </Button>
 
-          <Button size='md' variant='green'>
-            <CircleCheck />
+          <Button leftSection={<CircleUserRound />} size='md' variant='blue'>
             Click Me
           </Button>
 
-          <Button size='md' variant='blue'>
-            <CircleUserRound />
-            Click Me
-          </Button>
-
-          <Button size='md' variant='purple'>
-            <Music4 />
+          <Button rightSection={<Music4 />} size='md' variant='purple'>
             Click Me
           </Button>
         </div>
       </section>
 
-      {/* Outline: 
-      The default shadcn outline button isn't really an outline button.
-      It's just an off-white button with a light border.*/}
+      <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
+        <h2 className='text-primary mb-2 font-bold'>Other Variants:</h2>
 
-      {/* <Button variant='outline'>Outline</Button> */}
+        <p className='mb-4'>
+          I'm not a huge fan of these variants, but they're often used in
+          default ShadCN implementations, so they've been kept for now.
+        </p>
 
-      {/* Ghost: 
-      The default shadcn ghost button is transparent, then has a solid off-white color when hovered. */}
+        <div className='flex flex-wrap items-center justify-center gap-4'>
+          {/* Outline: 
+          The default shadcn outline button isn't really an outline button.
+          It's just an off-white button with a light border.*/}
 
-      {/* <Button variant='ghost'>Ghost</Button> */}
+          <Button variant='outline'>Outline</Button>
 
-      {/* Link */}
-      {/* <Button variant='link'>Link</Button> */}
+          {/* Ghost: 
+          The default shadcn ghost button is transparent, then has a solid off-white color when hovered. */}
+
+          <Button variant='ghost'>Ghost</Button>
+
+          {/* Link */}
+          <Button variant='link'>Link</Button>
+        </div>
+      </section>
     </>
   )
 }

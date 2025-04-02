@@ -19,7 +19,7 @@ export const TabsDemo = () => {
       {/* ================= */}
 
       <TabsContent value='section1'>
-        <div className='rounded-lg border bg-(--background-light) p-4 shadow'>
+        <div className='bg-background-light rounded-lg border p-4 shadow'>
           <h3 className='text-primary text-xl font-black'>Section 1</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit magni
@@ -41,7 +41,7 @@ export const TabsDemo = () => {
       {/* ================= */}
 
       <TabsContent value='section2'>
-        <div className='rounded-lg border bg-(--background-light) p-4 shadow'>
+        <div className='bg-background-light rounded-lg border p-4 shadow'>
           <h3 className='text-primary text-xl font-black'>Section 2</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit magni
@@ -57,7 +57,7 @@ export const TabsDemo = () => {
       {/* ================= */}
 
       <TabsContent value='section3'>
-        <div className='rounded-lg border bg-(--background-light) p-4 shadow'>
+        <div className='bg-background-light rounded-lg border p-4 shadow'>
           <h3 className='text-primary text-xl font-black'>Section 3</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit magni

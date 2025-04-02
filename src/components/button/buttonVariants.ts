@@ -95,8 +95,7 @@ inline-flex items-center justify-center gap-[0.5em] shrink-0
 whitespace-nowrap font-semibold
 transition-[color,box-shadow]
 rounded-[0.375em]
-px-[0.5em]
-py-[0.25em]
+px-[0.5em] py-[0.25em]
 cursor-pointer
 select-none
 focus-visible:ring-[3px] 
@@ -104,6 +103,28 @@ disabled:pointer-events-none disabled:opacity-50
 outline-none 
 ${svgMixin}
 `
+
+///////////////////////////////////////////////////////////////////////////
+//
+// Note: ShadCN generally follows a pattern of doing cva(baseClasses, { ... }).
+// Then when consuming the variants, it does:
+//
+//   className={cn(buttonVariants({ variant, size }), className )}
+//
+// However, if we're already using cn() it may actually make more sense to
+// omit baseClasses from cva() and instead do:
+//
+//   className={cn(baseClasses, buttonVariants({ variant, size }), className)}
+//
+// The argument against this is the potential standalone usage of buttonVariants
+// outside of Button.
+//
+// However, if you only ever intend for the styles to be used internally, then
+// with the latter pattern, you're actually getting the benefits of tailwind merge,
+// thereby ensuring that any variant Tailwind CSS classes have precedence. Remember,
+// cva() itself  DOES NOT resolve cascade conflicts.
+//
+///////////////////////////////////////////////////////////////////////////
 
 export const buttonVariants = cva(baseClasses, {
   variants: {
@@ -439,15 +460,28 @@ export const buttonVariants = cva(baseClasses, {
       ====================== */
       // I left these in because the default implementation of other ShadCN components
       // sometimes use them. However, they're essentially junk
-
-      outline:
-        'border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground',
+      // focus-visible:ring/50
+      outline: `
+        border shadow-xs
+        hover:bg-accent
+        hover:text-accent-foreground
+        focus-visible:ring-ring/20
+        dark:focus-visible:ring-ring/40
+        `,
 
       // The ghost variant is used by the SidebarTrigger component.
       // This indicates that if you remove certain variants, it can
       // break the implementation of other ShadCN components.
-      ghost: 'hover:bg-accent hover:text-accent-foreground',
-      link: 'text-primary underline-offset-4 hover:underline'
+      ghost: `
+      hover:bg-accent hover:text-accent-foreground
+      focus-visible:ring-ring/20
+      dark:focus-visible:ring-ring/40
+      `,
+      link: `
+      text-primary underline-offset-4 hover:underline
+      focus-visible:ring-primary/20
+      dark:focus-visible:ring-primary/40
+      `
     },
 
     // The default shadcn implementation hardcodes the height of the buttons.

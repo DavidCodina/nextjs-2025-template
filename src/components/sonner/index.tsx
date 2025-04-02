@@ -73,8 +73,8 @@ const Toaster = ({
           // '--border-radius': '8px',
 
           // CSS colorvariables work in conjunction with richColors={true}
-          '--normal-bg': 'var(--popover)',
-          '--normal-text': 'var(--popover-foreground)',
+          '--normal-bg': 'var(--background-light)',
+          '--normal-text': 'var(--foreground)',
           '--normal-border': 'var(--border)',
 
           '--success-bg': 'var(--background-light)',

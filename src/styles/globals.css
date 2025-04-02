@@ -22,49 +22,49 @@ Full support for the new @theme directive and @theme inline option. */
 @theme inline {
   /* Bacgkround Color - <body> color. */
   --color-background: var(--background);
-
+  --color-background-light: var(--background-light); /* 🆕 */
   /* Foreground Color - <body> text color. */
   --color-foreground: var(--foreground);
 
   /* Primary Color */
-  --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
 
   /* Secondary Color */
-  --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
 
   /* Destructive Color */
-  --color-destructive-foreground: var(--destructive-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
 
   /* _Success Color */
-  --color-success-foreground: var(--success-foreground);
-  --color-success: var(--success);
+  --color-success: var(--success); /* 🆕 */
+  --color-success-foreground: var(--success-foreground); /* 🆕 */
 
   /* _Info Color */
-  --color-info-foreground: var(--info-foreground);
-  --color-info: var(--info);
+  --color-info: var(--info); /* 🆕 */
+  --color-info-foreground: var(--info-foreground); /* 🆕 */
 
   /* _Warning Color */
-  --color-warning-foreground: var(--warning-foreground);
-  --color-warning: var(--warning);
+  --color-warning: var(--warning); /* 🆕 */
+  --color-warning-foreground: var(--warning-foreground); /* 🆕 */
 
   /* Muted Color */
-  --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 
   /* Border Color: Admittedly, the naming convention is kind of bad. 
   It would be better if it was --color-default-border. */
   --color-border: var(--border);
 
   /* Accent Color */
-  --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
 
   /* Card Color */
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
 
   /* Sidebar Color */
   /* Used for bg-sidebar in SidebarProvider, etc. */
@@ -79,6 +79,9 @@ Full support for the new @theme directive and @theme inline option. */
   --color-sidebar-accent: var(--sidebar-accent);
   /* Used in Sidebar, SidebarGroupAction, SidebarMenuAction, SidebarMenuBadge, SidebarMenuSubButton  */
   --color-sidebar-foreground: var(--sidebar-foreground);
+  /* ❌ Removed
+ --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+ --color-sidebar-primary: var(--sidebar-primary); */
 
   /* Chart Color */
   --color-chart-5: var(--chart-5);
@@ -87,11 +90,14 @@ Full support for the new @theme directive and @theme inline option. */
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
 
-  /* Popover Color */
-  --color-popover-foreground: var(--popover-foreground);
+  /* ❌ Popover Color 
+  There shouldn't be a need for this:
   --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground); */
 
   --color-ring: var(--ring);
+
+  /* Input Color */
   --color-input: var(--input);
 
   /* Font Types */
@@ -114,7 +120,8 @@ Full support for the new @theme directive and @theme inline option. */
     --radius-4xl: 2rem;
   */
 
-  /* --radius-sm: calc(var(--radius) - 4px);
+  /* ❌ Removed:
+  --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px); */
@@ -129,25 +136,25 @@ Full support for the new @theme directive and @theme inline option. */
   is used  on the body element below to apply the bg-background class. */
   --background: rgb(237, 242, 249); /* oklch(1 0 0) */
   /* Added: Used for cards, nav menu, articles, etc. */
-  --background-light: #fff;
+  --background-light: #fff; /* 🆕 */
 
   /* Foreground: This is used to create the --color-foreground above, which then 
   is used on the body element below to apply the text-foreground class. */
   --foreground: #212529;
 
-  --primary-light: var(--color-indigo-800);
+  --primary-light: var(--color-indigo-800); /* 🆕 */
   --primary: var(--primary-light);
   --primary-foreground: #fff;
-  --primary-soft: var(--color-indigo-50);
+  --primary-soft: var(--color-indigo-50); /* 🆕 */
 
   /* Secondary */
-  --secondary-light: var(--color-cyan-500);
+  --secondary-light: var(--color-cyan-500); /* 🆕 */
   --secondary: var(--secondary-light);
   --secondary-foreground: #fff;
-  --secondary-soft: var(--color-cyan-50);
+  --secondary-soft: var(--color-cyan-50); /* 🆕 */
 
   /* Destructive */
-  --destructive-light: var(--color-rose-500);
+  --destructive-light: var(--color-rose-500); /* 🆕 */
   --destructive: var(--destructive-light);
 
   /* Here the foreground was similar to --destructive. 
@@ -167,26 +174,26 @@ Full support for the new @theme directive and @theme inline option. */
   portable because they're highly dependent on the specifcs of this file. */
   --destructive-foreground: #fff;
 
-  --destructive-soft: var(--color-rose-50);
+  --destructive-soft: var(--color-rose-50); /* 🆕 */
 
   /* _Success: The fact that ShadCN has a destructive and not 
   a success, warning, or info variants seems strange. */
-  --success-light: var(--color-green-500);
-  --success: var(--success-light);
-  --success-foreground: #fff;
-  --success-soft: var(--color-green-50);
+  --success-light: var(--color-green-500); /* 🆕 */
+  --success: var(--success-light); /* 🆕 */
+  --success-foreground: #fff; /* 🆕 */
+  --success-soft: var(--color-green-50); /* 🆕 */
 
-  --info-light: var(--color-blue-500);
-  --info: var(--info-light);
-  --info-foreground: #fff;
-  --info-soft: var(--color-blue-50);
+  --info-light: var(--color-blue-500); /* 🆕 */
+  --info: var(--info-light); /* 🆕 */
+  --info-foreground: #fff; /* 🆕 */
+  --info-soft: var(--color-blue-50); /* 🆕 */
 
-  --warning-light: var(--color-yellow-500);
-  --warning: var(--warning-light);
-  --warning-foreground: #fff;
-  --warning-soft: var(--color-yellow-50);
+  --warning-light: var(--color-yellow-500); /* 🆕 */
+  --warning: var(--warning-light); /* 🆕 */
+  --warning-foreground: #fff; /* 🆕 */
+  --warning-soft: var(--color-yellow-50); /* 🆕 */
 
-  /* Muted */
+  /* Muted  */
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
 
@@ -194,7 +201,7 @@ Full support for the new @theme directive and @theme inline option. */
   --accent: oklch(
     from var(--background-light) calc(l - 0.04) c h
   ); /* oklch(0.97 0 0); */
-  --accent-foreground: oklch(0.205 0 0);
+  --accent-foreground: var(--foreground); /* ??? oklch(0.205 0 0) */
 
   /* Border: This is used to create --color-border above. 
   It can then be used to do className="border border-border". 
@@ -205,8 +212,8 @@ Full support for the new @theme directive and @theme inline option. */
   --border: var(--color-neutral-300); /* oklch(0.922 0 0) */
 
   /* Card */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card: var(--background-light);
+  --card-foreground: var(--foreground);
 
   /* Sidebar: Curently, the sidebar's header, footer, group label are set to primary.
   I also set the ThemeToggle and SidebarTrigger to do something similar.
@@ -215,10 +222,31 @@ Full support for the new @theme directive and @theme inline option. */
 
   --sidebar: var(--background-light);
   --sidebar-border: var(--border);
-  --sidebar-foreground: var(--foreground);
   --sidebar-accent: var(--accent);
+  --sidebar-foreground: var(--foreground);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* ❌ Removed
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  */
+
+  /* ❌ Popover Color Popover 
+  --popover: var(--background-light);
+  --popover-foreground: var(--foreground);
+  */
+
+  /* Input */
+  --input: var(--border);
+
+  /* Ring */
+  --ring: oklch(0.708 0 0); /* ??? */
+
+  /* Radius: this is the base value that is then used to create other radius custom properties.
+  However, I've commented out the radius overwrites, and am just sticking with the Tailwind 
+  defaults for now. This may mean that for some ShadCN generated components, I will need to 
+  tweak them back again. */
+  --radius: 0.625rem;
 
   /* Chart */
   --chart-1: oklch(0.646 0.222 41.116);
@@ -226,19 +254,6 @@ Full support for the new @theme directive and @theme inline option. */
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-
-  /* Popover */
-  --popover: var(--background-light);
-  --popover-foreground: var(--foreground);
-
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-
-  /* Radius: this is the base value that is then used to create other radius custom properties.
-  However, I've commented out the radius overwrites, and am just sticking with the Tailwind 
-  defaults for now. This may mean that for some ShadCN generated components, I will need to 
-  tweak them back again. */
-  --radius: 0.625rem;
 }
 
 /* ======================
@@ -251,52 +266,55 @@ Full support for the new @theme directive and @theme inline option. */
   --background: var(--color-slate-900);
 
   /* Added: Used for cards, nav menu, articles, etc. */
-  --background-light: var(--color-slate-800);
+  --background-light: var(--color-slate-800); /* 🆕 */
 
   /* Foreground: i.e., text color */
   --foreground: #fafafa;
 
   /* Primary */
-  --primary-dark: var(--color-lime-500);
+  --primary-dark: var(--color-lime-500); /* 🆕 */
   --primary: var(--primary-dark);
   --primary-foreground: #fff;
-  --primary-soft: var(--color-lime-50);
+  --primary-soft: var(--color-lime-50); /* 🆕 */
 
   /* Secondary */
-  --secondary-dark: var(--color-cyan-500);
+  --secondary-dark: var(--color-cyan-500); /* 🆕 */
   --secondary: var(--secondary-dark);
   --secondary-foreground: #fff;
-  --secondary-soft: var(--color-cyan-50);
+  --secondary-soft: var(--color-cyan-50); /* 🆕 */
 
   /* Destructive */
-  --destructive-dark: var(--color-rose-500);
+  --destructive-dark: var(--color-rose-500); /* 🆕 */
   --destructive: var(--destructive-dark);
   --destructive-foreground: #fff;
-  --destructive-soft: var(--color-rose-50);
+  --destructive-soft: var(--color-rose-50); /* 🆕 */
 
   /* _Success */
-  --success-dark: var(--color-green-500);
-  --success: var(--success-dark);
-  --success-foreground: #fff;
-  --success-soft: var(--color-green-50);
+  --success-dark: var(--color-green-500); /* 🆕 */
+  --success: var(--success-dark); /* 🆕 */
+  --success-foreground: #fff; /* 🆕 */
+  --success-soft: var(--color-green-50); /* 🆕 */
 
-  --info-light: var(--color-blue-500);
-  --info: var(--info-light);
-  --info-foreground: #fff;
-  --info-soft: var(--color-blue-50);
+  /* _Info  */
+  --info-light: var(--color-blue-500); /* 🆕 */
+  --info: var(--info-light); /* 🆕 */
+  --info-foreground: #fff; /* 🆕 */
+  --info-soft: var(--color-blue-50); /* 🆕 */
 
-  --warning-light: var(--color-yellow-500);
-  --warning: var(--warning-light);
-  --warning-foreground: #fff;
-  --warning-soft: var(--color-yellow-50);
+  --warning-light: var(--color-yellow-500); /* 🆕 */
+  --warning: var(--warning-light); /* 🆕 */
+  --warning-foreground: #fff; /* 🆕 */
+  --warning-soft: var(--color-yellow-50); /* 🆕 */
 
   /* Muted  */
   --muted: oklch(0.269 0 0);
+
+  /* Used for form field placeholder text. */
   --muted-foreground: oklch(0.708 0 0);
 
   /* Accent */
   --accent: oklch(from var(--background-light) calc(l + 0.065) c h);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent-foreground: var(--foreground); /* oklch(0.985 0 0) */
 
   /* Border */
   --border: #555;
@@ -308,10 +326,25 @@ Full support for the new @theme directive and @theme inline option. */
   /* Sidebar */
   --sidebar: var(--background-light);
   --sidebar-border: var(--border);
-  --sidebar-foreground: var(--foreground);
   --sidebar-accent: var(--accent);
+  --sidebar-foreground: var(--foreground);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+  /* ❌ Removed
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  */
+
+  /* ❌ Popover 
+  --popover: var(--background-light);
+  --popover-foreground: var(--foreground);
+  */
+
+  /* Input */
+  --input: var(--border);
+
+  /* Ring */
+  --ring: oklch(0.439 0 0); /* ??? */
 
   /* Chart */
   --chart-1: oklch(0.488 0.243 264.376);
@@ -319,13 +352,6 @@ Full support for the new @theme directive and @theme inline option. */
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-
-  /* Popover */
-  --popover: var(--background-light);
-  --popover-foreground: var(--foreground);
-
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
 }
 
 /* ======================
@@ -359,7 +385,10 @@ the components cascade layer. This would allow you to colocate CSS styles with
 a particular component, while keeping their specificity below that of the 
 Tailwind utility classes. */
 
-/* @layer components {} */
+/* stroke='${theme('colors.green-500')}' */
+@layer components {
+  @import '../components/Table/index.css';
+}
 
 /* ======================
         Utilities

@@ -29,6 +29,9 @@ const compat = new FlatCompat({
 })
 
 const eslintConfig = [
+  {
+    ignores: ['!.storybook']
+  },
   // Next.js gives you ...compat.extends() by default, but you can switch to compat.config({ }).
   // This method provides a more comprehensive way to define your ESLint configuration.
   // It lets you include not only extends but also custom settings like plugins, rules, overrides, etc.
@@ -68,6 +71,7 @@ const eslintConfig = [
       // const button = container.querySelector('button')
       // screen.debug()
       'plugin:testing-library/react',
+      'plugin:storybook/recommended',
 
       // The eslint-plugin-prettier/recommended configuration is designed to set
       // up both  eslint-plugin-prettier and eslint-config-prettier in one go.
