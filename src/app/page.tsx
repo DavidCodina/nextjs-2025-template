@@ -5,7 +5,7 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-// Todo: Add validation logic to UncontrolledFormDemo.
+// Todo: Revert Select to expose options as children.
 
 // Todo: Change all /components components to PascalCase & update components/index.ts
 //# Watch out for Vercel Gotcha - name append 'X' temporarily.
@@ -22,12 +22,15 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 //# Not sure about hover:underline in AccordionTrigger.
 
-// Todo: Find the radix primitive for allowing multiple panels to be open at once
-//# on the accordion component.
-
 //# Test dropdown menu that stays open against sidebar and sheet.
 
 //# Add Pagination
+
+//# Add ListGroup
+
+//# Add Toggle / ToggleGrou (ShadCN).
+//# This should have variants for color and size like a button.
+// https://www.radix-ui.com/primitives/docs/components/toggle-group
 
 // Bonus: Consider adding special variants in button, badge, and alert of
 // light, dark, and light-dark. These will be quasi-custom color variants.

@@ -15,8 +15,9 @@ import {
 export const AccordionDemo = () => {
   return (
     <Accordion
-      type='single'
-      collapsible
+      defaultValue={['item-1']}
+      type='multiple'
+      // collapsible // type="single" only.
       className='bg-background-light mx-auto mb-6 max-w-[600px] rounded-xl border shadow'
     >
       <AccordionItem value='item-1'>
