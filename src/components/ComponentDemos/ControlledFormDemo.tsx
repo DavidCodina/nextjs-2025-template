@@ -659,7 +659,7 @@ export const ControlledFormDemo = () => {
     return (
       <Checkbox
         checked={singleCheck}
-        defaultChecked={singleCheck}
+        // defaultChecked={singleCheck}
         // disabled
         error={singleCheckError}
         // help='Do it!'
@@ -743,7 +743,7 @@ export const ControlledFormDemo = () => {
 
     return (
       <RadioGroup
-        defaultValue={radioGroupValue}
+        // defaultValue={radioGroupValue}
         // disabled
         error={radioGroupError}
         items={radioItems}
@@ -823,7 +823,7 @@ export const ControlledFormDemo = () => {
       <Slider
         // defaultValue is only used on initializattion. Even though
         // rangeSliderValue changes often afterward, that shouldn't matter.
-        defaultValue={rangeSliderValue} // Or for multiple thumbs: [25, 75]
+        // defaultValue={rangeSliderValue} // Or for multiple thumbs: [25, 75]
         // disabled
         error={rangeSliderError}
         id='percent'

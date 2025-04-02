@@ -5,6 +5,8 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
+// Todo: Add validation logic to UncontrolledFormDemo.
+
 // Todo: Change all /components components to PascalCase & update components/index.ts
 //# Watch out for Vercel Gotcha - name append 'X' temporarily.
 
@@ -13,8 +15,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // Todo: Fix hovering on close button of toast sometimes removes border!
 
 // Todo: Add inner container to Dialog to make it responsive.
-
-// Todo: Add validation logic to UncontrolledFormDemo.
 
 // Todo: Review https://react.dev/reference/react-dom/components/input
 

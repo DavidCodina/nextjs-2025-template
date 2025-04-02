@@ -1,22 +1,29 @@
 'use client'
 
+import * as React from 'react'
 import { useState } from 'react'
-import { Input, Textarea } from '@/components'
 
-import { Select, SelectItemType, SelectValueType } from '@/components/Select'
-
-import { Slider } from '@/components/Slider'
-import { Checkbox, CheckedState } from '@/components/Checkbox'
-import { Label } from '@/components/label'
-import { Button } from '@/components'
-import { RadioGroup, RadioItemType, RadioValue } from '@/components/RadioGroup'
-import { Switch } from '@/components/Switch'
 import {
+  Button,
+  Checkbox,
   CheckboxGroup,
   CheckboxValue,
-  CheckboxItemType
-} from '@/components/CheckboxGroup'
-import React from 'react'
+  CheckboxItemType,
+  CheckedState,
+  Input,
+  RadioGroup,
+  RadioItemType,
+  RadioValue,
+  Select,
+  SelectItemType,
+  SelectValueType,
+  Slider,
+  Switch,
+  Textarea
+} from '@/components'
+
+import { sleep } from '@/utils'
+import { toast } from 'sonner'
 
 /* ========================================================================
 
@@ -24,25 +31,427 @@ import React from 'react'
 
 export const UncontrolledFormDemo = () => {
   const [formKey, setFormKey] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [firstName, setFirstName] = useState('')
+  const [firstNameError, setFirstNameError] = useState('')
+  const [firstNameTouched, setFirstNameTouched] = useState(false)
+
   const [lastName, setLastName] = useState('')
+  const [lastNameError, setLastNameError] = useState('')
+  const [lastNameTouched, setLastNameTouched] = useState(false)
+
   const [singleCheck, setSingleCheck] = useState<CheckedState>(false)
+  const [singleCheckError, setSingleCheckError] = useState('')
+  const [singleCheckTouched, setSingleCheckTouched] = useState(false)
+
   const [checkboxGroupValue, setCheckboxGroupValue] = useState<CheckboxValue[]>(
     []
   )
+  const [checkboxGroupError, setCheckboxGroupError] = useState('')
+  const [checkboxGroupTouched, setCheckboxGroupTouched] = useState(false)
+
   const [radioGroupValue, setRadioGroupValue] = useState<RadioValue>('')
+  const [radioGroupError, setRadioGroupError] = useState('')
+  const [radioGroupTouched, setRadioGroupTouched] = useState(false)
+
   const [switchChecked, setSwitchChecked] = useState(false)
+  const [switchError, setSwitchError] = useState('')
+  const [switchTouched, setSwitchTouched] = useState(false)
+
   const [rangeSliderValue, setRangeSliderValue] = useState<number[]>([50])
+  const [rangeSliderError, setRangeSliderError] = useState('')
+  const [rangeSliderTouched, setRangeSliderTouched] = useState(false)
+
   const [textareaValue, setTextareaValue] = useState('')
+  const [textareaError, setTextareaError] = useState('')
+  const [textareaTouched, setTextareaTouched] = useState(false)
+
   const [selectValue, setSelectValue] = useState<SelectValueType>('')
-  const [file, setFile] = useState<File | null>(null)
+  const [selectError, setSelectError] = useState('')
+  const [selectTouched, setSelectTouched] = useState(false)
+
+  const [file, setFile] = useState<File>()
+  // const [fileValue, setFileValue] = useState('')
+  const [fileError, setFileError] = useState('')
+  const [fileTouched, setFileTouched] = useState(false)
+  const fileRef = React.useRef<HTMLInputElement>(null)
+
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [emailTouched, setEmailTouched] = useState(false)
+
+  /* ======================
+      validateFirstName()
+  ====================== */
+
+  const validateFirstName = (value?: string) => {
+    value = typeof value === 'string' ? value : firstName
+    let error = ''
+
+    if (typeof value !== 'string') {
+      error = 'Invalid type'
+      setFirstNameError(error)
+      return error
+    }
+
+    if (!value || value.length < 2) {
+      error = 'Must be at least 2 characters'
+      setFirstNameError(error)
+      return error
+    }
+
+    // Otherwise unset the title error in state and return ''
+    setFirstNameError('')
+    return ''
+  }
+
+  /* ======================
+      validateLastName()
+  ====================== */
+
+  const validateLastName = (value?: string) => {
+    value = typeof value === 'string' ? value : lastName
+    let error = ''
+
+    if (typeof value !== 'string') {
+      error = 'Invalid type'
+      setLastNameError(error)
+      return error
+    }
+
+    if (!value || value.length < 2) {
+      error = 'Must be at least 2 characters'
+      setLastNameError(error)
+      return error
+    }
+
+    setLastNameError('')
+    return ''
+  }
+
+  /* ======================
+    validateSingleCheck()
+  ====================== */
+
+  const validateSingleCheck = (value?: CheckedState) => {
+    value = typeof value === 'boolean' ? value : singleCheck
+    let error = ''
+
+    if (typeof value !== 'boolean') {
+      error = 'Invalid type'
+      setSingleCheckError(error)
+      return error
+    }
+
+    if (value !== true) {
+      error = 'Single check must be checked.'
+      setSingleCheckError(error)
+      return error
+    }
+
+    setSingleCheckError('')
+    return ''
+  }
+
+  /* ======================
+  validateCheckboxGroup()
+  ====================== */
+
+  const validateCheckboxGroup = (value?: CheckboxValue[]) => {
+    value = Array.isArray(value) ? value : checkboxGroupValue
+    let error = ''
+
+    if (!Array.isArray(value)) {
+      error = 'Invalid type'
+      setCheckboxGroupError(error)
+      return error
+    }
+
+    if (value.length < 1) {
+      error = 'At least one item must be checked.'
+      setCheckboxGroupError(error)
+      return error
+    }
+
+    setCheckboxGroupError('')
+    return ''
+  }
+
+  /* ======================
+    validateRadioGroup()
+  ====================== */
+
+  const validateRadioGroup = (value?: RadioValue) => {
+    value = typeof value === 'string' ? value : radioGroupValue
+    let error = ''
+
+    if (typeof value !== 'string') {
+      error = 'Invalid type'
+      setRadioGroupError(error)
+      return error
+    }
+
+    if (value.length < 1) {
+      error = 'Required'
+      setRadioGroupError(error)
+      return error
+    }
+
+    setRadioGroupError('')
+    return ''
+  }
+
+  /* ======================
+      validateSwitch()
+  ====================== */
+
+  const validateSwitch = (value?: boolean) => {
+    value = typeof value === 'boolean' ? value : switchChecked
+    let error = ''
+
+    if (typeof value !== 'boolean') {
+      error = 'Invalid type'
+      setSwitchError(error)
+      return error
+    }
+
+    if (value !== true) {
+      error = 'Switch must be checked.'
+      setSwitchError(error)
+      return error
+    }
+
+    setSwitchError('')
+    return ''
+  }
+
+  /* ======================
+    validateRangeSlider()
+  ====================== */
+
+  const validateRangeSlider = (value?: number[]) => {
+    value = Array.isArray(value) ? value : rangeSliderValue
+    let error = ''
+
+    if (!Array.isArray(value)) {
+      error = 'Invalid type'
+      setRangeSliderError(error)
+      return error
+    }
+
+    if (value.length < 1) {
+      error = 'Must be at least 1 number.'
+      setRangeSliderError(error)
+      return error
+    }
+
+    // Check that every element in the value array is a number
+    if (!value.every((val) => typeof val === 'number')) {
+      error = 'All elements must be numbers.'
+      setRangeSliderError(error)
+      return error
+    }
+
+    const firstNumber = value[0]
+
+    if (firstNumber < 51) {
+      error = 'First number must be greater than 50.'
+      setRangeSliderError(error)
+      return error
+    }
+
+    setRangeSliderError('')
+    return ''
+  }
+
+  /* ======================
+      validateTextarea()
+  ====================== */
+
+  const validateTextarea = (value?: string) => {
+    value = typeof value === 'string' ? value : textareaValue
+    let error = ''
+
+    if (typeof value !== 'string') {
+      error = 'Invalid type'
+      setTextareaError(error)
+      return error
+    }
+
+    if (!value || value.trim() === '') {
+      error = 'Required'
+      setTextareaError(error)
+      return error
+    }
+
+    if (!value || value.length < 10) {
+      error = 'Must be at least 10 characters'
+      setTextareaError(error)
+      return error
+    }
+
+    setTextareaError('')
+    return ''
+  }
+
+  /* ======================
+      validateSelect()
+  ====================== */
+
+  const validateSelect = (value?: SelectValueType) => {
+    value = typeof value === 'string' ? value : selectValue
+    let error = ''
+
+    if (typeof value !== 'string') {
+      error = 'Invalid type'
+      setSelectError(error)
+      return error
+    }
+
+    if (!value || value.length === 0) {
+      error = 'Required'
+      setSelectError(error)
+      return error
+    }
+
+    setSelectError('')
+    return ''
+  }
+
+  /* ======================
+      validateFile()
+  ====================== */
+
+  const validateFile = (value?: File | '') => {
+    value = typeof value !== 'undefined' ? value : file
+    let error = ''
+
+    if (value === '') {
+      error = 'Required'
+      setFileError(error)
+      return error
+    }
+
+    if (!(value instanceof File)) {
+      error = 'Invalid type'
+      setFileError(error)
+      return error
+    }
+
+    // Example check: limit file size to 5MB
+    if (value.size > 5 * 1024 * 1024) {
+      error = 'File size must be less than 5MB'
+      setFileError(error)
+      return error
+    }
+
+    setFileError('')
+    return ''
+  }
+
+  /* ======================
+      validateEmail()
+  ====================== */
+
+  const validateEmail = (value?: string) => {
+    value = typeof value === 'string' ? value : email
+    let error = ''
+
+    if (typeof value !== 'string') {
+      error = 'Invalid type'
+      setEmailError(error)
+      return error
+    }
+
+    if (value.trim() === '') {
+      error = 'Required'
+      setEmailError(error)
+      return error
+    }
+
+    if (!value.includes('@')) {
+      error = 'Invalid email'
+      setEmailError(error)
+      return error
+    }
+
+    // Otherwise unset the title error in state and return ''
+    setEmailError('')
+    return ''
+  }
+
+  /* ======================
+        validate()
+  ====================== */
+
+  const validate = () => {
+    const errors: string[] = []
+
+    // Set true on all toucher functions.
+    const touchers: React.Dispatch<React.SetStateAction<boolean>>[] = [
+      setFirstNameTouched,
+      setLastNameTouched,
+      setSingleCheckTouched,
+      setCheckboxGroupTouched,
+      setRadioGroupTouched,
+      setSwitchTouched,
+      setRangeSliderTouched,
+      setTextareaTouched,
+      setSelectTouched,
+      setFileTouched,
+      setEmailTouched
+    ]
+
+    touchers.forEach((toucher) => {
+      toucher(true)
+    })
+
+    const validators: (() => string)[] = [
+      validateFirstName,
+      validateLastName,
+      validateSingleCheck,
+      validateCheckboxGroup,
+      validateRadioGroup,
+      validateSwitch,
+      validateRangeSlider,
+      validateTextarea,
+      validateSelect,
+      validateFile,
+      validateEmail
+    ]
+
+    validators.forEach((validator) => {
+      const error = validator()
+      if (error) {
+        errors.push(error)
+      }
+    })
+
+    // Return early if errors
+    if (errors.length >= 1) {
+      return { isValid: false, errors: errors }
+    }
+
+    return { isValid: true, errors: null }
+  }
 
   /* ======================
       handleSubmit()()
   ====================== */
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+
+    const { isValid } = validate()
+
+    if (!isValid) {
+      toast.error('Unable to submit the form!')
+      return
+    }
+
+    setIsSubmitting(true)
+
     ///////////////////////////////////////////////////////////////////////////
     //
     // Trying to get values and/or reset values through refs is extremely tedious.
@@ -65,7 +474,7 @@ export const UncontrolledFormDemo = () => {
     //
     ///////////////////////////////////////////////////////////////////////////
 
-    const values = {
+    const requestData = {
       firstName,
       lastName,
       singleCheck,
@@ -79,41 +488,84 @@ export const UncontrolledFormDemo = () => {
       email
     }
 
-    console.log('Submitted values:', values)
+    try {
+      // Make API request, etc.
+      await sleep(1500)
+      console.log('requestData:', requestData)
+      toast.success('Form validation success!')
 
-    ///////////////////////////////////////////////////////////////////////////
-    //
-    // Trying to reset the form fields through refs gets tricky.
-    // This is what I had to do for the first few inputs:
-    //
-    //   if (firstNameRef.current) firstNameRef.current.value = ''
-    //   if (lastNameRef.current) lastNameRef.current.value = ''
-    //   if (singleCheckRef.current) {
-    //     const isChecked =
-    //       singleCheckRef.current.getAttribute('data-state') === 'checked' ? true : false
-    //     if (isChecked) { singleCheckRef.current.click() }
-    //   }
-    //
-    // However, it would get even more complex with CheckboxGroup and RadioGroup.
-    // The best solution is probably just to remount the form. One way to reset the
-    // from would be to call setShowForm(false),then reset it here with:
-    // useLayoutEffect(() => { if (!showForm) { setShowForm(true) } }, [showForm])
-    // A cleaner solution is to use a key prop.
-    //
-    ///////////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////////
+      //
+      // Trying to reset the form fields through refs gets tricky.
+      // This is what I had to do for the first few inputs:
+      //
+      //   if (firstNameRef.current) firstNameRef.current.value = ''
+      //   if (lastNameRef.current) lastNameRef.current.value = ''
+      //   if (singleCheckRef.current) {
+      //     const isChecked =
+      //       singleCheckRef.current.getAttribute('data-state') === 'checked' ? true : false
+      //     if (isChecked) { singleCheckRef.current.click() }
+      //   }
+      //
+      // However, it would get even more complex with CheckboxGroup and RadioGroup.
+      // The best solution is probably just to remount the form. One way to reset the
+      // from would be to call setShowForm(false),then reset it here with:
+      // useLayoutEffect(() => { if (!showForm) { setShowForm(true) } }, [showForm])
+      // A cleaner solution is to use a key prop.
+      //
+      ///////////////////////////////////////////////////////////////////////////
 
-    setFormKey((prev) => prev + 1)
-    setFirstName('')
-    setLastName('')
-    setSingleCheck(false)
-    setCheckboxGroupValue([])
-    setRadioGroupValue('')
-    setSwitchChecked(false)
-    setRangeSliderValue([50])
-    setTextareaValue('')
-    setSelectValue('')
-    setFile(null)
-    setEmail('')
+      setFormKey((prev) => prev + 1)
+      setIsSubmitting(false)
+
+      setFirstName('')
+      setFirstNameError('')
+      setFirstNameTouched(false)
+
+      setLastName('')
+      setLastNameError('')
+      setLastNameTouched(false)
+
+      setSingleCheck(false)
+      setSingleCheckError('')
+      setSingleCheckTouched(false)
+
+      setCheckboxGroupValue([])
+      setCheckboxGroupError('')
+      setCheckboxGroupTouched(false)
+
+      setRadioGroupValue('')
+      setRadioGroupError('')
+      setRadioGroupTouched(false)
+
+      setSwitchChecked(false)
+      setSwitchError('')
+      setSwitchTouched(false)
+
+      setRangeSliderValue([50])
+      setRangeSliderError('')
+      setRangeSliderTouched(false)
+
+      setTextareaValue('')
+      setTextareaError('')
+      setTextareaTouched(false)
+
+      setSelectValue('')
+      setSelectError('')
+      setSelectTouched(false)
+
+      setFile(undefined)
+      setFileError('')
+      setFileTouched(false)
+      // if (fileRef.current) { fileRef.current.value = '' }
+
+      setEmail('')
+      setEmailError('')
+      setEmailTouched(false)
+    } catch (err) {
+      console.log(err)
+      toast.error('Unable to submit the form!')
+    }
   }
 
   /* ======================
@@ -127,20 +579,29 @@ export const UncontrolledFormDemo = () => {
         autoComplete='off'
         autoCorrect='off'
         // disabled
-        // error='This is invalid!'
+        error={firstNameError}
         id='first-name'
         // groupClassName='mb-6'
         label={<span>First Name</span>}
         labelRequired={true}
         name='first_name'
+        onBlur={(e) => {
+          if (!firstNameTouched) {
+            setFirstNameTouched(true)
+          }
+          validateFirstName(e.target.value)
+        }}
         onChange={(e) => {
           setFirstName(e.target.value)
+
+          if (firstNameTouched) {
+            validateFirstName(e.target.value)
+          }
         }}
         placeholder='First Name...'
         // renderInputBaseOnly
         spellCheck={false}
-        // help='(A hardcoded invalid example)'
-        // helpClassName='text-xs'
+        touched={firstNameTouched}
         type='text'
       />
     )
@@ -154,21 +615,30 @@ export const UncontrolledFormDemo = () => {
     return (
       <Input
         autoCapitalize='none'
-        autoComplete='off'
+        autoComplete='off' //! Still getting autoComplete
         autoCorrect='off'
         // disabled
-        // error=''
+        error={lastNameError}
         id='last-name'
         label='Last Name'
         labelRequired={true}
         name='last_name'
+        onBlur={(e) => {
+          if (!lastNameTouched) {
+            setLastNameTouched(true)
+          }
+          validateLastName(e.target.value)
+        }}
         onChange={(e) => {
           setLastName(e.target.value)
+
+          if (lastNameTouched) {
+            validateLastName(e.target.value)
+          }
         }}
         placeholder='Last Name...'
         spellCheck={false}
-        // help='(A hardcoded valid example)'
-        // touched={true}
+        touched={lastNameTouched}
         type='text' //! What happens if we make this 'checkbox' or 'radio'?
       />
     )
@@ -183,16 +653,24 @@ export const UncontrolledFormDemo = () => {
       <Checkbox
         defaultChecked={singleCheck}
         // disabled
-        // error='This must be checked!'
+        error={singleCheckError}
         id='singe-check'
         label='Agree To Terms'
         // labelRequired
         name='single-check'
-        onChange={(isChecked) => {
-          setSingleCheck(isChecked)
+        onBlur={(checkedState) => {
+          if (!singleCheckTouched) {
+            setSingleCheckTouched(true)
+          }
+          validateSingleCheck(checkedState)
         }}
-        // help='Do it!'
-        // touched
+        onChange={(checkedState) => {
+          setSingleCheck(checkedState)
+          if (singleCheckTouched) {
+            validateSingleCheck(checkedState)
+          }
+        }}
+        touched={singleCheckTouched}
         value='Single Checkbox checked!'
       />
     )
@@ -214,19 +692,25 @@ export const UncontrolledFormDemo = () => {
 
     return (
       <CheckboxGroup
-        //# If something is checked, but disabled, should we change the checkbox color?
-        //# Same for valid/invalid ?
-        // defaultValue={['red', 'orange']}
         // disabled
-        // error='At least one item must be checked.'
+        error={checkboxGroupError}
         items={checkboxItems}
         label='Checkbox Colors'
         name='checkbox-colors'
+        onBlur={(value) => {
+          if (!checkboxGroupTouched) {
+            setCheckboxGroupTouched(true)
+          }
+          validateCheckboxGroup(value)
+        }}
         onChange={(value) => {
           setCheckboxGroupValue(value)
+
+          if (checkboxGroupTouched) {
+            validateCheckboxGroup(value)
+          }
         }}
-        // help='Pick one or more...'
-        // touched
+        touched={checkboxGroupTouched}
       />
     )
   }
@@ -247,19 +731,25 @@ export const UncontrolledFormDemo = () => {
 
     return (
       <RadioGroup
-        //# If something is checked, but disabled, should we change the radio color?
-        //# Same for valid/invalid ?
         defaultValue={radioGroupValue}
         // disabled
 
-        // error='An item must be selected.'
+        error={radioGroupError}
         items={radioItems}
         label='Radio Colors'
         name='radio-colors'
+        onBlur={(value) => {
+          if (!radioGroupTouched) {
+            setRadioGroupTouched(true)
+          }
+          validateRadioGroup(value)
+        }}
         onChange={(value) => {
           setRadioGroupValue(value)
+          if (radioGroupTouched) {
+            validateRadioGroup(value)
+          }
         }}
-
         ///////////////////////////////////////////////////////////////////////////
         //
         // className and style are applied to the top-level <div>
@@ -273,8 +763,7 @@ export const UncontrolledFormDemo = () => {
 
         // radioGroupBaseStyle={{ outline: '2px dashed deeppink' }}
         // radioGroupBaseClassName=''
-        // help='Pick one.'
-        // touched
+        touched={radioGroupTouched}
       />
     )
   }
@@ -288,17 +777,26 @@ export const UncontrolledFormDemo = () => {
       <Switch
         defaultChecked={switchChecked}
         // disabled
-        // error='This is invalid!'
+        error={switchError}
         id='airplane-mode'
         // label='Airplane Mode'
 
         labelOn='Airplane Mode On'
         labelOff='Airplane Mode Off'
-        onChange={(isChecked) => {
-          setSwitchChecked(isChecked)
+        onBlur={(checked) => {
+          if (!switchTouched) {
+            setSwitchTouched(true)
+          }
+          validateSwitch(checked)
         }}
-        // help='Switch me!'
-        // touched
+        onChange={(checked) => {
+          setSwitchChecked(checked)
+
+          if (switchTouched) {
+            validateSwitch(checked)
+          }
+        }}
+        touched={switchTouched}
       />
     )
   }
@@ -314,19 +812,34 @@ export const UncontrolledFormDemo = () => {
         // rangeSliderValue changes often afterward, that shouldn't matter.
         defaultValue={rangeSliderValue} // Or for multiple thumbs: [25, 75]
         // disabled
-        // error='This is invalid!'
+        error={rangeSliderError}
         id='percent'
         label='Percent'
         labelRequired
         max={100}
         name='percent'
+        onBlur={(value) => {
+          if (!rangeSliderTouched) {
+            setRangeSliderTouched(true)
+          }
+          validateRangeSlider(value)
+        }}
+        // onChange={(value) => {
+        //   setRangeSliderValue(value)
+        //   if (rangeSliderTouched) {
+        //     validateRangeSlider(value)
+        //   }
+        // }}
+
         // onCommit is only practical in an uncontrolled implementation.
         onCommit={(value) => {
           setRangeSliderValue(value)
+          if (rangeSliderTouched) {
+            validateRangeSlider(value)
+          }
         }}
         // step={10} // Default is 1.
-        // help='Slide me!'
-        // touched={true}
+        touched={rangeSliderTouched}
       />
     )
   }
@@ -342,19 +855,29 @@ export const UncontrolledFormDemo = () => {
         autoComplete='off'
         autoCorrect='off'
         // disabled
-        // error='This is invalid!'
+        error={textareaError}
+        help='Write a thoughtful message...'
         id='message'
         label={'Message'}
         labelRequired={true}
         name='message'
+        onBlur={(e) => {
+          if (!textareaTouched) {
+            setTextareaTouched(true)
+          }
+          validateTextarea(e.target.value)
+        }}
         onChange={(e) => {
           setTextareaValue(e.target.value)
+
+          if (textareaTouched) {
+            validateTextarea(e.target.value)
+          }
         }}
         placeholder='Message here...'
         // renderTextareaBaseOnly
         spellCheck={false}
-        help='Write a thoughtful message...'
-        // touched={true}
+        touched={textareaTouched}
       />
     )
   }
@@ -397,7 +920,9 @@ export const UncontrolledFormDemo = () => {
     return (
       <Select
         // disabled
-        // error='This is invalid!'
+        //# Test defaultValue
+        // defaultValue={selectValue}
+        error={selectError}
         // errorClassName='font-bold text-right'
         // className='outline-2 outline-pink-500 outline-dashed' // Assigned to SelectTrigger
 
@@ -407,8 +932,18 @@ export const UncontrolledFormDemo = () => {
         items={selectItems}
         label='Select One'
         // labelClassName='font-bold'
+        onBlur={(value) => {
+          if (!selectTouched) {
+            setSelectTouched(true)
+          }
+          validateSelect(value)
+        }}
         onChange={(value) => {
           setSelectValue(value)
+
+          if (selectTouched) {
+            validateSelect(value)
+          }
         }}
         // placeholder={
         //   <span className='rounded-full bg-blue-100 px-2'>Select Fruit...</span>
@@ -426,7 +961,7 @@ export const UncontrolledFormDemo = () => {
         // style={{ outline: '2px dashed deeppink' }}  // Assigned to SelectTrigger
         // help='Pick a fruit...'
         // helpClassName='font-bold'
-        // touched
+        touched={selectTouched}
       />
     )
   }
@@ -437,22 +972,58 @@ export const UncontrolledFormDemo = () => {
 
   const renderFileInput = () => {
     return (
-      <div>
-        <Label className='mb-2' htmlFor='picture'>
-          Picture
-        </Label>
-        <Input
-          id='picture'
-          name='picture'
-          onChange={(e) => {
-            const file = e.target.files?.[0]
-            if (file) {
-              setFile(file)
+      <Input
+        // disabled
+        error={fileError}
+        // help='Upload a picture...'
+        id='picture'
+        label='Picture'
+        labelRequired
+        name='picture'
+        onBlur={(e) => {
+          const currentTarget = e.currentTarget
+          const fileOrUndefined = e.target.files?.[0]
+
+          setTimeout(() => {
+            // For file inputs, run an extra check to avoid executing blur logic
+            // on file browser open.  Strangely, even though a blur occurs when
+            // the computer's file browser opens, the activeElement is still the
+            // input element. This seems to be true regardless of whether or not
+            // this logic is wrapped in a setTimeout (i.e., new macrotask), so
+            // setTimeout is likely not necessary.
+            const activeElement = document.activeElement
+
+            if (activeElement === currentTarget) {
+              return
             }
-          }}
-          type='file'
-        />
-      </div>
+
+            if (!fileTouched) {
+              setFileTouched(true)
+            }
+
+            validateFile(fileOrUndefined || '')
+          }, 0)
+        }}
+        onChange={(e) => {
+          const fileOrUndefined = e.target.files?.[0]
+
+          // Gotcha: Don't do this: if (file){ setFile(file) }
+          // That will allow the user to open the computer's file browser,
+          // then cancel out, thereby clearing the file, but the file state
+          // will now be out of sync.
+          setFile(fileOrUndefined)
+          // setFileValue(e.target.value)
+
+          if (fileTouched) {
+            // In this case, we want to pass '' and not undefined.
+            // This is important for how the current validateFile() function works.
+            validateFile(fileOrUndefined || '')
+          }
+        }}
+        ref={fileRef}
+        touched={fileTouched}
+        type='file'
+      />
     )
   }
 
@@ -462,25 +1033,33 @@ export const UncontrolledFormDemo = () => {
 
   const renderEmail = () => {
     return (
-      <div>
-        <Label className='mb-2' htmlFor='email'>
-          Email
-        </Label>
+      <Input
+        autoCapitalize='none'
+        autoComplete='off'
+        autoCorrect='off'
+        error={emailError}
+        id='email'
+        label='Email'
+        labelRequired
+        name='email'
+        onBlur={(e) => {
+          if (!emailTouched) {
+            setEmailTouched(true)
+          }
+          validateEmail(e.target.value)
+        }}
+        onChange={(e) => {
+          setEmail(e.target.value)
 
-        <Input
-          autoCapitalize='none'
-          autoComplete='off'
-          autoCorrect='off'
-          id='email'
-          name='email'
-          onChange={(e) => {
-            setEmail(e.target.value)
-          }}
-          placeholder='Email...'
-          spellCheck={false}
-          type='email'
-        />
-      </div>
+          if (emailTouched) {
+            validateEmail(e.target.value)
+          }
+        }}
+        placeholder='Email...'
+        spellCheck={false}
+        touched={emailTouched}
+        type='email'
+      />
     )
   }
 
@@ -520,12 +1099,13 @@ export const UncontrolledFormDemo = () => {
       {renderEmail()}
 
       <Button
+        loading={isSubmitting}
         className='flex w-full'
         type='button'
         variant='success'
         onClick={handleSubmit}
       >
-        Submit
+        {isSubmitting ? 'Submitting...' : 'Submit'}
       </Button>
     </form>
   )
