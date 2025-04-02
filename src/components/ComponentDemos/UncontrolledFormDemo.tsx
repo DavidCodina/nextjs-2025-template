@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Input } from '@/components/Input'
-import { Textarea } from '@/components/Textarea'
+import { Input, Textarea } from '@/components'
 
 import { Select, SelectItemType, SelectValueType } from '@/components/Select'
 

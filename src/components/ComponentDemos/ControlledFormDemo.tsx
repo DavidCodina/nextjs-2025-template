@@ -2,8 +2,7 @@
 import React, { useState } from 'react'
 
 import { sleep } from '@/utils'
-import { Input } from '@/components/Input'
-import { Textarea } from '@/components/Textarea'
+import { Input, Textarea } from '@/components'
 
 import { Select, SelectItemType, SelectValueType } from '@/components/Select'
 
