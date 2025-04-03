@@ -12,6 +12,7 @@ import { CollapsibleDemo } from './CollapsibleDemo'
 import { DatePickerDemo } from './DatePickerDemo'
 import { DialogDemo } from './DialogDemo'
 import { DropdownMenuDemo } from './DropdownMenuDemo'
+import { InputPasswordDemo } from './InputPasswordDemo'
 import { UncontrolledFormDemo } from './UncontrolledFormDemo'
 import { ControlledFormDemo } from './ControlledFormDemo'
 import { PopoverDemo } from './PopoverDemo'
@@ -45,6 +46,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='date-picker'>Date Picker</TabsTrigger>
         <TabsTrigger value='dialog'>Dialog</TabsTrigger>
         <TabsTrigger value='dropdown-menu'>Dropdown Menu</TabsTrigger>
+        <TabsTrigger value='input-password'>Input Password</TabsTrigger>
         <TabsTrigger value='uncontrolled-form'>Uncontrolled Form</TabsTrigger>
         <TabsTrigger value='controlled-form'>Controlled Form</TabsTrigger>
         <TabsTrigger value='popover'>Popover</TabsTrigger>
@@ -128,6 +130,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='dropdown-menu'>
         <DropdownMenuDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='input-password'>
+        <InputPasswordDemo />
       </TabsContent>
 
       {/* ================= */}

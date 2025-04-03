@@ -111,7 +111,12 @@ function SelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDownIcon className='size-4 opacity-50' />
+        <ChevronDownIcon
+          className={cn('text-border pointer-events-none size-4', {
+            'text-destructive': error && !disabled,
+            'text-success': !error && !disabled && touched
+          })}
+        />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   )

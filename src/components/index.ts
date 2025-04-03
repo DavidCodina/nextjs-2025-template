@@ -21,6 +21,7 @@ export * from './FormError'
 export * from './FormHelp'
 
 export * from './Input'
+export * from './InputPassword'
 export * from './label'
 export * from './Page'
 export * from './PageError'

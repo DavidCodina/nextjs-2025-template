@@ -78,6 +78,7 @@ export const defaultToastOptions = {
     [&_[data-cancel=true]]:!border 
     [&_[data-cancel=true]]:!border-success
     [&_[data-cancel=true]]:!cursor-pointer
+    [&_[data-close-button=true]]:!border-success
     `,
 
     error: `
@@ -88,6 +89,7 @@ export const defaultToastOptions = {
     [&_[data-cancel=true]]:!border 
     [&_[data-cancel=true]]:!border-destructive
     [&_[data-cancel=true]]:!cursor-pointer
+    [&_[data-close-button=true]]:!border-destructive
     `,
 
     info: `
@@ -98,6 +100,7 @@ export const defaultToastOptions = {
     [&_[data-cancel=true]]:!border 
     [&_[data-cancel=true]]:!border-info
     [&_[data-cancel=true]]:!cursor-pointer
+    [&_[data-close-button=true]]:!border-info
     `,
 
     warning: `
@@ -108,6 +111,7 @@ export const defaultToastOptions = {
     [&_[data-cancel=true]]:!border 
     [&_[data-cancel=true]]:!border-warning
     [&_[data-cancel=true]]:!cursor-pointer
+    [&_[data-close-button=true]]:!border-warning
     `,
 
     loading: '',
