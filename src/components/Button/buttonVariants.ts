@@ -236,9 +236,9 @@ export const buttonVariants = cva(baseClasses, {
       `,
 
       'warning-light': `
-      bg-(--warning-light) text-success-foreground
-      hover:bg-[oklch(from_var(--success-light)_calc(l_+_(1_-_l)_*_0.1)_c_h)]
-      focus-visible:ring-(--success-light)/50
+      bg-(--warning-light) text-warning-foreground
+      hover:bg-[oklch(from_var(--warning-light)_calc(l_+_(1_-_l)_*_0.1)_c_h)]
+      focus-visible:ring-(--warning-light)/50
       ${solidButtonBorderMixin}
       ${buttonShadowMixin}
       ${activeScaleMixin}

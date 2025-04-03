@@ -9,6 +9,8 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //# [&_svg:not([class*='size-'])]:size-4 didn't work. However, it actually
 //# did work in the Toggle component.
 
+// Todo: Do global search on *-input to see where it's used and replace.
+
 // Todo: Add primary, secondary variants to Toggle / ToggleGroup.
 
 // Todo: add UI for the numeric position of slider thumbs.
