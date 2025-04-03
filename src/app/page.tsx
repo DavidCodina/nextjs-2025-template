@@ -5,14 +5,18 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-// Todo: Change all /components components to PascalCase & update components/index.ts
-//# Watch out for Vercel Gotcha - name append 'X' temporarily.
+// Todo: Review butttonVariants. Initially I made a huge comment on how
+//# [&_svg:not([class*='size-'])]:size-4 didn't work. However, it actually
+//# did work in the Toggle component.
+
+// Todo: Add primary, secondary variants to Toggle / ToggleGroup.
 
 // Todo: add UI for the numeric position of slider thumbs.
 
-// Todo: Fix hovering on close button of toast sometimes removes border!
-
 // Todo: Add inner container to Dialog to make it responsive.
+
+// Todo: Change all /components components to PascalCase & update components/index.ts
+//# Watch out for Vercel Gotcha - name append 'X' temporarily.
 
 // Todo: Review https://react.dev/reference/react-dom/components/input
 
@@ -24,7 +28,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 //# Add Pagination
 
-//# Add Toggle / ToggleGroup (ShadCN).
 //# This should have variants for color and size like a button.
 // https://www.radix-ui.com/primitives/docs/components/toggle-group
 

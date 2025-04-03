@@ -16,6 +16,10 @@ type ButtonGroupProps = React.ComponentProps<'div'> & {
 // child buttons. For that reason, it actualy makes more sense
 // to keep the .css file because the classes in it generally
 // have a higher specificity than Tailwind utilities.
+//
+// ⚠️ Ultimately, you should not need this component. It was added prior
+// to the introduction of ToggleGroup, which essentially is used for the same
+// purpose.
 
 export const ButtonGroup = ({
   children,

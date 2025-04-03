@@ -306,10 +306,13 @@ Full support for the new @theme directive and @theme inline option. */
   --warning-foreground: #fff; /* 🆕 */
   --warning-soft: var(--color-yellow-50); /* 🆕 */
 
-  /* Muted  */
+  /* Muted: 
+
+   */
   --muted: oklch(0.269 0 0);
 
-  /* Used for form field placeholder text. */
+  /* Used for form field placeholder text.
+  Also for things like buttons with text-muted in a ToggleGroup when not activated.*/
   --muted-foreground: oklch(0.708 0 0);
 
   /* Accent */

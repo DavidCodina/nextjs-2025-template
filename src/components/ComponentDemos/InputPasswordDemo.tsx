@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-
 import { Button, InputPassword } from '@/components'
 import { toast } from 'sonner'
 import { sleep } from '@/utils'
@@ -159,7 +158,6 @@ export const InputPasswordDemo = () => {
   return (
     <form
       className='bg-background-light mx-auto max-w-[800px] space-y-6 rounded-xl border p-6 shadow'
-      // key={formKey}
       onSubmit={(e) => {
         e.preventDefault()
       }}
