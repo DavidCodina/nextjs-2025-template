@@ -15,7 +15,10 @@ import {
   RadioItemType,
   RadioValue,
   Select,
-  SelectItemType,
+  SelectGroup,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
   SelectValueType,
   Slider,
   Switch,
@@ -888,34 +891,6 @@ export const UncontrolledFormDemo = () => {
 
   const renderSelect = () => {
     //# Test disabled, className, style
-    const selectItems: SelectItemType[] = [
-      {
-        label: 'Apple',
-        value: 'apple'
-        // className: 'font-bold text-red-500'
-      },
-      {
-        label: 'Banana',
-        value: 'banana'
-        // className: 'font-bold text-yellow-500'
-      },
-      {
-        label: 'Blueberry',
-        value: 'blueberry'
-        // disabled: true
-        // style: { outline: '2px dashed deeppink' }
-      },
-      {
-        label: 'Grapes',
-        value: 'grapes'
-        // className: 'font-bold text-purple-500'
-      },
-      {
-        label: 'Pineapple',
-        value: 'pineapple'
-        // className: 'font-bold text-orange-500'
-      }
-    ]
 
     return (
       <Select
@@ -928,8 +903,7 @@ export const UncontrolledFormDemo = () => {
 
         // groupClassName='outline-2 outline-pink-500 outline-dashed'
         // groupStyle={{ outline: '2px dashed deeppink' }}
-        id='fruits'
-        items={selectItems}
+        id='snack'
         label='Select One'
         // labelClassName='font-bold'
         onBlur={(value) => {
@@ -959,10 +933,25 @@ export const UncontrolledFormDemo = () => {
 
         // sideOffset={20}
         // style={{ outline: '2px dashed deeppink' }}  // Assigned to SelectTrigger
-        // help='Pick a fruit...'
-        // helpClassName='font-bold'
+
         touched={selectTouched}
-      />
+      >
+        <SelectGroup>
+          <SelectLabel>Fruit</SelectLabel>
+          <SelectItem value='apple'>Apple</SelectItem>
+          <SelectItem value='banana'>Banana</SelectItem>
+          <SelectItem value='cherry'>Cherry</SelectItem>
+        </SelectGroup>
+
+        <SelectSeparator />
+
+        <SelectGroup>
+          <SelectLabel>Veggie</SelectLabel>
+          <SelectItem value='carrot'>Carrot</SelectItem>
+          <SelectItem value='broccoli'>Broccoli</SelectItem>
+          <SelectItem value='spinach'>Spinach</SelectItem>
+        </SelectGroup>
+      </Select>
     )
   }
 

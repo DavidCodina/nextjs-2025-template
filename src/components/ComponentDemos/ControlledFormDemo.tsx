@@ -1,21 +1,43 @@
 'use client'
 import React, { useState } from 'react'
 
-import { sleep } from '@/utils'
-import { Input, Textarea } from '@/components'
-
-import { Select, SelectItemType, SelectValueType } from '@/components/Select'
-
-import { Slider } from '@/components/Slider'
-import { Checkbox, CheckedState } from '@/components/Checkbox'
-import { Button } from '@/components'
-import { RadioGroup, RadioItemType, RadioValue } from '@/components/RadioGroup'
-import { Switch } from '@/components/Switch'
 import {
+  Button,
+  Checkbox,
   CheckboxGroup,
   CheckboxValue,
-  CheckboxItemType
-} from '@/components/CheckboxGroup'
+  CheckboxItemType,
+  CheckedState,
+  Input,
+  RadioGroup,
+  RadioItemType,
+  RadioValue,
+  Select,
+  SelectGroup,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+  SelectValueType,
+  Slider,
+  Switch,
+  Textarea
+} from '@/components'
+
+import { sleep } from '@/utils'
+// import { Input, Textarea } from '@/components'
+
+// import { Select, SelectItemType, SelectValueType } from '@/components/Select'
+
+// import { Slider } from '@/components/Slider'
+// import { Checkbox, CheckedState } from '@/components/Checkbox'
+// import { Button } from '@/components'
+// import { RadioGroup, RadioItemType, RadioValue } from '@/components/RadioGroup'
+// import { Switch } from '@/components/Switch'
+// import {
+//   CheckboxGroup,
+//   CheckboxValue,
+//   CheckboxItemType
+// } from '@/components/CheckboxGroup'
 
 import { toast /* useSonner */ } from 'sonner'
 
@@ -899,35 +921,6 @@ export const ControlledFormDemo = () => {
   ====================== */
 
   const renderSelect = () => {
-    const selectItems: SelectItemType[] = [
-      {
-        label: 'Apple',
-        value: 'apple'
-        // className: 'font-bold text-red-500'
-      },
-      {
-        label: 'Banana',
-        value: 'banana'
-        // className: 'font-bold text-yellow-500'
-      },
-      {
-        label: 'Blueberry',
-        value: 'blueberry'
-        // disabled: true
-        // style: { outline: '2px dashed deeppink' }
-      },
-      {
-        label: 'Grapes',
-        value: 'grapes'
-        // className: 'font-bold text-purple-500'
-      },
-      {
-        label: 'Pineapple',
-        value: 'pineapple'
-        // className: 'font-bold text-orange-500'
-      }
-    ]
-
     return (
       <Select
         // disabled
@@ -937,8 +930,7 @@ export const ControlledFormDemo = () => {
 
         // groupClassName='outline-2 outline-pink-500 outline-dashed'
         // groupStyle={{ outline: '2px dashed deeppink' }}
-        id='fruits'
-        items={selectItems}
+        id='snack'
         label='Select One'
         // labelClassName='font-bold'
 
@@ -961,11 +953,26 @@ export const ControlledFormDemo = () => {
 
         // sideOffset={20}
         // style={{ outline: '2px dashed deeppink' }}  // Assigned to SelectTrigger
-        // help='Pick a fruit...'
-        // helpClassName='font-bold'
+
         touched={selectTouched}
         value={selectValue}
-      />
+      >
+        <SelectGroup>
+          <SelectLabel>Fruit</SelectLabel>
+          <SelectItem value='apple'>Apple</SelectItem>
+          <SelectItem value='banana'>Banana</SelectItem>
+          <SelectItem value='cherry'>Cherry</SelectItem>
+        </SelectGroup>
+
+        <SelectSeparator />
+
+        <SelectGroup>
+          <SelectLabel>Veggie</SelectLabel>
+          <SelectItem value='carrot'>Carrot</SelectItem>
+          <SelectItem value='broccoli'>Broccoli</SelectItem>
+          <SelectItem value='spinach'>Spinach</SelectItem>
+        </SelectGroup>
+      </Select>
     )
   }
 

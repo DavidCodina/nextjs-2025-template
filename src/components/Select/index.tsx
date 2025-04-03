@@ -6,9 +6,6 @@ import {
   Select as SelectBase,
   SelectTrigger,
   SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
   SelectValue,
   SelectValueType
 } from './SelectBase'
@@ -20,15 +17,6 @@ import { cn } from '@/utils'
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
 type FieldSize = React.ComponentProps<typeof SelectTrigger>['fieldSize']
-
-type SelectItemType = {
-  className?: string
-  disabled?: boolean
-  label: React.ReactNode
-  // textValue?: string // See Radix docs.
-  style?: React.CSSProperties
-  value: SelectValueType
-}
 
 type SelectProps = React.ComponentProps<typeof SelectBase> & {
   className?: string
@@ -42,7 +30,6 @@ type SelectProps = React.ComponentProps<typeof SelectBase> & {
   helpClassName?: string
   helpStyle?: React.CSSProperties
   id?: string
-  items: SelectItemType[]
   label?: LabelChildren
   labelClassName?: string
   labelRequired?: boolean
@@ -58,9 +45,27 @@ type SelectProps = React.ComponentProps<typeof SelectBase> & {
 /* ========================================================================
 
 ======================================================================== */
+///////////////////////////////////////////////////////////////////////////
+//
+// This Select is built on top of the ShadCN Select. It adds several features,
+// and aims to abstract some, but not all, of the composability.
+//
+// <Select>
+//   <SelectGroup>
+//     <SelectLabel>Fruit</SelectLabel>
+//     <SelectItem value='apple'>Apple</SelectItem>
+//     <SelectItem value='banana'>Banana</SelectItem>
+//     <SelectItem value='blueberry'>Blueberry</SelectItem>
+//     <SelectItem value='grapes'>Grapes</SelectItem>
+//     <SelectItem value='pineapple'>Pineapple</SelectItem>
+//   </SelectGroup>
+// </Select>
+//
+///////////////////////////////////////////////////////////////////////////
 
 const Select = ({
   className = '',
+  children,
   defaultValue,
   disabled = false,
   error = '',
@@ -77,7 +82,6 @@ const Select = ({
   labelClassName = '',
   labelRequired = false,
   labelStyle = {},
-  items = [],
   onBlur,
   onChange,
   placeholder = 'Select...',
@@ -132,22 +136,6 @@ const Select = ({
   }, [controlledValue]) // eslint-disable-line
 
   /* ======================
-      renderSelectItems()
-  ====================== */
-
-  const renderSelectItems = () => {
-    return items.map((item, index) => {
-      const { label: itemLabel, value: itemValue, ...otherItemProps } = item
-
-      return (
-        <SelectItem key={index} value={itemValue} {...otherItemProps}>
-          {itemLabel}
-        </SelectItem>
-      )
-    })
-  }
-
-  /* ======================
       SelectBaseComponent
   ====================== */
 
@@ -197,11 +185,7 @@ const Select = ({
       </SelectTrigger>
 
       <SelectContent ref={selectContentRef} sideOffset={sideOffset}>
-        <SelectGroup>
-          {label && <SelectLabel>{label}</SelectLabel>}
-
-          {renderSelectItems()}
-        </SelectGroup>
+        {children}
       </SelectContent>
     </SelectBase>
   )
@@ -235,12 +219,7 @@ const Select = ({
   ====================== */
 
   return (
-    <div
-      id='my-select-container'
-      className={groupClassName}
-      ref={selectContainerRef}
-      style={groupStyle}
-    >
+    <div className={groupClassName} ref={selectContainerRef} style={groupStyle}>
       {renderLabel()}
 
       {typeof renderSelectBase === 'function'
@@ -263,4 +242,10 @@ const Select = ({
   )
 }
 
-export { Select, type SelectValueType, type SelectItemType }
+export {
+  SelectGroup,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator
+} from './SelectBase'
+export { Select, type SelectValueType }
