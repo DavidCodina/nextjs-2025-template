@@ -56,7 +56,7 @@ const toggleVariants = cva(baseClasses, {
       // accent and outline-accent were added.
       default: `
       bg-transparent text-muted-foreground
-      hover:bg-background-light hover:text-foreground
+      not-data-[state=on]:hover:bg-background-light/50 hover:text-foreground
       focus-visible:border-ring
       data-[state=on]:bg-background-light
       data-[state=on]:text-foreground
@@ -64,7 +64,7 @@ const toggleVariants = cva(baseClasses, {
 
       accent: `
       bg-transparent text-muted-foreground
-      hover:bg-accent hover:text-foreground
+      not-data-[state=on]:hover:bg-accent/50 hover:text-foreground
       focus-visible:border-ring
       data-[state=on]:bg-accent
       data-[state=on]:text-foreground
@@ -72,7 +72,7 @@ const toggleVariants = cva(baseClasses, {
 
       outline: `
         bg-transparent text-muted-foreground border shadow-xs
-        hover:bg-background-light hover:text-foreground
+        not-data-[state=on]:hover:bg-background-light/50 hover:text-foreground
         focus-visible:border-ring
         data-[state=on]:bg-background-light
         data-[state=on]:text-foreground
@@ -80,7 +80,7 @@ const toggleVariants = cva(baseClasses, {
 
       'outline-accent': `
         bg-transparent text-muted-foreground border shadow-xs
-        hover:bg-accent hover:text-foreground
+        not-data-[state=on]:hover:bg-accent/50 hover:text-foreground
         focus-visible:border-ring
         data-[state=on]:bg-accent
         data-[state=on]:text-foreground
