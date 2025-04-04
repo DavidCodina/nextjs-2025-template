@@ -9,9 +9,12 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //# [&_svg:not([class*='size-'])]:size-4 didn't work. However, it actually
 //# did work in the Toggle component.
 
-// Todo: Do global search on *-input to see where it's used and replace.
+//# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
-// Todo: Add primary, secondary variants to Toggle / ToggleGroup.
+// Todo: Review Tailwind 4.1 and update:
+// https://www.youtube.com/watch?v=HTFHoA12MJk
+
+// Todo: Do global search on *-input to see where it's used and replace.
 
 // Todo: add UI for the numeric position of slider thumbs.
 

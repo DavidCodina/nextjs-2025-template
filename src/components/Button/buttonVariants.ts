@@ -2,8 +2,21 @@
 
 import { cva } from 'class-variance-authority'
 
+///////////////////////////////////////////////////////////////////////////
+//
 // solidButtonBorderMixin is kind of hacky, but it's a quick and easy way
 // to get a darker border in light mode and lighter border in dark mode.
+// Note: The toggleVariants use a border that 'pops' a little more. For example,
+// the primary variant does this:
+//
+//   border
+//   border-[oklch(from_var(--color-primary)_calc(l_-_0.25)_c_h)]
+//   dark:border-[oklch(from_var(--color-primary)_calc(l_+_0.25)_c_h)]
+//
+// Obviously, this takes a lot more work and generates a lot more CSS, but
+// it's worth considering switching to this approach.
+//
+///////////////////////////////////////////////////////////////////////////
 const solidButtonBorderMixin = `border border-[rgba(0,0,0,0.3)] dark:border-[rgba(255,255,255,0.35)]`
 
 const buttonShadowMixin = `
