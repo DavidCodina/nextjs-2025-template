@@ -16,10 +16,13 @@ import { ToggleGroupContext } from './ToggleGroupContext'
 //   data-[variant=outline]:border-l-0
 //   data-[variant=outline]:first:border-l
 //
+// Gotcha: Adding min-w-0 here will break the w-fit on the ToggleGroup.
+// This happens in part because the parent is also a flex container.
+//
 ///////////////////////////////////////////////////////////////////////////
 
 const baseClasses = `
-min-w-0 flex-1 shrink-0 rounded-none shadow-none
+flex-1 shrink-0 rounded-none shadow-none
 first:rounded-l-[0.375em] last:rounded-r-[0.375em] 
 not-last:border-r-0
 focus:z-10 focus-visible:z-10

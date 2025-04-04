@@ -32,6 +32,7 @@ const svgMixin = `
 const disabledMixin = `disabled:pointer-events-none disabled:opacity-50`
 
 const baseClasses = `
+whitespace-nowrap
 inline-flex items-center justify-center gap-[0.5em] shrink-0
 px-[0.5em] py-[0.25em]
 font-semibold whitespace-nowrap cursor-pointer
@@ -50,84 +51,66 @@ const toggleVariants = cva(baseClasses, {
       // accent and outline-accent were added.
       default: `
       bg-transparent text-muted-foreground
-      not-data-[state=on]:hover:bg-background-light/65 hover:text-foreground
-      
+      hover:bg-background-light/65 hover:text-foreground
+      data-[state=on]:bg-background-light
+      data-[state=on]:text-foreground
       focus-visible:bg-background-light/65
       focus-visible:border-ring
       focus-visible:ring-ring/50
       focus-visible:text-foreground
-
-      data-[state=on]:bg-background-light
-      data-[state=on]:text-foreground
       `,
 
       accent: `
       bg-transparent text-muted-foreground
-      not-data-[state=on]:hover:bg-accent/65 hover:text-foreground
-
+      hover:bg-accent/65 hover:text-foreground
+      data-[state=on]:bg-accent
+      data-[state=on]:text-foreground
       focus-visible:bg-accent/65
       focus-visible:border-ring
       focus-visible:ring-ring/50
       focus-visible:text-foreground
-
-      data-[state=on]:bg-accent
-      data-[state=on]:text-foreground
       `,
 
       outline: `
         bg-transparent text-muted-foreground border shadow-xs
-        not-data-[state=on]:hover:bg-background-light/65 hover:text-foreground
-
+        hover:bg-background-light/65 hover:text-foreground
+        data-[state=on]:bg-background-light
+        data-[state=on]:text-foreground
         focus-visible:bg-background-light/65
         focus-visible:border-ring
         focus-visible:ring-ring/50
         focus-visible:text-foreground
-
-        data-[state=on]:bg-background-light
-        data-[state=on]:text-foreground
         `,
 
       'outline-accent': `
         bg-transparent text-muted-foreground border shadow-xs
-        not-data-[state=on]:hover:bg-accent/65 hover:text-foreground
-
+        hover:bg-accent/65 hover:text-foreground
+        data-[state=on]:bg-accent
+        data-[state=on]:text-foreground
         focus-visible:bg-accent/65
         focus-visible:border-ring
         focus-visible:ring-ring/50
         focus-visible:text-foreground
-
-        data-[state=on]:bg-accent
-        data-[state=on]:text-foreground
         `,
 
       primary: `
-        bg-primary/75 text-[oklch(from_var(--color-primary-foreground)_calc(l_-_0.05)_c_h)]
-        not-data-[state=on]:hover:bg-primary/90 hover:text-primary-foreground
+        bg-background-light text-primary border border-primary shadow-xs
+        hover:bg-primary/65 hover:text-primary-foreground
         data-[state=on]:bg-primary
         data-[state=on]:text-primary-foreground
-        border 
-        border-[oklch(from_var(--color-primary)_calc(l_-_0.25)_c_h)]
-        dark:border-[oklch(from_var(--color-primary)_calc(l_+_0.25)_c_h)]
-        
-        focus-visible:bg-primary/90
+        focus-visible:bg-primary/65
         focus-visible:ring-primary/50
         focus-visible:text-primary-foreground
-        shadow-xs
         `,
 
       secondary: `
-        bg-secondary/75 text-[oklch(from_var(--color-secondary-foreground)_calc(l_-_0.05)_c_h)]
-        not-data-[state=on]:hover:bg-secondary/90 hover:text-secondary-foreground
+        bg-background-light text-secondary border border-secondary shadow-xs
+        hover:bg-secondary/65 hover:text-secondary-foreground
         data-[state=on]:bg-secondary
         data-[state=on]:text-secondary-foreground
-        border 
-        border-[oklch(from_var(--color-secondary)_calc(l_-_0.25)_c_h)]
-        dark:border-[oklch(from_var(--color-secondary)_calc(l_+_0.25)_c_h)]
-        
-        focus-visible:bg-secondary/90
+        focus-visible:bg-secondary/65
         focus-visible:ring-secondary/50
         focus-visible:text-secondary-foreground
-        shadow-xs
         `
     },
 

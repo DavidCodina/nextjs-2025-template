@@ -9,7 +9,13 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //# [&_svg:not([class*='size-'])]:size-4 didn't work. However, it actually
 //# did work in the Toggle component.
 
+// Todo: Make toggle groups responsive...
+
 //# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
+
+//# Fix Sidebar bug that doesn't close Collapible sidbar ground when closing the icon menu.
+
+// Todo: test Toggle in isolation.
 
 // Todo: Review Tailwind 4.1 and update:
 // https://www.youtube.com/watch?v=HTFHoA12MJk

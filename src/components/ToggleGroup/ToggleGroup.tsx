@@ -11,7 +11,9 @@ import { ToggleGroupContext } from './ToggleGroupContext'
 // then setting rounded-[0.375em], we gaurantee that ToggleGroup will always
 // have the same border radius as its items. But actually, we want TogggleGroup
 // to have a slightly higher border radius.
-const baseClasses = `group/toggle-group flex w-fit items-center rounded-[calc(0.375em_+_1px)]`
+const baseClasses = `
+group/toggle-group flex w-fit items-center rounded-[calc(0.375em_+_1px)]
+`
 
 const toggleGroupVariants = cva(baseClasses, {
   variants: {

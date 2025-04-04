@@ -10,7 +10,7 @@ import { Rocket, Omega, Zap } from 'lucide-react'
 export function ToggleGroupDemo() {
   return (
     <>
-      <section className='my-6 flex flex-col items-center gap-6'>
+      <section className='my-6 mb-12 flex flex-col items-center gap-6'>
         <ToggleGroup
           // ⚠️ background color and border should go on the
           // ToggleGroupItem components - not the ToggleGroup
@@ -98,21 +98,53 @@ export function ToggleGroupDemo() {
             Primary 3
           </ToggleGroupItem>
         </ToggleGroup>
+      </section>
 
-        <ToggleGroup type='multiple' size='md' variant='secondary'>
-          <ToggleGroupItem value='item1'>
-            <Rocket />
-            Secondary 1
-          </ToggleGroupItem>
-          <ToggleGroupItem value='item2'>
-            <Omega />
-            Secondary 2
-          </ToggleGroupItem>
-          <ToggleGroupItem value='item3'>
-            <Zap />
-            Secondary 3
-          </ToggleGroupItem>
-        </ToggleGroup>
+      <section className='my-6'>
+        <article className='mx-auto max-w-[800px]'>
+          <p className='mb-6'>
+            In many cases, you'll want a scroll container around a{' '}
+            <code className='text-pink-500'>ToggleGroup</code>. This has{' '}
+            <strong>
+              <em>not</em>
+            </strong>{' '}
+            been baked into the component implementation, but is simple enough
+            to achieve. Here the{' '}
+            <code className='text-pink-500'>{`<div>`}</code> is given{' '}
+            <code className='text-pink-500'>p-[3px]</code> to accommodate the{' '}
+            <code className='text-pink-500'> focus-visible</code> ring.
+          </p>
+
+          <pre className='bg-background-light mb-6 rounded-xl border text-sm'>
+            <code>{`
+  <div className='mx-auto w-fit max-w-full overflow-x-auto p-[3px]'>
+    ...
+  </div>
+          `}</code>
+          </pre>
+        </article>
+
+        <div className='mx-auto w-fit max-w-full overflow-x-auto p-[3px]'>
+          <ToggleGroup
+            className='mx-auto'
+            type='multiple'
+            size='md'
+            variant='secondary'
+          >
+            <ToggleGroupItem value='item1'>
+              <Rocket />
+              Secondary 1
+            </ToggleGroupItem>
+            <ToggleGroupItem value='item2'>
+              <Omega />
+              Secondary 2 (Longer Content To Test Responsiveness)
+            </ToggleGroupItem>
+            <ToggleGroupItem value='item3'>
+              <Zap />
+              Secondary 3
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
       </section>
     </>
   )
