@@ -53,8 +53,7 @@ const Home = () => {
         >
           Home
         </Title>
-
-        <ComponentDemos />
+        <ComponentDemos />=
       </PageContainer>
     </Page>
   )

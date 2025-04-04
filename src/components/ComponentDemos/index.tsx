@@ -16,6 +16,7 @@ import { InputPasswordDemo } from './InputPasswordDemo'
 import { UncontrolledFormDemo } from './UncontrolledFormDemo'
 import { ControlledFormDemo } from './ControlledFormDemo'
 import { PopoverDemo } from './PopoverDemo'
+import { ScrollAreaDemo } from './ScrollAreaDemo'
 import { SelectNativeDemo } from './SelectNativeDemo'
 import { SeparatorDemo } from './SeparatorDemo'
 import { SheetDemo } from './SheetDemo'
@@ -52,6 +53,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='uncontrolled-form'>Uncontrolled Form</TabsTrigger>
         <TabsTrigger value='controlled-form'>Controlled Form</TabsTrigger>
         <TabsTrigger value='popover'>Popover</TabsTrigger>
+        <TabsTrigger value='scroll-area'>Scroll Area</TabsTrigger>
         <TabsTrigger value='select-native'>Select Native</TabsTrigger>
         <TabsTrigger value='separator'>Separator</TabsTrigger>
         <TabsTrigger value='sheet'>Sheet</TabsTrigger>
@@ -158,6 +160,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='popover'>
         <PopoverDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='scroll-area'>
+        <ScrollAreaDemo />
       </TabsContent>
 
       {/* ================= */}
