@@ -23,6 +23,7 @@ import { SkeletonDemo } from './SkeletonDemo'
 import { SonnerDemo } from './SonnerDemo'
 import { TableDemo } from './TableDemo'
 import { TabsDemo } from './TabsDemo'
+import { ToggleDemo } from './ToggleDemo'
 import { ToggleGroupDemo } from './ToggleGroupDemo'
 import { TooltipDemo } from './TooltipDemo'
 import { CalendarDemo } from './CalendarDemo'
@@ -58,6 +59,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='sonner'>Sonner</TabsTrigger>
         <TabsTrigger value='table'>Table</TabsTrigger>
         <TabsTrigger value='tabs'>Tabs</TabsTrigger>
+        <TabsTrigger value='toggle'>Toggle</TabsTrigger>
         <TabsTrigger value='toggle-group'>Toggle Group</TabsTrigger>
         <TabsTrigger value='tooltip'>Tooltip</TabsTrigger>
       </TabsList>
@@ -198,6 +200,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='tabs'>
         <TabsDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='toggle'>
+        <ToggleDemo />
       </TabsContent>
 
       {/* ================= */}
