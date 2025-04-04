@@ -97,8 +97,9 @@ Full support for the new @theme directive and @theme inline option. */
 
   --color-ring: var(--ring);
 
-  /* Input Color */
-  --color-input: var(--input);
+  /* Input Color 
+  Currently not using this anywhere.*/
+  /* ❌ --color-input: var(--input); */
 
   /* Font Types */
   --font-sans: var(--font-geist-sans);
@@ -237,7 +238,7 @@ Full support for the new @theme directive and @theme inline option. */
   */
 
   /* Input */
-  --input: var(--border);
+  /* ❌--input: var(--border); */
 
   /* Ring */
   --ring: oklch(0.708 0 0); /* ??? */
@@ -344,7 +345,7 @@ Full support for the new @theme directive and @theme inline option. */
   */
 
   /* Input */
-  --input: var(--border);
+  /* ❌ --input: var(--border); */
 
   /* Ring */
   --ring: oklch(0.439 0 0); /* ??? */
@@ -405,6 +406,8 @@ Tailwind utility classes. */
 ====================== */
 
 @plugin 'tailwindcss-animate';
+
+@plugin '../tw-plugins/readMorePlugin';
 
 /* ======================
         Variants

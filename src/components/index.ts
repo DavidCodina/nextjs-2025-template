@@ -28,6 +28,7 @@ export * from './PageError'
 export * from './popover'
 
 export * from './RadioGroup'
+export * from './ReadMore'
 export * from './Select'
 export * from './separator'
 export * from './sheet'

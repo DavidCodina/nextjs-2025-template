@@ -9,9 +9,9 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //# [&_svg:not([class*='size-'])]:size-4 didn't work. However, it actually
 //# did work in the Toggle component.
 
-//# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
+// Todo: Review and Update Card.
 
-// Todo: Do global search on *-input to see where it's used and replace.
+//# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
 // Todo: add UI for the numeric position of slider thumbs.
 
@@ -23,6 +23,9 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // Todo: Review https://react.dev/reference/react-dom/components/input
 
 // Todo: Build out RHF controlled form demo.
+
+// Todo: Review Calendar behavior and best practices/contracts when
+//# sending dates to server.
 
 //# Not sure about hover:underline in AccordionTrigger.
 
@@ -53,7 +56,7 @@ const Home = () => {
         >
           Home
         </Title>
-        <ComponentDemos />=
+        <ComponentDemos />
       </PageContainer>
     </Page>
   )
