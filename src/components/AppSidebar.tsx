@@ -1,5 +1,7 @@
 'use client'
 
+import { useState, useEffect } from 'react'
+
 import {
   Calendar,
   Home,
@@ -110,6 +112,14 @@ export const AppSidebar = () => {
   const isIconTextWrappingFix = isIcon ? { whiteSpace: 'nowrap' } : {}
 
   const floatingOffset = '16px'
+
+  const [collapsibleOpen, setCollapsibleOpen] = useState(false)
+
+  useEffect(() => {
+    if (isOpen === false) {
+      setCollapsibleOpen(false)
+    }
+  }, [isOpen])
 
   /* ======================
   renderCollapsibleSidebarMenu()
@@ -281,11 +291,18 @@ export const AppSidebar = () => {
   /* ======================
   renderCollapsibleSidebarGroup()
   ====================== */
+  // By default, the collapsible will not close simply because the Sidebar
+  // menu closes. To fix this, make it a controlled component. Then add
+  // a useEffect() that sets collapsibleOpen to false when the menu closes
+  // - i.e., isOpen is false.
 
   const renderCollapsibleSidebarGroup = () => {
     return (
       <Collapsible
-        // defaultOpen
+        open={collapsibleOpen}
+        onOpenChange={(value) => {
+          setCollapsibleOpen(value)
+        }}
         className='group/collapsible'
       >
         <SidebarGroup>

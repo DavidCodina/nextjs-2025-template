@@ -13,7 +13,7 @@ import {
   SidebarFlipper,
   SidebarInset
 } from 'components/sidebar'
-import { AppSidebar } from 'components/app-sidebar'
+import { AppSidebar } from 'components/AppSidebar'
 
 /* ======================
         fonts

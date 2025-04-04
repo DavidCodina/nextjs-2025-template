@@ -11,8 +11,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 //# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
-//# Fix Sidebar bug that doesn't close Collapible sidbar ground when closing the icon menu.
-
 // Todo: Do global search on *-input to see where it's used and replace.
 
 // Todo: add UI for the numeric position of slider thumbs.
@@ -31,7 +29,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //# Test dropdown menu that stays open against sidebar and sheet.
 
 //# Add Pagination
-
 //# This should have variants for color and size like a button.
 // https://www.radix-ui.com/primitives/docs/components/toggle-group
 

@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { SidebarTrigger } from './SidebarTrigger'
-import { AppSidebar } from '../app-sidebar'
+import { AppSidebar } from '@/components/AppSidebar'
 import { useSidebar } from './SidebarProvider'
 import { cn } from '@/utils'
 
