@@ -1,42 +1,38 @@
 'use client'
 
 import * as React from 'react'
-import { useStepperContext } from './StepperContext'
 import { cn } from '@/utils'
 
 type StepContentProps = React.ComponentProps<'div'> & {
-  step: number
+  show: boolean
 }
 
 /* ========================================================================
 
 ======================================================================== */
 
-export function StepContent({
+const StepContent = ({
   children,
   className,
-  step,
+  show = false,
   ...otherProps
-}: StepContentProps) {
-  const { activeStep } = useStepperContext()
-
+}: StepContentProps) => {
   /* ======================
           return
   ====================== */
 
-  if (step !== activeStep) {
+  if (!show) {
     return null
   }
 
   return (
     <div
       {...otherProps}
-      className={cn(
-        'bg-background-light mt-4 rounded-md border p-4',
-        className
-      )}
+      className={cn('bg-background-light rounded-md border p-4', className)}
     >
       {children}
     </div>
   )
 }
+
+export { StepContent, StepContent as CompletedContent }

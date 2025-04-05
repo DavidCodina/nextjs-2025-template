@@ -2,80 +2,124 @@
 
 import * as React from 'react'
 import { Button } from '@/components/Button'
-import {
-  StepperProvider,
-  Stepper,
-  Step,
-  StepContent,
-  CompletedContent
-} from '@/components/Stepper'
+import { Stepper, Step, StepContent, CompletedContent } from '@/components'
 
 /* ========================================================================
 
 ======================================================================== */
+///////////////////////////////////////////////////////////////////////////
+//
+// Generally, we're going to want to to manually control the `activeIndex`.
+// For example, when building a step form, the next activeIndex would get set
+// only after the form fields were validated.
+//
+// Following this pattern of externalization, `isActive`, `isCompleted` and `isLast`
+// are also determined externally for Step. Similarly, `show` is determined externally
+// for StepContent and CompletedContent. The tradeoff is a little more work when
+// consuming, but all associated Stepper components are now merely presentational/dumb
+// - no context, no nothing.
+//
+// This is not how Chakra, Mantine, or MUI do it, but it's actually a much
+// less complex pattern, and allows for more fine-grained control on the
+// consuming side.
+//
+///////////////////////////////////////////////////////////////////////////
 
 export function StepperDemo() {
-  //# Ultimately activeStep should be managed internally and set
-  //# by the trigger buttons, but this works for now.
-  const [activeStep, setActiveStep] = React.useState(0)
-  const totalSteps = 3 // ???
+  const [activeIndex, setActiveIndex] = React.useState(0)
+
+  // Omit index because it will be added when mapping.
+  const stepData: Omit<React.ComponentProps<typeof Step>, 'index'>[] = [
+    {
+      label: 'Create account',
+      description: 'Enter your details',
+      isActive: activeIndex === 0,
+      isCompleted: activeIndex > 0
+    },
+    {
+      label: 'Verify email',
+      description: 'Confirm your email',
+      isActive: activeIndex === 1,
+      isCompleted: activeIndex > 1
+    },
+    {
+      label: 'Get access',
+      description: 'Complete setup',
+      isActive: activeIndex === 2,
+      isCompleted: activeIndex > 2
+    }
+  ]
+
+  const totalSteps = stepData.length
 
   const handlePrevious = () => {
-    setActiveStep((v) => Math.max(v - 1, 0))
+    setActiveIndex((v) => Math.max(v - 1, 0))
   }
 
   const handleNext = () => {
-    setActiveStep((v) => Math.min(v + 1, totalSteps))
+    setActiveIndex((v) => Math.min(v + 1, totalSteps))
   }
 
-  const handleStepClick = (step: number) => {
-    setActiveStep(step)
-  }
+  // const handleStepClick = (step: number) => {
+  //   setActiveIndex(step)
+  // }
 
   /* ======================
-        renderStepper()
+    renderStepper()
   ====================== */
 
   const renderStepper = () => {
-    return (
-      <Stepper className='mb-8'>
+    const steps = stepData.map((step, index) => {
+      return (
         <Step
-          label='Create account'
-          description='Enter your details'
-          //# Do we want the step itself to be clickable?
-          //# I don't think Chakra does this.
-          onClick={() => handleStepClick(0)}
+          key={index}
+          index={index}
+          {...step}
+          isLast={index === stepData.length - 1}
         />
-        <Step
-          label='Verify email'
-          description='Confirm your email'
-          onClick={() => handleStepClick(1)}
-        />
-        <Step
-          label='Get access'
-          description='Complete setup'
-          onClick={() => handleStepClick(2)}
-        />
-      </Stepper>
-    )
+      )
+    })
+
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // Wrapping in a Fragment is fine:
+    //
+    //   const steps = (
+    //     <>
+    //       {stepData.map((step, index) => {
+    //         return (
+    //           <Step
+    //             key={index}
+    //             index={index}
+    //             {...step}
+    //             isLast={index === stepData.length - 1}
+    //           />
+    //         )
+    //       })}
+    //     </>
+    //   )
+    //
+    ///////////////////////////////////////////////////////////////////////////
+
+    return <Stepper className='mb-8'>{steps}</Stepper>
   }
 
   /* ======================
-          return
+      renderContent()
   ====================== */
 
-  return (
-    <section className='mx-auto mt-12 max-w-[800px]'>
-      <StepperProvider activeStep={activeStep}>
-        {renderStepper()}
-
-        <StepContent step={0}>
+  const renderContent = () => {
+    return (
+      <>
+        <StepContent show={activeIndex === 0}>
           <h3 className='text-primary text-xl font-black'>Step 1</h3>
-          This is a work in progress... It's inspired by Steppers in Chakra UI
-          and Mantine. The core behavior is there, but it's still very basic.
+          This Steppers is inspired by Chakra UI, Mantine and MUI. However, it
+          has no context. Moreover, all associated components are
+          representational/dumb. Ultimately, this means a litte more work on the
+          consuming side, but a much less complex internal implementation.
         </StepContent>
 
-        <StepContent step={1}>
+        <StepContent show={activeIndex === 1}>
           <h3 className='text-primary text-xl font-black'>Step 2</h3>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores
           neque aut architecto accusantium ea laborum possimus libero optio
@@ -85,7 +129,7 @@ export function StepperDemo() {
           Corrupti quaerat optio eius odio illo!
         </StepContent>
 
-        <StepContent step={2}>
+        <StepContent show={activeIndex === 2}>
           <h3 className='text-primary text-xl font-black'>Step 3</h3>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad error
           voluptatum totam natus vero placeat velit veniam eum, blanditiis modi,
@@ -94,7 +138,7 @@ export function StepperDemo() {
           sunt totam facilis inventore. Tempore itaque harum eaque explicabo?
         </StepContent>
 
-        <CompletedContent>
+        <CompletedContent show={activeIndex === totalSteps}>
           <h3 className='text-primary text-xl font-black'>Completion!</h3>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores
           neque aut architecto accusantium ea laborum possimus libero optio
@@ -103,25 +147,48 @@ export function StepperDemo() {
           veritatis facilis repellendus quis. Dicta similique dolorum qui omnis.
           Corrupti quaerat optio eius odio illo!
         </CompletedContent>
+      </>
+    )
+  }
 
-        <div className='mt-6 flex justify-center gap-4'>
-          <Button
-            onClick={handlePrevious}
-            disabled={activeStep === 0}
-            style={{ minWidth: 100 }}
-          >
-            Back
-          </Button>
-          <Button
-            onClick={handleNext}
-            disabled={activeStep === totalSteps}
-            style={{ minWidth: 100 }}
-          >
-            {/* {activeStep === totalSteps - 2 ? 'Finish' : 'Next'} */}
-            Next
-          </Button>
-        </div>
-      </StepperProvider>
+  /* ======================
+      renderControls()
+  ====================== */
+
+  const renderControls = () => {
+    return (
+      <div className='mt-6 flex justify-center gap-4'>
+        <Button
+          onClick={handlePrevious}
+          disabled={activeIndex === 0}
+          style={{ minWidth: 100 }}
+        >
+          Back
+        </Button>
+        <Button
+          onClick={handleNext}
+          disabled={activeIndex === totalSteps}
+          style={{ minWidth: 100 }}
+        >
+          {activeIndex === totalSteps ? 'Done' : 'Next'}
+        </Button>
+      </div>
+    )
+  }
+
+  /* ======================
+          return
+  ====================== */
+
+  return (
+    <section className='mx-auto mt-12 max-w-[800px]'>
+      {renderStepper()}
+
+      <div className='text-muted-foreground mb-8 text-center text-sm font-medium'>
+        Random Intermediate JSX is okay...
+      </div>
+      {renderContent()}
+      {renderControls()}
     </section>
   )
 }

@@ -3,16 +3,15 @@
 import * as React from 'react'
 import { Check } from 'lucide-react'
 import { cn } from '@/utils'
-// import { useStepperContext } from './StepperContext'
 
-interface StepProps extends React.HTMLAttributes<HTMLButtonElement> {
-  label: string
+type StepProps = React.HTMLAttributes<HTMLButtonElement> & {
   description?: string
-  index?: number
-  isActive?: boolean
-  //! isLast?: boolean
+  index: number
+  isActive: boolean
+  isCompleted: boolean
+  isLast?: boolean
+  label: string
   // icon?: React.ReactNode
-  isCompleted?: boolean
 }
 
 const stepCircleClasses = `
@@ -29,21 +28,17 @@ rounded-full border
 // That said Chakra seems to have a more basic approach.
 // https://www.chakra-ui.com/docs/components/steps
 
-//# Use isCompleted to set the completed checkmark.
-//# Create NextTrigger and PreviousTrigger to hook into context.
-//# Make sure I'm using correct theme colors.
 //# Add variants.
-//# Move activeStep state into the context.
 //# Work on responsive behavior.
 
 export function Step({
-  className,
-  description,
+  className = '',
+  description = '',
   index = 0,
   isActive = false,
   isCompleted = false,
-  label,
-  //! isLast = false,
+  isLast = false,
+  label = '',
   // icon,
   ...otherProps
 }: StepProps) {
@@ -56,6 +51,7 @@ export function Step({
       <div
         className={cn(
           stepCircleClasses,
+          //# Rather than doing all this, use data-active and data-completed.
           isCompleted
             ? `bg-primary text-primary-foreground border-primary p-1.5`
             : isActive
@@ -77,10 +73,15 @@ export function Step({
   ====================== */
 
   const renderStepBody = () => {
+    if (!label && !description) {
+      return null
+    }
     return (
-      <div className=''>
-        <div className='font-semibold'>{label}</div>
-        <div className='text-muted-foreground text-xs'>{description}</div>
+      <div>
+        {label && <div className='font-semibold'>{label}</div>}
+        {description && (
+          <div className='text-muted-foreground text-xs'>{description}</div>
+        )}
       </div>
     )
   }
@@ -90,9 +91,25 @@ export function Step({
   ====================== */
 
   return (
-    <button {...otherProps} className={cn('flex gap-2 text-left', className)}>
-      {renderStepCircle()}
-      {renderStepBody()}
-    </button>
+    <>
+      <button
+        {...otherProps}
+        className={cn('flex items-center gap-2 text-left', className)}
+        data-active={isActive}
+        data-completed={isCompleted}
+      >
+        {renderStepCircle()}
+        {renderStepBody()}
+      </button>
+
+      {!isLast && (
+        <div
+          className={cn(
+            'bg-primary h-0.5 flex-1',
+            isCompleted ? 'bg-primary' : 'bg-border'
+          )}
+        />
+      )}
+    </>
   )
 }
