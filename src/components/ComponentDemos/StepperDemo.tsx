@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { Button } from '@/components/Button'
 import { Stepper, Step, StepContent, CompletedContent } from '@/components'
+import { Mail, UserPlus, KeyRound, Info } from 'lucide-react'
 
 /* ========================================================================
 
@@ -31,22 +32,25 @@ export function StepperDemo() {
   // Omit index because it will be added when mapping.
   const stepData: Omit<React.ComponentProps<typeof Step>, 'index'>[] = [
     {
-      label: 'Create account',
-      description: 'Enter your details',
+      label: 'Step 1',
+      description: 'Create Account',
       isActive: activeIndex === 0,
-      isCompleted: activeIndex > 0
+      isCompleted: activeIndex > 0,
+      icon: <UserPlus />
     },
     {
-      label: 'Verify email',
-      description: 'Confirm your email',
+      label: 'Step 2',
+      description: 'Confirm Email',
       isActive: activeIndex === 1,
-      isCompleted: activeIndex > 1
+      isCompleted: activeIndex > 1,
+      icon: <Mail />
     },
     {
-      label: 'Get access',
-      description: 'Complete setup',
+      label: 'Step 3',
+      description: 'Access Content',
       isActive: activeIndex === 2,
-      isCompleted: activeIndex > 2
+      isCompleted: activeIndex > 2,
+      icon: <KeyRound />
     }
   ]
 
@@ -101,7 +105,11 @@ export function StepperDemo() {
     //
     ///////////////////////////////////////////////////////////////////////////
 
-    return <Stepper className='mb-8'>{steps}</Stepper>
+    return (
+      <Stepper className='mb-8' variant='primary'>
+        {steps}
+      </Stepper>
+    )
   }
 
   /* ======================
@@ -113,14 +121,29 @@ export function StepperDemo() {
       <>
         <StepContent show={activeIndex === 0}>
           <h3 className='text-primary text-xl font-black'>Step 1</h3>
-          This Steppers is inspired by Chakra UI, Mantine and MUI. However, it
-          has no context. Moreover, all associated components are
-          representational/dumb. Ultimately, this means a litte more work on the
-          consuming side, but a much less complex internal implementation.
+          <p className='mb-4'>
+            This <code className='text-pink-500'>Stepper</code> is inspired by
+            Chakra UI, Mantine and MUI. However, all associated components are
+            representational/dumb. Ultimately, this means a litte more work on
+            the consuming side, but a much less complex internal implementation.
+          </p>
+
+          <p>
+            Generally, you're going to want to have external control over the{' '}
+            <code className='text-pink-500'>activeIndex</code>. Following that
+            pattern, it just made sense to externalize other things like{' '}
+            <code className='text-pink-500'>isActive</code>,{' '}
+            <code className='text-pink-500'>isCompleted</code>, etc.
+          </p>
         </StepContent>
 
         <StepContent show={activeIndex === 1}>
-          <h3 className='text-primary text-xl font-black'>Step 2</h3>
+          <h3 className='text-primary mb-2 text-xl font-black'>Step 2</h3>
+          <p className='mb-4'>
+            <Info className='text-primary mr-1 inline' /> Icons are optional.
+            The default behavior is to show the step (i.e.,{' '}
+            <code className='size-[1em] text-pink-500'>index + 1</code>).
+          </p>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores
           neque aut architecto accusantium ea laborum possimus libero optio
           consequuntur, deleniti ex facere explicabo alias repellat ipsa sequi
@@ -185,7 +208,7 @@ export function StepperDemo() {
       {renderStepper()}
 
       <div className='text-muted-foreground mb-8 text-center text-sm font-medium'>
-        Random Intermediate JSX is okay...
+        Intermediate JSX is okay...
       </div>
       {renderContent()}
       {renderControls()}
