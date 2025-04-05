@@ -23,6 +23,7 @@ import { SeparatorDemo } from './SeparatorDemo'
 import { SheetDemo } from './SheetDemo'
 import { SkeletonDemo } from './SkeletonDemo'
 import { SonnerDemo } from './SonnerDemo'
+import { StepperDemo } from './StepperDemo'
 import { TableDemo } from './TableDemo'
 import { TabsDemo } from './TabsDemo'
 import { ToggleDemo } from './ToggleDemo'
@@ -61,6 +62,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='sheet'>Sheet</TabsTrigger>
         <TabsTrigger value='skeleton'>Skeleton</TabsTrigger>
         <TabsTrigger value='sonner'>Sonner</TabsTrigger>
+        <TabsTrigger value='stepper'>Stepper</TabsTrigger>
         <TabsTrigger value='table'>Table</TabsTrigger>
         <TabsTrigger value='tabs'>Tabs</TabsTrigger>
         <TabsTrigger value='toggle'>Toggle</TabsTrigger>
@@ -204,6 +206,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='sonner'>
         <SonnerDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='stepper'>
+        <StepperDemo />
       </TabsContent>
 
       {/* ================= */}
