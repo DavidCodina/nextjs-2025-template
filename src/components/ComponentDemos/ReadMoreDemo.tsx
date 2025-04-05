@@ -56,17 +56,18 @@ export const ReadMoreDemo = () => {
         }}
       >
         <p
-        // Setting lineHeight and/or fontSize here is NOT inherited by the 'Read More' button,
-        // and would therefore require the consumer to manually set the 'Read More' button's
-        // styles to match that of the children content.
-        // style={{ fontSize: 20 }}
+          className='mb-6'
+          // Setting lineHeight and/or fontSize here is NOT inherited by the 'Read More' button,
+          // and would therefore require the consumer to manually set the 'Read More' button's
+          // styles to match that of the children content.
+          // style={{ fontSize: 20 }}
         >
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga deleniti
           reprehenderit recusandae. Ipsa cum, aliquam harum veniam ratione eos
           obcaecati porro excepturi odio velit accusantium possimus, tempora
           vitae nam mollitia nesciunt illum consectetur deserunt non!{' '}
         </p>
-        {/* <p>
+        <p className='mb-6'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga deleniti
           reprehenderit recusandae. Ipsa cum, aliquam harum veniam ratione eos
           obcaecati porro excepturi odio velit accusantium possimus, tempora
@@ -80,7 +81,7 @@ export const ReadMoreDemo = () => {
           eaque eveniet quos. Quae ipsum deserunt pariatur qui exercitationem.
           Sequi, optio, nobis ad aspernatur recusandae provident voluptas vitae
           omnis sed ullam earum fugit saepe minus ea odio.
-        </p> */}
+        </p>
       </ReadMore>
     </Fragment>
   )

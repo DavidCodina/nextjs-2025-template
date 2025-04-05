@@ -217,11 +217,18 @@ export const ReadMore = ({
         // This makes more sense to be left as inline styles,
         // rather than adding to readMorePlugin.ts
         style={{
+          // ⚠️ Note: this component relies on WebkitLineClamp, WebkitBoxOrient and -webkit-box.
+          // However, all modern browsers now support the -webkit prefixed properties like -webkit-box,
+          // -webkit-line-clamp, and -webkit-box-orient, even those not based on WebKit.
           display: !open ? '-webkit-box' : '',
           WebkitBoxOrient: 'vertical',
           // Dynamically changing lines did not actually work.
           WebkitLineClamp: maxLines, // WebkitLineClamp is designed to work in conjunction with '-webkit-box'
-          overflow: !open ? 'hidden' : '',
+          // Note: This was using 'hidden', but clip seems to be better,
+          // especially for opting out of tabbing to child elements.
+          // If 'clip' becomes problematic for any reason, then try
+          // switching back to 'hidden'.
+          overflow: !open ? 'clip' : '',
           textOverflow: 'ellipsis', // This may be redundant, but doesn't hurt.
           position: 'relative'
         }}
