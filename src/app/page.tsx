@@ -5,10 +5,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-// Todo: Review butttonVariants. Initially I made a huge comment on how
-//# [&_svg:not([class*='size-'])]:size-4 didn't work. However, it actually
-//# did work in the Toggle component.
-
 // Todo: Review and Update Card.
 
 //# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.

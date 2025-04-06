@@ -35,9 +35,10 @@ export function StepperDemo() {
       label: 'Step 1',
       description: 'Create Account',
       isActive: activeIndex === 0,
-      isCompleted: activeIndex > 0,
+      isCompleted: false,
       icon: <UserPlus />,
-      isValid: undefined
+      isValid: undefined,
+      isLoading: false
     },
     {
       label: 'Step 2',
@@ -45,7 +46,8 @@ export function StepperDemo() {
       isActive: activeIndex === 1,
       isCompleted: activeIndex > 1,
       icon: <Mail />,
-      isValid: undefined
+      isValid: undefined,
+      isLoading: false
     },
     {
       label: 'Step 3',
@@ -53,7 +55,8 @@ export function StepperDemo() {
       isActive: activeIndex === 2,
       isCompleted: activeIndex > 2,
       icon: <KeyRound />,
-      isValid: undefined
+      isValid: undefined,
+      isLoading: false
     }
   ]
 

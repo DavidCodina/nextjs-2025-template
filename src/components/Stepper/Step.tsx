@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Check, X } from 'lucide-react'
+import { Check, LoaderCircle, X } from 'lucide-react'
 import { cn } from '@/utils'
 import { useStepperContext } from './StepperContext'
 
@@ -12,14 +12,16 @@ type StepProps = React.HTMLAttributes<HTMLButtonElement> & {
   isActive: boolean
   isCompleted: boolean
   isLast?: boolean
+  isLoading?: boolean
   /** Use isValid  true | false | undefined to opt into success and/or error styles. */
   isValid?: boolean
   label: React.ReactNode
 }
 
-// ⚠️ text-* size is NOT set here. Instead set,
+// ⚠️ text-* size is NOT set here. Instead, set
 // text-* on the `Stepper` and everything
 // with em units will inherit from that.
+// text-* is used to set the overall size.
 const buttonBaseClasses = `
 flex items-center gap-2 text-left 
 [&_svg:not([class*='size-'])]:size-full
@@ -43,14 +45,24 @@ export function Step({
   index = 0,
   isActive = false,
   isCompleted = false,
-  isValid,
+  isLoading = false,
+  isValid = undefined, // Do not set true or false as the default.
   isLast = false,
   label = '',
   icon,
   ...otherProps
 }: StepProps) {
   const { variant } = useStepperContext()
-  icon = isValid === false ? <X /> : icon
+
+  // Note: <Check /> still is given precedence lower
+  // down whenever isCompleted is true.
+  icon = isLoading ? (
+    <LoaderCircle className='animate-spin' />
+  ) : isValid === false ? (
+    <X />
+  ) : (
+    icon
+  )
 
   /* ======================
       renderStepCircle()
@@ -145,13 +157,7 @@ export function Step({
             `data-[valid=true]:bg-success data-[valid=true]:text-success-foreground data-[valid=true]:border-[oklch(from_var(--color-success)_calc(l_-_0.25)_c_h)]`
         )}
       >
-        {isCompleted ? (
-          <Check className='h-full w-full' />
-        ) : icon ? (
-          icon
-        ) : (
-          <span>{index + 1}</span>
-        )}
+        {isCompleted ? <Check /> : icon ? icon : <span>{index + 1}</span>}
       </div>
     )
   }
@@ -268,6 +274,7 @@ export function Step({
         data-slot='step'
         {...otherProps}
         className={cn(buttonBaseClasses, className)}
+        type='button'
       >
         {renderStepCircle()}
         {renderStepBody()}

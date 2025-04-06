@@ -92,6 +92,7 @@ export const ThemeToggle = ({
           setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
         }}
         style={style}
+        type='button'
       >
         {renderIcon()}
         <span className='sr-only'>Toggle Theme</span>

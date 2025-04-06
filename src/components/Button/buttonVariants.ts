@@ -27,72 +27,13 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.85)]
 dark:hover:shadow-none
 dark:active:shadow-[inset_0_0_2px_0.5px_rgba(0,0,0,0.35)]
 `
-const activeScaleMixin = 'active:scale-[0.98]'
 
-///////////////////////////////////////////////////////////////////////////
-//
-// Gotcha; The default ShadCN implementation of buttonVariants base class used:
-//
-// [&_svg:not([class*='size-'])]:size-4
-//
-// This looks like an attempt to mitigate CSS conflicts that would otherwise
-// occur from variants.size.icon:
-//
-//   icon:'size-9'
-//
-// However, Tailwind doesn't seem to support attribute selectors like [class*='size-']
-// as part of an aribtrary variant. Tailwind's JIT engine is designed to generate styles
-// for explicitly defined class selectors. When you're using an attribute selector
-// like [class*='size-'], it's dynamic and can't be directly compiled into Tailwind's
-// CSS output because the JIT engine doesn't see this as a concrete class name.
-// For example, this will work:
-//
-//   [&.size-9]:outline-dashed
-//   [&.size-9]:outline-red-500
-//   [&.size-9]:outline-3
-//
-// But this won't:
-//
-//   [&[class^='bg-']]:outline-dashed
-//   [&[class^='bg-']]:outline-red-500
-//   [&[class^='bg-']]:outline-3
-//
-// The correct way to handle this, at least in v4, is as follows:
-//
-//   not-[&.size-9]:[&_svg]:size-4
-//
-// However, this creates a new problem. Given a button with className="size-12",
-// the icon will still be size-4:
-//
-//   <Button className='size-12' size='icon'>
-//     <Rocket />
-//   </Button>
-//
-// A better solution is to implement an `isIcon` prop on the Button component.
-// Then use the value as follows:
-//
-//   className={cn(
-//     buttonVariants({ variant, size }),
-//     { 'p-1 [&_svg]:size-full': isIcon },
-//     className
-//   )}
-//
-// p-1 has been set as a sensible default, but  padding may need to be increased
-// on the consuming side, especially if using rounded-full It's also up to the
-// consumer to set their own button size (i.e., width and height).
-//
-// Thus, variants.size.icon has been removed in favor of this new approach:
-//
-//   <Button className='size-12 rounded-full p-2' isIcon variant='lime'>
-//     <Rocket />
-//   </Button>
-//
-///////////////////////////////////////////////////////////////////////////
+const activeScaleMixin = 'active:scale-[0.98]'
 
 const svgMixin = `
 [&_svg]:pointer-events-none
 [&_svg]:shrink-0
-[&_svg]:size-[1.25em]
+[&_svg:not([class*='size-'])]:size-[1.25em]
 `
 
 /* ======================

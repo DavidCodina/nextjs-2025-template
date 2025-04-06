@@ -139,17 +139,33 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
 
   return (
     <Component
+      // Mitigate inadvertently triggering form submissions, etc.
+      {...(Component === 'button' ? { type: 'button' } : {})}
       {...otherProps}
       disabled={disabled || loading}
       data-slot='button'
       className={cn(
+        ///////////////////////////////////////////////////////////////////////////
+        //
+        // The issue with icon only implementations is that normally,
+        // the button's line-height of 1.5 would intrinsically add to
+        // the overall height of the button. However, when the button
+        // is ONLY an icon, this doesn't happen. Assuming, the icon is
+        // 1em in height and font-size is 16px, then the button would lose
+        // 4px top and bottom height. However, the <svg> icon is actually
+        // given 1.25em in height, which means it's losing only 2px top
+        // and bottom height. The button's normal vertical padding is 0.25em.
+        // To correct for the loss in line-height, we need to add 2px top and bottom
+        // to the padding (i.e., 0.25em + 0.125em = 0.375em).
+        //
+        ///////////////////////////////////////////////////////////////////////////
         buttonVariants({ variant, size }),
         {
-          'p-1 [&_svg]:size-full': isIcon
+          'p-[0.375em]': isIcon
         },
         className
       )}
-      style={style}
+      style={{ ...style }}
     >
       {loading && !isIcon ? renderLoader() : leftSection}
       {loading && isIcon ? renderLoader() : children}

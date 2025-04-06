@@ -162,6 +162,7 @@ export const ReadMore = ({
             return !v
           })
         }}
+        type='button'
       >
         {!open ? (
           <span className='flex items-center gap-[0.25em]'>
@@ -193,6 +194,7 @@ export const ReadMore = ({
             return !v
           })
         }}
+        type='button'
       >
         {!open ? (
           <span className='flex items-center gap-[0.25em]'>

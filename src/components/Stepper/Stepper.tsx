@@ -14,8 +14,6 @@ flex flex-wrap justify-between items-center gap-4
 /* ========================================================================
 
 ======================================================================== */
-//# Nice to have: sometimes there's something like a isError prop
-//# that will change the icon to an X.
 
 export function Stepper({
   children,
