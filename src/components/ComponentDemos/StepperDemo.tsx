@@ -10,9 +10,9 @@ import { Mail, UserPlus, KeyRound, Info } from 'lucide-react'
 ======================================================================== */
 ///////////////////////////////////////////////////////////////////////////
 //
-// Generally, we're going to want to to manually control the `activeIndex`.
-// For example, when building a step form, the next activeIndex would get set
-// only after the form fields were validated.
+// Generally, we'll want to to manually control the `activeIndex`.
+// For example, when building a step form, the next `activeIndex` would
+// get set only after the form fields were validated.
 //
 // Following this pattern of externalization, `isActive`, `isCompleted` and `isLast`
 // are also determined externally for Step. Similarly, `show` is determined externally
@@ -153,16 +153,18 @@ export function StepperDemo() {
           <p className='mb-4'>
             <Info className='text-primary mr-1 inline' /> Icons are optional.
             The default behavior is to show the step (i.e.,{' '}
-            <code className='size-[1em] text-pink-500'>index + 1</code>).
+            <code className='size-[1em] text-pink-500'>index + 1</code>), or a
+            check when <code className='text-pink-500'>isCompleted</code>.
           </p>
 
           <p>
-            Currently, there is a <code className='text-pink-500'>variant</code>{' '}
-            prop on <code className='text-pink-500'>Stepper</code>, but no{' '}
-            <code className='text-pink-500'>size</code> prop. To adjust size,
-            set a <code className='text-pink-500'>text-*</code> Tailwind sizing
-            class on <code className='text-pink-500'>Stepper</code>. From there,
-            the relevant styles will inherit a new value through{' '}
+            There is a <code className='text-pink-500'>variant</code> prop on{' '}
+            <code className='text-pink-500'>Stepper</code> (defaut | primary |
+            secondary), but no <code className='text-pink-500'>size</code> prop.
+            To adjust size, set a <code className='text-pink-500'>text-*</code>{' '}
+            Tailwind sizing class on{' '}
+            <code className='text-pink-500'>Stepper</code>. From there, the
+            relevant styles will inherit a new value through{' '}
             <code className='text-pink-500'>em</code> units.
           </p>
         </StepContent>
