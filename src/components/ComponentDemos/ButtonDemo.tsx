@@ -83,6 +83,24 @@ export const ButtonDemo = () => {
     <>
       <section className='bg-background-light mx-auto mb-6 space-y-4 rounded-lg border p-4 shadow'>
         <h2 className='text-primary mb-4 font-bold'>Custom Color Variants:</h2>
+        <p className='mb-4'>
+          The initial ShadCN button implementation hardcoded various heights for{' '}
+          <code className='text-pink-500'>Button</code> in its{' '}
+          <code className='text-pink-500'>size</code> variant. However, this has
+          been updated such that height is now determined intrinsically by{' '}
+          <code className='text-pink-500'>font-size</code>,{' '}
+          <code className='text-pink-500'>padding</code> and{' '}
+          <code className='text-pink-500'>line-height</code>. This is a common
+          practice (e.g., Bootstrap). Moreover,{' '}
+          <code className='text-pink-500'>padding</code>,{' '}
+          <code className='text-pink-500'>gap</code>, and{' '}
+          <code className='text-pink-500'>border-radius</code> are all now based
+          off of <code className='text-pink-500'>em</code> units. Similar
+          changes have been made to form controls and{' '}
+          <code className='text-pink-500'>Toggle</code> so that they all match
+          each other at each size.
+        </p>
+
         {renderCustomColorButtons()}
       </section>
 
@@ -146,6 +164,34 @@ export const ButtonDemo = () => {
           <Button rightSection={<Music4 />} size='md' variant='purple'>
             Click Me
           </Button>
+        </div>
+
+        <p>
+          When using the <code className='text-pink-500'>isIcon</code> prop, a{' '}
+          <code className='text-pink-500'>Button</code> would{' '}
+          <strong className='text-primary'>
+            <em>lose height</em>
+          </strong>{' '}
+          due to CSS omitting the{' '}
+          <code className='text-pink-500'>line-height</code> (i.e., no text, no{' '}
+          <code className='text-pink-500'>line-height</code>). However, this
+          issue is mitigated by adding the necessary padding.{' '}
+          <code className='text-pink-500'>Button</code> components are given a{' '}
+          <code className='text-pink-500'>line-height</code> of{' '}
+          <code className='text-pink-500'>1.5</code>.{' '}
+          <code className='text-pink-500'>{`<svg>`}</code> icons are given a
+          size of <code className='text-pink-500'>1.25em</code>. To mitigate the
+          loss of <code className='text-pink-500'>line-height</code>,{' '}
+          <code className='text-pink-500'>isIcon</code> buttons are given an
+          additional <code className='text-pink-500'>0.125em</code> (i.e.,{' '}
+          <code className='text-pink-500'>0.375em</code> total) padding.
+        </p>
+
+        <div className='outline-border mx-auto flex w-fit flex-wrap items-center justify-center gap-4 rounded outline-2 outline-dashed'>
+          <Button variant='green' isIcon>
+            <CircleCheck />
+          </Button>
+          <Button variant='green'>Click Me</Button>
         </div>
       </section>
 
