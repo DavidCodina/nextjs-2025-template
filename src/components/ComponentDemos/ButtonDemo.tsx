@@ -2,7 +2,7 @@
 
 import { ComponentProps } from 'react'
 import { Button } from '@/components'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Equal } from 'lucide-react'
 
 import {
   Rocket,
@@ -180,17 +180,19 @@ export const ButtonDemo = () => {
           <code className='text-pink-500'>line-height</code> of{' '}
           <code className='text-pink-500'>1.5</code>.{' '}
           <code className='text-pink-500'>{`<svg>`}</code> icons are given a
-          size of <code className='text-pink-500'>1.25em</code>. To mitigate the
-          loss of <code className='text-pink-500'>line-height</code>,{' '}
+          size of <code className='text-pink-500'>1.25em</code>. To correct fo
+          the loss of <code className='text-pink-500'>line-height</code>,{' '}
           <code className='text-pink-500'>isIcon</code> buttons are given an
           additional <code className='text-pink-500'>0.125em</code> (i.e.,{' '}
           <code className='text-pink-500'>0.375em</code> total) padding.
         </p>
 
-        <div className='outline-border mx-auto flex w-fit flex-wrap items-center justify-center gap-4 rounded outline-2 outline-dashed'>
+        <div className='outline-border mx-auto flex w-fit flex-wrap items-center justify-center gap-2 rounded outline-2 outline-dashed'>
           <Button variant='green' isIcon>
             <CircleCheck />
           </Button>
+
+          <Equal className='size-4' />
           <Button variant='green'>Click Me</Button>
         </div>
       </section>
