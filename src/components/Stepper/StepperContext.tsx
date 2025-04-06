@@ -2,8 +2,10 @@
 
 import * as React from 'react'
 
+type Variant = 'default' | 'primary' | 'secondary'
+
 export type StepperContextValue = {
-  variant: 'default' | 'primary' | 'secondary'
+  variant: Variant
 }
 export const StepperContext = React.createContext({} as StepperContextValue)
 
@@ -16,7 +18,7 @@ export const StepperProvider = ({
   variant = 'default'
 }: {
   children: React.ReactNode
-  variant?: 'default' | 'primary' | 'secondary'
+  variant?: Variant
 }) => {
   /* ======================
           return

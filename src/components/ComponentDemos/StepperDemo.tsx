@@ -36,21 +36,24 @@ export function StepperDemo() {
       description: 'Create Account',
       isActive: activeIndex === 0,
       isCompleted: activeIndex > 0,
-      icon: <UserPlus />
+      icon: <UserPlus />,
+      isValid: undefined
     },
     {
       label: 'Step 2',
       description: 'Confirm Email',
       isActive: activeIndex === 1,
       isCompleted: activeIndex > 1,
-      icon: <Mail />
+      icon: <Mail />,
+      isValid: undefined
     },
     {
       label: 'Step 3',
       description: 'Access Content',
       isActive: activeIndex === 2,
       isCompleted: activeIndex > 2,
-      icon: <KeyRound />
+      icon: <KeyRound />,
+      isValid: undefined
     }
   ]
 
@@ -106,7 +109,14 @@ export function StepperDemo() {
     ///////////////////////////////////////////////////////////////////////////
 
     return (
-      <Stepper className='mb-8' variant='primary'>
+      <Stepper
+        // In the absence of an actual `size` variant, we can set size
+        // by setting text-* on the `Stepper` itself. This works because
+        // every Step button and everything inside of each Step that would
+        // matter is based on em units.
+        className='mb-8 text-base'
+        variant='primary'
+      >
         {steps}
       </Stepper>
     )
@@ -133,7 +143,8 @@ export function StepperDemo() {
             <code className='text-pink-500'>activeIndex</code>. Following that
             pattern, it just made sense to externalize other things like{' '}
             <code className='text-pink-500'>isActive</code>,{' '}
-            <code className='text-pink-500'>isCompleted</code>, etc.
+            <code className='text-pink-500'>isCompleted</code>,{' '}
+            <code className='text-pink-500'>isValid</code> etc.
           </p>
         </StepContent>
 
@@ -144,12 +155,16 @@ export function StepperDemo() {
             The default behavior is to show the step (i.e.,{' '}
             <code className='size-[1em] text-pink-500'>index + 1</code>).
           </p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores
-          neque aut architecto accusantium ea laborum possimus libero optio
-          consequuntur, deleniti ex facere explicabo alias repellat ipsa sequi
-          placeat vel! Placeat harum quaerat consequuntur excepturi aspernatur
-          veritatis facilis repellendus quis. Dicta similique dolorum qui omnis.
-          Corrupti quaerat optio eius odio illo!
+
+          <p>
+            Currently, there is a <code className='text-pink-500'>variant</code>{' '}
+            prop on <code className='text-pink-500'>Stepper</code>, but no{' '}
+            <code className='text-pink-500'>size</code> prop. To adjust size,
+            set a <code className='text-pink-500'>text-*</code> Tailwind sizing
+            class on <code className='text-pink-500'>Stepper</code>. From there,
+            the relevant styles will inherit a new value through{' '}
+            <code className='text-pink-500'>em</code> units.
+          </p>
         </StepContent>
 
         <StepContent show={activeIndex === 2}>

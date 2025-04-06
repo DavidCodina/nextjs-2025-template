@@ -4,6 +4,7 @@ import * as React from 'react'
 import { cn } from '@/utils'
 import { StepperProvider } from './StepperContext'
 
+type Variant = React.ComponentProps<typeof StepperProvider>['variant']
 type StepperProps = React.ComponentProps<'div'>
 
 const basesClasses = `
@@ -21,14 +22,18 @@ export function Stepper({
   className,
   variant = 'default',
   ...otherProps
-}: StepperProps & { variant?: 'default' | 'primary' | 'secondary' }) {
+}: StepperProps & { variant?: Variant }) {
   /* ======================
           return
   ====================== */
 
   return (
     <StepperProvider variant={variant}>
-      <div {...otherProps} className={cn(basesClasses, className)}>
+      <div
+        data-slot='stepper'
+        {...otherProps}
+        className={cn(basesClasses, className)}
+      >
         {children}
       </div>
     </StepperProvider>
