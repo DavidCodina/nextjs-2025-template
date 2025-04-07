@@ -43,8 +43,9 @@ export function StepperDemo() {
       isLoading: false
     },
     {
+      // className: 'whitespace-nowrap',
       label: 'Step 2',
-      description: 'Confirm Email - longer description',
+      description: 'Confirm Email. A longer description for testing abc123...',
       isActive: activeIndex === 1,
       isCompleted: activeIndex > 1,
       icon: <Mail />,

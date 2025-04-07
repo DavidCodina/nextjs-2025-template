@@ -36,9 +36,6 @@ export const StepSeparator = ({
 
   const separatorLengthFix = (buttonWidth - stepCircleSize) / -2
 
-  // alternativeLabelStyle depends on Stepper container using `items-start` when
-  // alternativeLabel prop is true. That way, the StepSeparator is initially
-  // at the very top of the container, and it can be moved down as needed.
   const alternativeLabelStyle: React.CSSProperties = {
     position: 'relative',
     top: stepCircleSize / 2,
@@ -94,6 +91,7 @@ export const StepSeparator = ({
           : {})}
       className={cn(
         'h-[2px] flex-1',
+        alternativeLabel ? 'self-start' : 'self-center',
         matches && 'hidden',
         isCompleted ? separatorVariant : 'bg-border',
         isCompleted && isValid === true && 'data-[valid=true]:bg-success'

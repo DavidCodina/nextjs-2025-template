@@ -99,13 +99,13 @@ export function Step({
   // we are correcting for excessive horizontal spacing due to the width of
   // the label and/or description. This effect is similar to the behavior of
   // the MUI Stepper's alternativeLabel feature, though the implementation
-  // details may differ:
+  // details likely differ:
   //
   //   https://mui.com/material-ui/react-stepper/#alternative-label
   //
   // The downside is that the presence of StepSeparators with negative margins
   // will cause Steps to appear to crash into each other when horizontal space
-  // becomes to scrunched. To mitigate this, one can use `separatorBreakpoint`
+  // becomes too scrunched. To mitigate this, one can use `separatorBreakpoint`
   // such that below this viewport width, the StepSeparators are removed.
   //
   // The alternativeLabel feature introduced the most complexity to the Stepper.
@@ -381,6 +381,9 @@ export function Step({
 
           className
         )}
+        style={{
+          outline: '1px dashed deeppink'
+        }}
         type='button'
       >
         {renderStepCircle()}

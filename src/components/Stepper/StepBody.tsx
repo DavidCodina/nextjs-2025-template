@@ -55,7 +55,11 @@ export const StepBody = ({
   }
 
   return (
-    <div {...otherProps}>
+    <div
+      // Do not add whitespace-nowrap here. It's too opinionated.
+      // If you want that, do it on the consuming side.
+      {...otherProps}
+    >
       {label && (
         <div
           {...(isValid === false
@@ -64,7 +68,7 @@ export const StepBody = ({
               ? { 'data-valid': true }
               : {})}
           className={cn(
-            'font-semibold whitespace-nowrap',
+            'font-semibold',
             labelVariant,
 
             !isCompleted &&
@@ -77,9 +81,7 @@ export const StepBody = ({
         </div>
       )}
       {description && (
-        <div className='text-muted-foreground text-[0.75em] whitespace-nowrap'>
-          {description}
-        </div>
+        <div className='text-muted-foreground text-[0.75em]'>{description}</div>
       )}
     </div>
   )
