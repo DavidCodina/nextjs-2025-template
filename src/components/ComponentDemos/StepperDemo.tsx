@@ -14,9 +14,9 @@ import { Mail, UserPlus, KeyRound, Info } from 'lucide-react'
 // For example, when building a step form, the next `activeIndex` would
 // get set only after the form fields were validated.
 //
-// Following this pattern of externalization, `isActive`, `isCompleted` and `isLast`
-// are also determined externally for Step. Similarly, `show` is determined externally
-// for StepContent and CompletedContent. The tradeoff is a little more work when
+// Following this pattern of externalization, `isActive`, `isCompleted` and `isValid`
+// and `isLoading` are also determined externally for Step. Similarly, `show` is determined
+// externally for StepContent and CompletedContent. The tradeoff is a little more work when
 // consuming, but all associated Stepper components are now merely presentational/dumb
 // - no context, no nothing.
 //
@@ -28,6 +28,8 @@ import { Mail, UserPlus, KeyRound, Info } from 'lucide-react'
 
 export function StepperDemo() {
   const [activeIndex, setActiveIndex] = React.useState(0)
+  const [alternativeLabel, setAlternativeLabel] = React.useState(false)
+  const [size, setSize] = React.useState('text-base')
 
   // Omit index because it will be added when mapping.
   const stepData: Omit<React.ComponentProps<typeof Step>, 'index'>[] = [
@@ -35,14 +37,14 @@ export function StepperDemo() {
       label: 'Step 1',
       description: 'Create Account',
       isActive: activeIndex === 0,
-      isCompleted: false,
+      isCompleted: activeIndex > 0,
       icon: <UserPlus />,
       isValid: undefined,
       isLoading: false
     },
     {
       label: 'Step 2',
-      description: 'Confirm Email',
+      description: 'Confirm Email - longer description',
       isActive: activeIndex === 1,
       isCompleted: activeIndex > 1,
       icon: <Mail />,
@@ -80,14 +82,7 @@ export function StepperDemo() {
 
   const renderStepper = () => {
     const steps = stepData.map((step, index) => {
-      return (
-        <Step
-          key={index}
-          index={index}
-          {...step}
-          isLast={index === stepData.length - 1}
-        />
-      )
+      return <Step key={index} index={index} {...step} />
     })
 
     ///////////////////////////////////////////////////////////////////////////
@@ -102,7 +97,6 @@ export function StepperDemo() {
     //             key={index}
     //             index={index}
     //             {...step}
-    //             isLast={index === stepData.length - 1}
     //           />
     //         )
     //       })}
@@ -113,11 +107,13 @@ export function StepperDemo() {
 
     return (
       <Stepper
+        alternativeLabel={alternativeLabel}
+        separatorBreakpoint={500}
         // In the absence of an actual `size` variant, we can set size
         // by setting text-* on the `Stepper` itself. This works because
         // every Step button and everything inside of each Step that would
         // matter is based on em units.
-        className='mb-8 text-base'
+        className={`mb-8 ${size}`}
         variant='primary'
       >
         {steps}
@@ -136,7 +132,7 @@ export function StepperDemo() {
           <h3 className='text-primary text-xl font-black'>Step 1</h3>
           <p className='mb-4'>
             This <code className='text-pink-500'>Stepper</code> is inspired by
-            Chakra UI, Mantine and MUI. However, all associated components are
+            Chakra UI, Mantine and MUI. However, most associated components are
             representational/dumb. Ultimately, this means a litte more work on
             the consuming side, but a much less complex internal implementation.
           </p>
@@ -224,7 +220,26 @@ export function StepperDemo() {
   ====================== */
 
   return (
-    <section className='mx-auto mt-12 max-w-[800px]'>
+    <section className='mx-auto mt-12'>
+      <div className='mb-12 flex flex-wrap justify-center gap-4'>
+        <Button
+          onClick={() => {
+            setSize((v) => (v === 'text-base' ? 'text-3xl' : 'text-base'))
+          }}
+          style={{ minWidth: 200 }}
+        >
+          Size: {size}
+        </Button>
+
+        <Button
+          className=''
+          onClick={() => setAlternativeLabel((v) => !v)}
+          style={{ minWidth: 200 }}
+        >
+          Alternative Label: {alternativeLabel ? 'On' : 'Off'}
+        </Button>
+      </div>
+
       {renderStepper()}
 
       <div className='text-muted-foreground mb-8 text-center text-sm font-medium'>

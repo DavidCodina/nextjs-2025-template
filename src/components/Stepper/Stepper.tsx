@@ -8,7 +8,7 @@ type Variant = React.ComponentProps<typeof StepperProvider>['variant']
 type StepperProps = React.ComponentProps<'div'>
 
 const basesClasses = `
-flex flex-wrap justify-between items-center gap-4
+flex-container flex flex-wrap justify-between items-center gap-4
 `
 
 /* ========================================================================
@@ -16,21 +16,35 @@ flex flex-wrap justify-between items-center gap-4
 ======================================================================== */
 
 export function Stepper({
+  alternativeLabel = false,
+  separatorBreakpoint = Infinity,
   children,
   className,
   variant = 'default',
   ...otherProps
-}: StepperProps & { variant?: Variant }) {
+}: StepperProps & {
+  alternativeLabel?: boolean
+  separatorBreakpoint?: number
+  variant?: Variant
+}) {
   /* ======================
           return
   ====================== */
 
   return (
-    <StepperProvider variant={variant}>
+    <StepperProvider
+      alternativeLabel={alternativeLabel}
+      separatorBreakpoint={separatorBreakpoint}
+      variant={variant}
+    >
       <div
         data-slot='stepper'
         {...otherProps}
-        className={cn(basesClasses, className)}
+        className={cn(
+          basesClasses,
+          { 'items-start': alternativeLabel },
+          className
+        )}
       >
         {children}
       </div>

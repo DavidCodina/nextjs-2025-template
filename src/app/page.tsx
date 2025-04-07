@@ -5,6 +5,10 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
+// Todo: test <body> when element exceeds viewport width.
+//# Set a max-width on body of 100vw if there's an issue.
+//# May also need to set overflow-clip.
+
 // Todo: Review and Update Card.
 
 //# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
@@ -52,6 +56,7 @@ const Home = () => {
         >
           Home
         </Title>
+
         <ComponentDemos />
       </PageContainer>
     </Page>
