@@ -37,7 +37,7 @@ import { CalendarDemo } from './CalendarDemo'
 
 export const ComponentDemos = () => {
   return (
-    <Tabs defaultValue='controlled-form' className='mx-auto mb-6 gap-6'>
+    <Tabs defaultValue='stepper' className='mx-auto mb-6 gap-6'>
       <TabsList className='grid w-full grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'>
         <TabsTrigger value='accordion'>Accordion</TabsTrigger>
         <TabsTrigger value='alert'>Alert</TabsTrigger>

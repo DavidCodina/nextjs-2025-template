@@ -1,9 +1,15 @@
 'use client'
 
 import * as React from 'react'
-import { Button } from '@/components/Button'
-import { Stepper, Step, StepContent, CompletedContent } from '@/components'
 import { Mail, UserPlus, KeyRound, Info } from 'lucide-react'
+import { useCycle } from '@/hooks'
+import {
+  Button,
+  Stepper,
+  Step,
+  StepContent,
+  CompletedContent
+} from '@/components'
 
 /* ========================================================================
 
@@ -29,7 +35,19 @@ import { Mail, UserPlus, KeyRound, Info } from 'lucide-react'
 export function StepperDemo() {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [alternativeLabel, setAlternativeLabel] = React.useState(false)
-  const [size, setSize] = React.useState('text-base')
+  //! const [size, setSize] = React.useState('text-base')
+
+  const [size, runCycleSize] = useCycle(
+    'text-base',
+    'text-lg',
+    'text-xl',
+    'text-2xl',
+    'text-3xl',
+    'text-xs',
+    'text-sm'
+  )
+
+  const [variant, runCycleVariant] = useCycle('primary', 'secondary', 'default')
 
   // Omit index because it will be added when mapping.
   const stepData: Omit<React.ComponentProps<typeof Step>, 'index'>[] = [
@@ -45,7 +63,12 @@ export function StepperDemo() {
     {
       // className: 'whitespace-nowrap',
       label: 'Step 2',
-      description: 'Confirm Email. A longer description for testing abc123...',
+      description: (
+        <div className='max-w-[160px]'>
+          Confirm Email. A longer description for testing...
+        </div>
+      ),
+      //description: 'Confirm Email. A longer description for testing...',
       isActive: activeIndex === 1,
       isCompleted: activeIndex > 1,
       icon: <Mail />,
@@ -109,13 +132,13 @@ export function StepperDemo() {
     return (
       <Stepper
         alternativeLabel={alternativeLabel}
-        separatorBreakpoint={500}
+        separatorBreakpoint={800}
         // In the absence of an actual `size` variant, we can set size
         // by setting text-* on the `Stepper` itself. This works because
         // every Step button and everything inside of each Step that would
         // matter is based on em units.
         className={`mb-8 ${size}`}
-        variant='primary'
+        variant={variant}
       >
         {steps}
       </Stepper>
@@ -225,7 +248,16 @@ export function StepperDemo() {
       <div className='mb-12 flex flex-wrap justify-center gap-4'>
         <Button
           onClick={() => {
-            setSize((v) => (v === 'text-base' ? 'text-3xl' : 'text-base'))
+            runCycleVariant()
+          }}
+          style={{ minWidth: 200 }}
+        >
+          Variant: {variant}
+        </Button>
+
+        <Button
+          onClick={() => {
+            runCycleSize()
           }}
           style={{ minWidth: 200 }}
         >

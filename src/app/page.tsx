@@ -5,13 +5,11 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-// Todo: Add useCycle() to StepperDemo to cycle through variants.
-
-// Todo: Potentially add a size variant to Stepper.
-
 // Todo: test <body> when element exceeds viewport width.
 //# Set a max-width on body of 100vw if there's an issue.
 //# May also need to set overflow-clip.
+
+// Todo: Potentially add a size variant to Stepper.
 
 // Todo: Review and Update Card.
 

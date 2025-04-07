@@ -3,44 +3,40 @@
 import * as React from 'react'
 import { cn } from '@/utils'
 import { useStepperContext } from './StepperContext'
-import { useMediaQuery } from './useMediaQuery'
+import { useMediaQuery } from '@/hooks'
 
 type StepSeparatorProps = React.ComponentProps<'div'> & {
   isCompleted: boolean
-  isLast: boolean
   /** Use isValid  true | false | undefined to opt into success and/or error styles. */
   isValid: boolean | undefined
-  stepCircleSize: number
-  buttonWidth: number
+  stepCircleRef: React.RefObject<HTMLDivElement | null>
 }
 
 /* ========================================================================
 
 ======================================================================== */
+// This is the horizontal step separator that is used when !alternativeLabel.
+// When alternativeLabel is true, AlternativeLabelStepSeparator is used, which
+// implements an entirely different approach.
 
 export const StepSeparator = ({
   isCompleted = false,
-  isLast = false,
   isValid = undefined, // Do not set true or false as the default.
-  stepCircleSize = 0,
-  buttonWidth = 0,
-  ref,
+  stepCircleRef,
+  style = {},
   ...otherProps
 }: StepSeparatorProps) => {
-  const { alternativeLabel, separatorBreakpoint, variant } = useStepperContext()
+  const { separatorBreakpoint, variant } = useStepperContext()
 
   // i.e., matches the breakpoint for removing the StepSeparators.
   const matches = useMediaQuery(`(max-width: ${separatorBreakpoint}px)`)
+  const [stepCircleHeight, setStepCircleHeight] = React.useState(0)
+  const [stepCircleSize, setStepCircleSize] = React.useState(0)
 
-  const internalSeparatorRef = React.useRef<HTMLDivElement | null>(null)
-
-  const separatorLengthFix = (buttonWidth - stepCircleSize) / -2
-
-  const alternativeLabelStyle: React.CSSProperties = {
+  const separatorPosition: React.CSSProperties = {
     position: 'relative',
     top: stepCircleSize / 2,
-    transform: 'translateY(-50%)',
-    marginLeft: separatorLengthFix
+    transform: 'translateY(-50%)'
   }
 
   /* ======================
@@ -65,23 +61,41 @@ export const StepSeparator = ({
   }
 
   /* ======================
+          useEffect()
+  ====================== */
+
+  // eslint-disable-next-line
+  React.useEffect(() => {
+    if (stepCircleRef.current) {
+      const newHeight = stepCircleRef.current.offsetHeight
+      if (newHeight !== stepCircleHeight) {
+        setStepCircleHeight(newHeight)
+      }
+    }
+  })
+
+  /* ======================
+          useEffect()
+  ====================== */
+  // Update stepCircleSize.
+
+  React.useEffect(() => {
+    // Creating a new macrotask is important for getting the correct size.
+    setTimeout(() => {
+      if (stepCircleRef.current) {
+        // This assumes the element has the same height and width.
+        const height = stepCircleRef.current.offsetHeight
+        setStepCircleSize(height)
+      }
+    }, 0)
+  }, [stepCircleHeight, stepCircleRef])
+
+  /* ======================
           return
   ====================== */
 
-  if (isLast) {
-    return null
-  }
-
   return (
     <div
-      ref={(node) => {
-        if (ref && 'current' in ref) {
-          ref.current = node
-        } else if (typeof ref === 'function') {
-          ref?.(node)
-        }
-        internalSeparatorRef.current = node
-      }}
       {...otherProps}
       data-slot='step-separator'
       {...(isValid === false
@@ -90,15 +104,12 @@ export const StepSeparator = ({
           ? { 'data-valid': true }
           : {})}
       className={cn(
-        'h-[2px] flex-1',
-        alternativeLabel ? 'self-start' : 'self-center',
+        'h-[2px] flex-1 self-start',
         matches && 'hidden',
         isCompleted ? separatorVariant : 'bg-border',
         isCompleted && isValid === true && 'data-[valid=true]:bg-success'
       )}
-      style={{
-        ...(alternativeLabel ? alternativeLabelStyle : {})
-      }}
+      style={{ ...style, ...separatorPosition }}
     />
   )
 }
