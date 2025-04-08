@@ -15,10 +15,10 @@ export const AnchorDemo = () => {
 
   return (
     <>
-      <article className='bg-background-light mx-auto max-w-[1000px] rounded-lg border p-4 shadow-lg'>
+      <article className='bg-background-light mx-auto rounded-lg border p-4 shadow-lg'>
         <p className='mb-4'>What benefit does this component confer?</p>
 
-        <ul className='mx-auto mb-6 w-9/10 list-inside list-disc space-y-4 text-sm'>
+        <ul className='mx-auto mb-6 w-9/10 list-disc space-y-4 text-sm'>
           <li>
             It adds <code className='text-pink-500'>disabled</code> prop, which
             removes <code className='text-pink-500'>href</code>, opts out of{' '}
@@ -29,6 +29,11 @@ export const AnchorDemo = () => {
           <li>
             It removes <code className='text-pink-500'>href</code> when{' '}
             <code className='text-pink-500'>onClick</code> handler is passed.
+            This could be considered too opinionated, but generally if one is
+            using an <code className='text-pink-500'>onClick</code> in an{' '}
+            <code className='text-pink-500'>{`<a>`}</code>, it kind of implies
+            it's being used more like a{' '}
+            <code className='text-pink-500'>{`<button>`}</code>.
           </li>
 
           <li>
@@ -48,7 +53,7 @@ export const AnchorDemo = () => {
 
           <li>
             It adds back a <code className='text-pink-500'>tabIndex</code> of 0
-            even when no <code className='text-pink-500'>href</code>, making the
+            even when no <code className='text-pink-500'>href</code>, making the{' '}
             <code className='text-pink-500'>focus-visible:...</code> style work
             even when the <code className='text-pink-500'>{`<a>`}</code> is
             being used strictly as a click handler. It only removes the{' '}
@@ -72,7 +77,7 @@ export const AnchorDemo = () => {
           officia excepturi reprehenderit! Quo veniam omnis pariatur
           exercitationem aut totam!{' '}
           <Anchor
-            className='text-primary hover:text-primary font-semibold'
+            // className='text-secondary'
             // disabled
             href='https://www.google.com/'
             onClick={() => {

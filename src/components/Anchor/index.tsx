@@ -9,10 +9,11 @@ type AnchorProps = ComponentProps<'a'> & {
 }
 
 // Gotcha: It seems like outline still doesn't inherit border radius
-//  in Firefox, which is why it's still preferable to use ring.
+// in Firefox, which is why it's still preferable to use ring.
 const baseClasses = `
-cursor-pointer focus-visible:ring-[2px] focus-visible:ring-current/50 rounded
-outline-none
+font-medium text-primary
+cursor-pointer rounded outline-none
+focus-visible:ring-[2px] focus-visible:ring-current/50
 `
 
 /* ========================================================================
@@ -20,7 +21,10 @@ outline-none
 ======================================================================== */
 ///////////////////////////////////////////////////////////////////////////
 //
-// To set the color, use Tailwind text-*-* classes when consuming.
+// Components like Anchor, Text, etc. border on being superfluous.
+// However, they do offer a level of standardization and function as
+// a single source of truth.
+//
 // What benefit does this component confer?
 //
 //   - It adds disabled prop/styles (e.g., 'pointer-events-none').
