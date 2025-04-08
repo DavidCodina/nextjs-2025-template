@@ -4,6 +4,7 @@
 export * from './accordion'
 export * from './alert'
 export * from './alert-dialog'
+export * from './Anchor'
 export * from './AppSidebar'
 export * from './badge'
 export * from './Button'

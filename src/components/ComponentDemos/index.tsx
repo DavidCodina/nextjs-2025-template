@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/tabs'
 import { AccordionDemo } from './AccordionDemo'
 import { AlertDemo } from './AlertDemo'
 import { AlertDialogDemo } from './AlertDialogDemo'
+import { AnchorDemo } from './AnchorDemo'
 import { BadgeDemo } from './BadgeDemo'
 import { ButtonDemo } from './ButtonDemo'
 import { ButtonGroupDemo } from './ButtonGroupDemo'
@@ -42,6 +43,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='accordion'>Accordion</TabsTrigger>
         <TabsTrigger value='alert'>Alert</TabsTrigger>
         <TabsTrigger value='alert-dialog'>Alert Dialog</TabsTrigger>
+        <TabsTrigger value='anchor'>Anchor</TabsTrigger>
         <TabsTrigger value='badge'>Badge</TabsTrigger>
         <TabsTrigger value='button'>Button</TabsTrigger>
         <TabsTrigger value='button-group'>Button Group</TabsTrigger>
@@ -86,6 +88,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='alert-dialog'>
         <AlertDialogDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='anchor'>
+        <AnchorDemo />
       </TabsContent>
 
       {/* ================= */}
