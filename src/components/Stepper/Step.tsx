@@ -113,7 +113,7 @@ export function Step({
           // Instead, gap is emulated here with px-4.
           // The same is done in AlternativeLabelStepSeparator.
           { 'flex-col items-center px-4 text-center': alternativeLabel },
-          className
+          className // If a text-* size class is passed it will override the size variant.
         )}
         ref={(node) => {
           if (ref && 'current' in ref) {

@@ -37,13 +37,19 @@ export function StepperDemo() {
   const [alternativeLabel, setAlternativeLabel] = React.useState(false)
 
   const [size, runCycleSize] = useCycle(
-    'text-base',
-    'text-lg',
-    'text-xl',
-    'text-2xl',
-    'text-3xl',
-    'text-xs',
-    'text-sm'
+    'md',
+    'lg',
+    'xl',
+    '2xl',
+    '3xl',
+    '4xl',
+    '5xl',
+    '6xl',
+    '7xl',
+    '8xl',
+    '9xl',
+    'xs',
+    'sm'
   )
 
   const [variant, runCycleVariant] = useCycle('primary', 'secondary', 'default')
@@ -132,14 +138,17 @@ export function StepperDemo() {
       <Stepper
         alternativeLabel={alternativeLabel}
         separatorBreakpoint={800}
+        // ⚠️ overflow-clip may be too opinionated to bake into Stepper,
+        // but consider adding it on the consuming side.
+        //
         // In the absence of an actual `size` variant, we can set size
         // by setting text-* on the `Stepper` itself. This works because
         // every Step button and everything inside of each Step that would
-        // matter is based on em units.
-        //
-        // ⚠️ overflow-clip may be too opinionated to bake into Stepper,
-        // but consider adding it on the consuming side.
-        className={`mb-8 ${size}`}
+        // matter is based on em units. A text-* size here would override the
+        // actual size variant. Similarly, a text-* size on a <Step> would
+        // also override the size variant.
+        className={`mb-8`}
+        size={size}
         variant={variant}
       >
         {steps}
@@ -183,14 +192,12 @@ export function StepperDemo() {
           </p>
 
           <p>
-            There is a <code className='text-pink-500'>variant</code> prop on{' '}
-            <code className='text-pink-500'>Stepper</code> (defaut | primary |
-            secondary), but no <code className='text-pink-500'>size</code> prop.
-            To adjust size, set a <code className='text-pink-500'>text-*</code>{' '}
-            Tailwind sizing class on{' '}
-            <code className='text-pink-500'>Stepper</code>. From there, the
-            relevant styles will inherit a new value through{' '}
-            <code className='text-pink-500'>em</code> units.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad error
+            voluptatum totam natus vero placeat velit veniam eum, blanditiis
+            modi, quod laborum unde quidem similique, quos voluptatem delectus
+            dolore optio dolores a eos in. Nam minima at modi, mollitia
+            accusamus omnis sunt totam facilis inventore. Tempore itaque harum
+            eaque explicabo?
           </p>
         </StepContent>
 
@@ -277,9 +284,10 @@ export function StepperDemo() {
 
       {renderStepper()}
 
-      <div className='text-muted-foreground mb-8 text-center text-sm font-medium'>
+      {/* <div className='text-muted-foreground mb-8 text-center text-sm font-medium'>
         Intermediate JSX is okay...
-      </div>
+      </div> */}
+
       {renderContent()}
       {renderControls()}
     </section>

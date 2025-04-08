@@ -127,7 +127,7 @@ export const AlternativeLabelStepSeparator = ({
   // Update buttonWidth.
 
   React.useEffect(() => {
-    const updateButtonWidth = () => {
+    const updateSeparatorWidth = () => {
       // Prior to implementing the resize handler, buttonWidth was only
       // being set on mount. However, the width was getting miscalculated.
       // This was fixed by creating a new macrotask. Follwing that pattern,
@@ -172,11 +172,11 @@ export const AlternativeLabelStepSeparator = ({
       }, 0)
     }
 
-    updateButtonWidth()
+    updateSeparatorWidth()
 
-    window.addEventListener('resize', updateButtonWidth)
+    window.addEventListener('resize', updateSeparatorWidth)
     return () => {
-      window.removeEventListener('resize', updateButtonWidth)
+      window.removeEventListener('resize', updateSeparatorWidth)
     }
   }, [gapRef, index, internalButtonRef, stepCircleSize])
 
@@ -207,6 +207,7 @@ export const AlternativeLabelStepSeparator = ({
         className={cn(
           'h-[2px]',
           isCompleted ? separatorVariant : 'bg-border',
+
           isCompleted && isValid === true && 'data-[valid=true]:bg-success'
         )}
       />

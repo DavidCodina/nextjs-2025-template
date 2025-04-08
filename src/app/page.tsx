@@ -8,8 +8,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
-// Todo: Try to create logic for first/last item on flex line.
-
 // Todo: Potentially add a size variant to Stepper.
 
 // Todo: Review and Update Card.
