@@ -18,7 +18,7 @@ flex flex-wrap justify-between
 // for text-5xl and above. This would inevitably cause
 // wrapped text lines to touch each other. The fact that
 // Tailwind couples font-size with line-height is one of
-// it's few shortcomings.
+// its few shortcomings.
 const sizeDictionary = {
   xs: 'text-xs leading-[1.5]',
   sm: 'text-sm leading-[1.5]',
