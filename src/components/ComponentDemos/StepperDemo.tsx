@@ -35,7 +35,6 @@ import {
 export function StepperDemo() {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [alternativeLabel, setAlternativeLabel] = React.useState(false)
-  //! const [size, setSize] = React.useState('text-base')
 
   const [size, runCycleSize] = useCycle(
     'text-base',
@@ -137,6 +136,9 @@ export function StepperDemo() {
         // by setting text-* on the `Stepper` itself. This works because
         // every Step button and everything inside of each Step that would
         // matter is based on em units.
+        //
+        // ⚠️ overflow-clip may be too opinionated to bake into Stepper,
+        // but consider adding it on the consuming side.
         className={`mb-8 ${size}`}
         variant={variant}
       >

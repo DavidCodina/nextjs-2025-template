@@ -5,9 +5,8 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-// Todo: test <body> when element exceeds viewport width.
-//# Set a max-width on body of 100vw if there's an issue.
-//# May also need to set overflow-clip.
+// Todo: Sideber needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
+//# Also defaultCollapsible='none' Sidebar header is not right.
 
 // Todo: Potentially add a size variant to Stepper.
 
@@ -48,7 +47,18 @@ const Home = () => {
 
   return (
     <Page>
-      <PageContainer>
+      <PageContainer
+      ///////////////////////////////////////////////////////////////////////////
+      //
+      // By default, PageContainer will scroll if content overflows:
+      //
+      //   <div className='h-12 bg-sky-400' style={{ width: 1200 }} />
+      //
+      // Pass `overflow-hidden` if you want to prevent the scroll behavior.
+      // Alternatively, pass `overflow-x-auto` to Page.
+      //
+      ///////////////////////////////////////////////////////////////////////////
+      >
         <Title
           as='h2'
           style={{

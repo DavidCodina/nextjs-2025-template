@@ -61,9 +61,11 @@ export default async function RootLayout({
         <Providers>
           {/* The SidebarProvider is consumed here and not with the other providers in order
           to implement the optional 'persisted State' feature with cookies. */}
+
           <SidebarProvider
-            defaultSide='left'
+            //defaultSide='right'
             defaultCollapsible='icon'
+            // defaultCollapsible='none'
             // defaultVariant='inset'
             forceMobile={false}
             // For multiple sidebars in your application, you can use the style prop to set
@@ -93,13 +95,13 @@ export default async function RootLayout({
                 // SidebarInset checks the value of variant internally and only applies className and style
                 // when variant === 'inset'.
                 className='md:border-primary md:max-h-[calc(100vh_-_16px)] md:overflow-y-auto md:border'
-                style={{}}
               >
                 {children}
               </SidebarInset>
             </SidebarFlipper>
           </SidebarProvider>
-          {/* Make sure <Toaster /> is inside of <Providers>, so it has access to the theme. */}
+
+          {/* Make sure <Toaster /> is inside of <Providers>, so it has access to the theme.*/}
           <Toaster />
         </Providers>
       </body>

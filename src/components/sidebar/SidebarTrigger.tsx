@@ -39,8 +39,6 @@ function SidebarTrigger({ className, onClick, ...props }: SidebarTriggerProps) {
       //# Add focus-visible style...
       className={cn(
         'text-primary hover:bg-primary/15 cursor-pointer rounded-full p-1',
-        // Add this to prevent layout shifts
-        'transform-gpu', //* New...........
         className
       )}
       onClick={(event) => {

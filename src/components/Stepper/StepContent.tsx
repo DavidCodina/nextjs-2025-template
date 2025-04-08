@@ -29,6 +29,7 @@ const StepContent = ({
     <div
       {...otherProps}
       className={cn('bg-background-light rounded-md border p-4', className)}
+      data-slot='step-content'
     >
       {children}
     </div>

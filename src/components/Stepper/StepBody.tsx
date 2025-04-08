@@ -59,6 +59,7 @@ export const StepBody = ({
       // Do not add whitespace-nowrap here. It's too opinionated.
       // If you want that, do it on the consuming side.
       {...otherProps}
+      data-slot='step-body'
     >
       {label && (
         <div

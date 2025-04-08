@@ -149,7 +149,7 @@ export const AlternativeLabelStepSeparator = ({
 
             // Get nextButtonSeparatorSegment
             const nextButton = stepper?.querySelector(
-              `[data-index="${currentButtonIndex + 1}"]`
+              `button[data-index="${currentButtonIndex + 1}"]`
             )
 
             if (nextButton && nextButton instanceof HTMLElement) {
@@ -179,14 +179,14 @@ export const AlternativeLabelStepSeparator = ({
   return (
     <div
       {...otherProps}
+      // px-4 is intended to compliment a gap-y-4 on the Stepper parent.
+      className={cn('px-4', matches && 'hidden')}
       data-slot='step-separator'
       {...(isValid === false
         ? { 'data-valid': false }
         : isValid === true
           ? { 'data-valid': true }
           : {})}
-      // px-4 is intended to compliment a gap-y-4 on the Stepper parent.
-      className={cn('px-4', matches && 'hidden')}
       style={{
         position: 'absolute',
         top: '50%',

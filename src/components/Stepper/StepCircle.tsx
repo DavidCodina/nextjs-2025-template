@@ -155,12 +155,6 @@ export const StepCircle = ({
   return (
     <div
       {...otherProps}
-      ref={ref}
-      {...(isValid === false
-        ? { 'data-valid': false }
-        : isValid === true
-          ? { 'data-valid': true }
-          : {})}
       className={cn(
         baseClasses,
         stepCircleVariant,
@@ -176,6 +170,13 @@ export const StepCircle = ({
           isValid === true &&
           `data-[valid=true]:bg-success data-[valid=true]:text-success-foreground data-[valid=true]:border-[oklch(from_var(--color-success)_calc(l_-_0.25)_c_h)]`
       )}
+      data-slot='step-circle'
+      {...(isValid === false
+        ? { 'data-valid': false }
+        : isValid === true
+          ? { 'data-valid': true }
+          : {})}
+      ref={ref}
     >
       {isCompleted ? <Check /> : icon ? icon : <span>{index + 1}</span>}
 

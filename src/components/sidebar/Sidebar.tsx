@@ -39,7 +39,6 @@ type SidebarProps = React.ComponentProps<'div'> & {
   ///////////////////////////////////////////////////////////////////////////
 }
 
-//! Temporary: min-h-[100px]
 // Added group-data-[variant=floating]:overflow-hidden to prevent SidebarHeader and/or
 // SidebarFooter content from overflowing when collapsible='icon'. This does not affect tooltips.
 

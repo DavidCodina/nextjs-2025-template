@@ -100,6 +100,8 @@ export function Step({
   return (
     <>
       <button
+        // data-index is used within AlternativeLabelStepSeparator
+        // to get the next button.
         data-index={index}
         data-slot='step'
         {...otherProps}

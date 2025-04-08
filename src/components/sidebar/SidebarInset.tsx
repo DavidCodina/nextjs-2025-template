@@ -24,6 +24,7 @@ type SidebarInsetProps = React.ComponentProps<'div'>
 ///////////////////////////////////////////////////////////////////////////
 
 const SidebarInset = ({
+  children,
   className,
   style = {},
   ...props
@@ -79,14 +80,31 @@ const SidebarInset = ({
          return
   ====================== */
 
+  // Just act as a passthrough if variant !== 'inset'.
+  if (variant !== 'inset') {
+    return children
+  }
+
   return (
     <div
       data-slot='sidebar-inset'
       //
       className={cn(class1, class2, variant === 'inset' ? className : '')}
-      style={variant === 'inset' ? style : {}}
+      style={
+        variant === 'inset'
+          ? style
+          : {
+              // This prevents the container from pushing the actual
+              // sidebar off screen. When content can no longer shrink.
+              // It works in conjunction with a Page that also has
+              // overflow-hidden and a PageContainer that has overflow-x-auto.
+              overflowX: 'hidden'
+            }
+      }
       {...props}
-    />
+    >
+      {children}
+    </div>
   )
 }
 
