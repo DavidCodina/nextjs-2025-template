@@ -94,7 +94,9 @@ export const AlternativeLabelStepSeparator = ({
   // eslint-disable-next-line
   React.useEffect(() => {
     if (stepCircleRef.current) {
-      const newHeight = stepCircleRef.current.offsetHeight
+      // Gotcha: offsetHeight will not consider fractions of pixels.
+      // ❌ const newHeight = stepCircleRef.current.offsetHeight
+      const newHeight = stepCircleRef.current.getBoundingClientRect().height
       if (newHeight !== stepCircleHeight) {
         setStepCircleHeight(newHeight)
       }
@@ -111,7 +113,9 @@ export const AlternativeLabelStepSeparator = ({
     setTimeout(() => {
       if (stepCircleRef.current) {
         // This assumes the element has the same height and width.
-        const height = stepCircleRef.current.offsetHeight
+        // Gotcha: offsetHeight will not consider fractions of pixels.
+        // ❌ const height = stepCircleRef.current.offsetHeight
+        const height = stepCircleRef.current.getBoundingClientRect().height
         setStepCircleSize(height)
       }
     }, 0)
@@ -135,15 +139,18 @@ export const AlternativeLabelStepSeparator = ({
           const currentButton = internalButtonRef.current
           const currentButtonIndex = index
 
-          const newButtonWidth = currentButton.offsetWidth
+          // Gotcha: offsetWidth will not consider fractions of pixels.
+          // ❌ const newButtonWidth = currentButton.offsetWidth
+          const newButtonWidth = currentButton.getBoundingClientRect().width
 
           if (gapRef.current) {
             const currentButtonSeparatorSegment =
               (newButtonWidth - stepCircleSize) / 2
 
-            // Here gap is referring to the space between buttons,
-            // NOTa flex gap.
-            const gapSegment = gapRef.current.offsetWidth
+            // Here gap is referring to the space between buttons - NOT a flex gap.
+            // Gotcha: offsetWidth will not consider fractions of pixels.
+            // ❌ const gapSegment = gapRef.current.offsetWidth
+            const gapSegment = gapRef.current.getBoundingClientRect().width
 
             let newSeparatorWidth = currentButtonSeparatorSegment + gapSegment
 
@@ -153,8 +160,9 @@ export const AlternativeLabelStepSeparator = ({
             )
 
             if (nextButton && nextButton instanceof HTMLElement) {
+              const nextButtonWidth = nextButton.getBoundingClientRect().width
               const nextButtonSeparatorSegment =
-                (nextButton.offsetWidth - stepCircleSize) / 2
+                (nextButtonWidth - stepCircleSize) / 2
               newSeparatorWidth += nextButtonSeparatorSegment
             }
 

@@ -67,7 +67,9 @@ export const StepSeparator = ({
   // eslint-disable-next-line
   React.useEffect(() => {
     if (stepCircleRef.current) {
-      const newHeight = stepCircleRef.current.offsetHeight
+      // Gotcha: offsetHeight will not consider fractions of pixels.
+      // ❌ const newHeight = stepCircleRef.current.offsetHeight
+      const newHeight = stepCircleRef.current.getBoundingClientRect().height
       if (newHeight !== stepCircleHeight) {
         setStepCircleHeight(newHeight)
       }
@@ -84,7 +86,9 @@ export const StepSeparator = ({
     setTimeout(() => {
       if (stepCircleRef.current) {
         // This assumes the element has the same height and width.
-        const height = stepCircleRef.current.offsetHeight
+        // Gotcha: offsetHeight will not consider fractions of pixels.
+        // ❌ const height = stepCircleRef.current.offsetHeight
+        const height = stepCircleRef.current.getBoundingClientRect().height
         setStepCircleSize(height)
       }
     }, 0)
