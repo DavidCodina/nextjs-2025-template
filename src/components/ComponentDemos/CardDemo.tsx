@@ -36,29 +36,23 @@ export const CardDemo = () => {
     >
       {images.map((image, index) => (
         <Card className='' key={index}>
-          <img
-            className='-mt-6 block h-[200px] object-cover'
-            src={image}
-            alt=''
-          />
+          <img className='block h-[200px] object-cover' src={image} alt='' />
           <CardHeader>
             <CardTitle>Card Title</CardTitle>
             <CardDescription>Card Description...</CardDescription>
           </CardHeader>
           <CardContent className=''>
             <p className=''>
-              The <code className='text-pink-500'>py-6</code> on the card
-              generally works well, but if you are adding an image, you will
-              need to use <code className='text-pink-500'>-mt-6</code> to offset
-              the space. Similarly, the{' '}
-              <code className='text-pink-500'>gap-6</code> between composable
-              card components works well, but is often too much vertical space
-              when there is a footer. Use{' '}
-              <code className='text-pink-500'>-mt-6</code> on the CardFooter to
-              close the gap.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore
+              repudiandae fuga perferendis voluptatum commodi, qui sed molestiae
+              iure ad fugiat nulla! Alias voluptates quia quod quisquam natus
+              laboriosam expedita ducimus consequuntur. Aliquid, maiores
+              mollitia exercitationem facere laborum iste corrupti quas sed
+              eveniet deleniti suscipit, fugiat quod ut molestiae temporibus
+              harum?
             </p>
           </CardContent>
-          <CardFooter className='-mt-6 flex justify-end gap-2'>
+          <CardFooter className=''>
             <button className='min-w-[100px] rounded-lg border border-red-700 bg-red-500 px-2 py-1 text-sm font-black text-white'>
               Cancel
             </button>

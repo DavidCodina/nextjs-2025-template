@@ -5,11 +5,12 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { ChevronDownIcon } from 'lucide-react'
 import { cn } from '@/utils'
 
+import { FIELD_FOCUS_VISIBLE_MIXIN } from '@/components/component-constants'
+
 const baseClasses = `
-focus-visible:border-ring focus-visible:ring-ring/50
-flex flex-1 items-start justify-between gap-4 rounded-md
+flex flex-1 items-start justify-between gap-4
 py-4 text-left text-sm font-medium transition-all outline-none
-hover:underline focus-visible:ring-[3px]
+${FIELD_FOCUS_VISIBLE_MIXIN}
 disabled:pointer-events-none disabled:opacity-50 
 [&[data-state=open]>svg]:rotate-180
 `

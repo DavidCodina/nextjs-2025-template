@@ -62,9 +62,10 @@ Full support for the new @theme directive and @theme inline option. */
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
-  /* Card Color */
+  /* ❌ Card Color 
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  */
 
   /* Sidebar Color */
   /* Used for bg-sidebar in SidebarProvider, etc. */
@@ -212,9 +213,10 @@ Full support for the new @theme directive and @theme inline option. */
   we only need to use the `border` class by itself. */
   --border: var(--color-neutral-300); /* oklch(0.922 0 0) */
 
-  /* Card */
+  /* ❌ Card 
   --card: var(--background-light);
   --card-foreground: var(--foreground);
+  */
 
   /* Sidebar: Curently, the sidebar's header, footer, group label are set to primary.
   I also set the ThemeToggle and SidebarTrigger to do something similar.
@@ -323,9 +325,10 @@ Full support for the new @theme directive and @theme inline option. */
   /* Border */
   --border: #555;
 
-  /* Card */
+  /* ❌ Card
   --card: var(--background-light);
   --card-foreground: var(--foreground);
+  */
 
   /* Sidebar */
   --sidebar: var(--background-light);

@@ -11,6 +11,12 @@ import {
   CompletedContent
 } from '@/components'
 
+type Size = React.ComponentProps<typeof Stepper>['size']
+type Variant = React.ComponentProps<typeof Stepper>['variant']
+
+const variants: Variant[] = ['primary', 'secondary', 'default']
+const sizes: Size[] = ['md', 'lg', 'xl', '2xl', '3xl', '4xl', 'xs', 'sm']
+
 /* ========================================================================
 
 ======================================================================== */
@@ -35,24 +41,9 @@ import {
 export function StepperDemo() {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [alternativeLabel, setAlternativeLabel] = React.useState(false)
+  const [size, runCycleSize] = useCycle(...sizes)
 
-  const [size, runCycleSize] = useCycle(
-    'md',
-    'lg',
-    'xl',
-    '2xl',
-    '3xl',
-    '4xl',
-    '5xl',
-    '6xl',
-    '7xl',
-    '8xl',
-    '9xl',
-    'xs',
-    'sm'
-  )
-
-  const [variant, runCycleVariant] = useCycle('primary', 'secondary', 'default')
+  const [variant, runCycleVariant] = useCycle(...variants)
 
   // Omit index because it will be added when mapping.
   const stepData: Omit<React.ComponentProps<typeof Step>, 'index'>[] = [

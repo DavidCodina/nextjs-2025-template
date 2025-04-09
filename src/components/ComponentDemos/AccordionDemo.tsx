@@ -22,7 +22,7 @@ export const AccordionDemo = () => {
     >
       <AccordionItem value='item-1'>
         {/* [&>svg]:text-primary */}
-        <AccordionTrigger className='text-primary cursor-pointer px-2 font-bold hover:no-underline'>
+        <AccordionTrigger className='text-primary cursor-pointer px-2 font-bold'>
           Is it accessible?
         </AccordionTrigger>
         <AccordionContent className='px-2'>
@@ -30,7 +30,7 @@ export const AccordionDemo = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value='item-2'>
-        <AccordionTrigger className='text-primary cursor-pointer px-2 font-bold hover:no-underline'>
+        <AccordionTrigger className='text-primary cursor-pointer px-2 font-bold'>
           Is it styled?
         </AccordionTrigger>
         <AccordionContent className='px-2'>
@@ -39,7 +39,7 @@ export const AccordionDemo = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value='item-3'>
-        <AccordionTrigger className='text-primary cursor-pointer px-2 font-bold hover:no-underline'>
+        <AccordionTrigger className='text-primary cursor-pointer px-2 font-bold'>
           Is it animated?
         </AccordionTrigger>
         <AccordionContent className='px-2'>

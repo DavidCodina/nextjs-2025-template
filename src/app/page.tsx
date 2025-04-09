@@ -5,12 +5,12 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
+// Todo: Review and Update Card.
+
 // Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
 // Todo: Potentially add a size variant to Stepper.
-
-// Todo: Review and Update Card.
 
 //# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
@@ -28,9 +28,9 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // Todo: Review Calendar behavior and best practices/contracts when
 //# sending dates to server.
 
-//# Not sure about hover:underline in AccordionTrigger.
-
 //# Test dropdown menu that stays open against sidebar and sheet.
+
+//# Add Breadcrumb
 
 //# Add Pagination
 //# This should have variants for color and size like a button.

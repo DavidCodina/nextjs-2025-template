@@ -3,20 +3,7 @@
 import * as React from 'react'
 
 type Variant = 'default' | 'primary' | 'secondary'
-type Size =
-  | 'xs'
-  | 'sm'
-  | 'md'
-  | 'lg'
-  | 'xl'
-  | '2xl'
-  | '3xl'
-  | '4xl'
-  | '5xl'
-  | '6xl'
-  | '7xl'
-  | '8xl'
-  | '9xl'
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl'
 
 export type StepperContextValue = {
   alternativeLabel: boolean
