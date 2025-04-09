@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { Slot } from '@radix-ui/react-slot'
 import { type VariantProps } from 'class-variance-authority'
 //import { Loader2 } from 'lucide-react'
 import { cn } from '@/utils'
@@ -17,7 +18,10 @@ import { buttonVariants } from './buttonVariants'
 //     <span>Click Me</span>
 //   </Button>
 //
-// ❌ Error: React.Children.only expected to receive a single React element child.
+//   ❌ Error: React.Children.only expected to receive a single React element child.
+//
+// The problem is not in the consuming code, but in the fact that we have leftSection
+// and rightSection here.
 //
 // Thus whenever possible, prefer an actual polymorphic implementation.
 // Here's the basic setup:
@@ -34,17 +38,6 @@ import { buttonVariants } from './buttonVariants'
 //     return <Component {...otherProps}>{children}</Component>
 //   }
 //
-// Polymorphic Usage:
-//
-//   <Button
-//     as='a'
-//     href='https://www.google.com'
-//     rel='noopener noreferrer'
-//     size='sm'
-//     target='_blank'
-//    variant='success'
-//   > Click Me</Button>
-//
 // See here for more info:
 //
 //   https://stevekinney.github.io/react-and-typescript/polymorphic-components
@@ -54,6 +47,7 @@ import { buttonVariants } from './buttonVariants'
 
 type ButtonOwnProps<T extends React.ElementType = React.ElementType> = {
   as?: T
+  asChild?: boolean
   leftSection?: React.ReactNode
   rightSection?: React.ReactNode
   loading?: boolean
@@ -74,26 +68,59 @@ const defaultElement = 'button'
 
 const Button = <T extends React.ElementType = typeof defaultElement>({
   as,
+  asChild = false,
   children,
   className = '',
   disabled = false,
   isIcon = false,
-  loading = false,
-  loader = null,
-  loadingClassName = '',
-  loadingStyle = {},
-  leftSection = null,
-  rightSection = null,
+  loading = false, // Only available when asChild is false.
+  loader = null, // Only available when asChild is false.
+  loadingClassName = '', // Only available when asChild is false.
+  loadingStyle = {}, // Only available when asChild is false.
+  leftSection = null, // Only available when asChild is false.
+  rightSection = null, // Only available when asChild is false.
   size,
   style = {},
   variant,
   ...otherProps
 }: ButtonProps<T>) => {
-  const Component = as || defaultElement
+  ///////////////////////////////////////////////////////////////////////////
+  //
+  // Recap:
+  //
+  // The downside of the `asChild` prop is that it won't allow children to be more than
+  // one element.
+  //
+  //   ❌ Error: React.Children.only expected to receive a single React element child.
+  //
+  // This makes it difficult to implement a built-in leftSection and
+  // rightSection. Consequently, the `as` prop was added to allow for true
+  // polymorphic implementations. However, what if we want to do:
+  //
+  //   <Button asChild><Link /></Button>
+  //
+  // That's still an important use case. Consequently, the `asChild` prop has been
+  // kept, but has precedence over the `as` prop. Moreover, when `asChild` is true,
+  // it omits the leftSection, rightSection, loader, etc and instead just passes
+  // children through. Usage:
+  //
+  //   <Button asChild>
+  //     <Link href='/about'>Go To About Page</Link>
+  //   </Button>
+  //
+  //   <Button
+  //     as='a'
+  //     href='https://www.google.com'
+  //     rel='noopener noreferrer'
+  //     target='_blank'
+  //   >Google</Button>
+  //
+  ///////////////////////////////////////////////////////////////////////////
+  const Component = asChild ? Slot : as ? as : defaultElement
 
   /* ======================
-        renderLoader()
-    ====================== */
+      renderLoader()
+  ====================== */
 
   const renderLoader = () => {
     if (!loading) {
@@ -134,6 +161,24 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
   }
 
   /* ======================
+      renderChildren()
+  ====================== */
+
+  const renderChildren = () => {
+    if (asChild) {
+      return children
+    }
+
+    return (
+      <>
+        {loading && !isIcon ? renderLoader() : leftSection}
+        {loading && isIcon ? renderLoader() : children}
+        {rightSection}
+      </>
+    )
+  }
+
+  /* ======================
           return
   ====================== */
 
@@ -142,7 +187,7 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
       // Mitigate inadvertently triggering form submissions, etc.
       {...(Component === 'button' ? { type: 'button' } : {})}
       {...otherProps}
-      disabled={disabled || loading}
+      disabled={disabled || (!asChild && loading)}
       data-slot='button'
       className={cn(
         ///////////////////////////////////////////////////////////////////////////
@@ -167,9 +212,7 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
       )}
       style={{ ...style }}
     >
-      {loading && !isIcon ? renderLoader() : leftSection}
-      {loading && isIcon ? renderLoader() : children}
-      {rightSection}
+      {renderChildren()}
     </Component>
   )
 }

@@ -1,11 +1,11 @@
+import Link from 'next/link'
 import { Page, PageContainer, Title } from 'components'
-import { ComponentDemos } from '@/components/ComponentDemos'
+// import { ComponentDemos } from '@/components/ComponentDemos'
+import { Button } from '@/components/Button'
 
 /* ========================================================================
 
 ======================================================================== */
-
-// Todo: Review and Update Card.
 
 // Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
@@ -25,15 +25,13 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 // Todo: Build out RHF controlled form demo.
 
-// Todo: Review Calendar behavior and best practices/contracts when
-//# sending dates to server.
+// Todo: Review Calendar behavior and best practices/contracts when sending dates to server.
 
 //# Test dropdown menu that stays open against sidebar and sheet.
 
 //# Add Breadcrumb
 
-//# Add Pagination
-//# This should have variants for color and size like a button.
+//# Add Pagination - This should have variants for color and size like a button.
 // https://www.radix-ui.com/primitives/docs/components/toggle-group
 
 // Bonus: Consider adding special variants in button, badge, and alert of
@@ -69,7 +67,11 @@ const Home = () => {
           Home
         </Title>
 
-        <ComponentDemos />
+        {/* <ComponentDemos /> */}
+
+        <Button className='mx-auto mb-6 table' asChild>
+          <Link href='/about'>Go To About Page</Link>
+        </Button>
       </PageContainer>
     </Page>
   )

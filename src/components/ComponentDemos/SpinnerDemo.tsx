@@ -11,8 +11,6 @@ export const SpinnerDemo = () => {
     <Spinner
       // className='border-[2px] text-blue-500'
       className='mx-auto block'
-      // containerClassName='flex justify-center outline-dashed outline-pink-500'
-      container
       size={50}
     />
   )

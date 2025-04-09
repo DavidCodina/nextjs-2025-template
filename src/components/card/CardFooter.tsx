@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { cn } from '@/utils'
 
-const baseClasses = `flex items-center justify-center px-6 pb-6 gap-2`
+const baseClasses = `flex items-center justify-center px-6 my-6 gap-2`
 
 /* ========================================================================
 

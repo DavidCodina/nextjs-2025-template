@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { cn } from '@/utils'
 
-const baseClasses = `px-6`
+const baseClasses = `px-6 mt-6 last:mb-6`
 
 /* ========================================================================
 
