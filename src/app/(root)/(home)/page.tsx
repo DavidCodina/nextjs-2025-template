@@ -8,6 +8,11 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
+// Todo: Create useDismount() hook:
+// const useDismount(cleanup: () => void) {
+//   useEffect(() => { return () => cleanup?.() }, [])
+// }
+
 //# Add a [not( ... )] abritrary modifier to correct for the fact that
 //# last:mb-6 on CardContent will generate a higher specificity.
 
@@ -46,8 +51,14 @@ const Home = () => {
   // ❌ const session = await getData()
 
   return (
-    <Page currentPageLoader>
+    <Page
+      currentPageLoader
+      currentPageLoaderProps={{
+        className: 'border border-2 border-dashed border-pink-500'
+      }}
+    >
       <PageContainer
+
       ///////////////////////////////////////////////////////////////////////////
       //
       // By default, PageContainer will scroll if content overflows:
@@ -75,11 +86,14 @@ const Home = () => {
               Go Home <Navigation />
             </Link>
           </Button>
-
           <Button asChild size='sm'>
             <Link href='/about'>
               Go To About <Navigation />
             </Link>
+          </Button>
+
+          <Button size='sm' data-href='/about'>
+            Go To About with data-href='/about' <Navigation />
           </Button>
         </div> */}
 

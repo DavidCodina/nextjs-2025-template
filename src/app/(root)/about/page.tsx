@@ -6,14 +6,14 @@ import {
   Title
 } from 'components'
 // import { DataComponent } from './DataComponent'
-import { sleep } from '@/utils'
+// import { sleep } from '@/utils'
 
 /* ========================================================================
 
 ======================================================================== */
 
 const About = async () => {
-  await sleep(1000 * 3)
+  // await sleep(1000 * 1)
   return (
     <Page>
       <PageContainer>

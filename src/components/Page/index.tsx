@@ -3,10 +3,11 @@
 import { ComponentProps } from 'react'
 import { cn } from '@/utils'
 import { PageContainer } from './PageContainer'
-import { CurrentPageLoader } from '@/components'
 
+import { CurrentPageLoader, CurrentPageLoaderProps } from '@/components'
 type PageProps = ComponentProps<'main'> & {
   currentPageLoader?: boolean
+  currentPageLoaderProps?: CurrentPageLoaderProps
 }
 
 /* ========================================================================
@@ -17,6 +18,7 @@ const Page = ({
   children,
   className = '',
   currentPageLoader = false,
+  currentPageLoaderProps = {},
   style = {},
   ...otherProps
 }: PageProps) => {
@@ -50,7 +52,8 @@ const Page = ({
         style={style}
         {...otherProps}
       >
-        {currentPageLoader && <CurrentPageLoader />}
+        {currentPageLoader && <CurrentPageLoader {...currentPageLoaderProps} />}
+
         {children}
       </main>
     </>

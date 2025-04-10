@@ -4,7 +4,9 @@ import React, {
   PropsWithChildren,
   useRef,
   useEffect,
-  useTransition
+  useTransition,
+  useState,
+  useCallback
 } from 'react'
 
 import {
@@ -32,15 +34,41 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname()
   const previousPath = useRef<string | null>('')
 
-  const router = useRouter()
-  const [routePending, startRouteTransition] = useTransition()
+  /* ======================
+  Logic For CurrentPageLoader
+  ====================== */
 
+  const router = useRouter()
+  const [_routePending, startRouteTransition] = useTransition()
+
+  const [routePending, setRoutePending] = useState(false)
   // Works in conjunction with TransitionLoader component.
-  const handleRouteChange = (route: string) => {
-    startRouteTransition(() => {
-      router.push(route)
-    })
-  }
+  const handleRouteChange = useCallback(
+    (route: string) => {
+      startRouteTransition(() => {
+        router.push(route)
+      })
+    },
+    [router]
+  )
+
+  // Defer the routePending state for an additional 250ms. This generally
+  // prevents the loading spinner flicker when the page loads immediately.
+  useEffect(() => {
+    let routPendingTimeout: NodeJS.Timeout
+
+    if (_routePending === true) {
+      routPendingTimeout = setTimeout(() => {
+        setRoutePending(_routePending)
+      }, 250)
+    } else {
+      setRoutePending(_routePending)
+    }
+
+    return () => {
+      clearTimeout(routPendingTimeout)
+    }
+  }, [_routePending])
 
   /* ======================
         useEffect()
