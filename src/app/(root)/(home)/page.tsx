@@ -1,7 +1,5 @@
-import Link from 'next/link'
 import { Page, PageContainer, Title } from 'components'
-// import { ComponentDemos } from '@/components/ComponentDemos'
-import { Button } from '@/components/Button'
+import { ComponentDemos } from '@/components/ComponentDemos'
 
 /* ========================================================================
 
@@ -9,8 +7,6 @@ import { Button } from '@/components/Button'
 
 // Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
-
-// Todo: Potentially add a size variant to Stepper.
 
 //# Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
@@ -67,11 +63,7 @@ const Home = () => {
           Home
         </Title>
 
-        {/* <ComponentDemos /> */}
-
-        <Button className='mx-auto mb-6 table' asChild>
-          <Link href='/about'>Go To About Page</Link>
-        </Button>
+        <ComponentDemos />
       </PageContainer>
     </Page>
   )
