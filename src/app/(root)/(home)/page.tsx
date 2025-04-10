@@ -1,9 +1,16 @@
 import { Page, PageContainer, Title } from 'components'
+// import Link from 'next/link'
+// import { Navigation } from 'lucide-react'
+// import { Button } from '@/components'
 import { ComponentDemos } from '@/components/ComponentDemos'
+// import { CurrentPageLoader } from './experiments/CurrentPageLoader'
 
 /* ========================================================================
 
 ======================================================================== */
+
+//# Add a [not( ... )] abritrary modifier to correct for the fact that
+//# last:mb-6 on CardContent will generate a higher specificity.
 
 // Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
@@ -41,6 +48,7 @@ const Home = () => {
 
   return (
     <Page>
+      {/* <CurrentPageLoader /> */}
       <PageContainer
       ///////////////////////////////////////////////////////////////////////////
       //
@@ -62,6 +70,20 @@ const Home = () => {
         >
           Home
         </Title>
+
+        {/* <div className='flex justify-center gap-4'>
+          <Button className='' asChild size='sm'>
+            <Link href='/'>
+              Go Home <Navigation />
+            </Link>
+          </Button>
+
+          <Button className='' asChild size='sm'>
+            <Link href='/about'>
+              Go To About <Navigation />
+            </Link>
+          </Button>
+        </div> */}
 
         <ComponentDemos />
       </PageContainer>
