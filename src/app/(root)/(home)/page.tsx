@@ -3,7 +3,6 @@ import { Page, PageContainer, Title } from 'components'
 // import { Navigation } from 'lucide-react'
 // import { Button } from '@/components'
 import { ComponentDemos } from '@/components/ComponentDemos'
-// import { CurrentPageLoader } from './experiments/CurrentPageLoader'
 
 /* ========================================================================
 
@@ -35,7 +34,7 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //# Add Breadcrumb
 
 //# Add Pagination - This should have variants for color and size like a button.
-// https://www.radix-ui.com/primitives/docs/components/toggle-group
+//# https://www.radix-ui.com/primitives/docs/components/toggle-group
 
 // Bonus: Consider adding special variants in button, badge, and alert of
 // light, dark, and light-dark. These will be quasi-custom color variants.
@@ -47,8 +46,7 @@ const Home = () => {
   // ❌ const session = await getData()
 
   return (
-    <Page>
-      {/* <CurrentPageLoader /> */}
+    <Page currentPageLoader>
       <PageContainer
       ///////////////////////////////////////////////////////////////////////////
       //
@@ -72,13 +70,13 @@ const Home = () => {
         </Title>
 
         {/* <div className='flex justify-center gap-4'>
-          <Button className='' asChild size='sm'>
+          <Button asChild size='sm'>
             <Link href='/'>
               Go Home <Navigation />
             </Link>
           </Button>
 
-          <Button className='' asChild size='sm'>
+          <Button asChild size='sm'>
             <Link href='/about'>
               Go To About <Navigation />
             </Link>

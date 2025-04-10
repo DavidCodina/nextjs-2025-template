@@ -3,14 +3,23 @@
 import { ComponentProps } from 'react'
 import { cn } from '@/utils'
 import { PageContainer } from './PageContainer'
+import { CurrentPageLoader } from '@/components/CurrentPageLoader'
 
-type PageProps = ComponentProps<'main'>
+type PageProps = ComponentProps<'main'> & {
+  currentPageLoader?: boolean
+}
 
 /* ========================================================================
                                   Page
 ======================================================================== */
 
-const Page = ({ children, className, style, ...otherProps }: PageProps) => {
+const Page = ({
+  children,
+  className = '',
+  currentPageLoader = false,
+  style = {},
+  ...otherProps
+}: PageProps) => {
   /* ======================
           return
   ====================== */
@@ -41,6 +50,7 @@ const Page = ({ children, className, style, ...otherProps }: PageProps) => {
         style={style}
         {...otherProps}
       >
+        {currentPageLoader && <CurrentPageLoader />}
         {children}
       </main>
     </>
