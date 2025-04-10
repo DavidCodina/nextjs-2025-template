@@ -3,7 +3,7 @@
 import { ComponentProps } from 'react'
 import { cn } from '@/utils'
 import { PageContainer } from './PageContainer'
-import { CurrentPageLoader } from '@/components/CurrentPageLoader'
+import { CurrentPageLoader } from '@/components'
 
 type PageProps = ComponentProps<'main'> & {
   currentPageLoader?: boolean
