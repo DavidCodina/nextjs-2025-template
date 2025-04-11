@@ -45,20 +45,48 @@ z-51
 // Usage:
 //
 //   <Button asChild size='sm'>
-//     <Link href='/about'>Go To About <Navigation /></Link>
+//     <Link href='/about'>Go To About (Normal)</Link>
 //   </Button>
 //
-//   <Button size='sm' data-href='/about'>
-//     Go To About with data-href='/about' <Navigation />
-//   </Button>
 //
-// In both cases, the navigating components can be implemented directly within
-// a server component. The Button implementation works because we're not actually
+// The following Button implementation works because we're not actually
 // passing an onClick handler to it. Instead, handleClick is added to document when
 // CurrentPageLoader client component mounts.
 //
-// Thast said, if the CurrentPageLoader is not implemented then the first instance will
-// still work, but the second instance will not.
+//   <Button asChild size='sm'>
+//     <Link href='/about' data-href='/about'>Go To About (opt in)</Link>
+//   </Button>
+//
+//   <Button size='sm' data-href='/about'>Go To About (opt in)</Button>
+//
+// However, it's safer to instead have a <Button /> that already has programmatic navigation
+// baked in:
+//
+//   'use client'
+//   import { useRouter } from 'next/navigation'
+//   import { Button } from '@/components'
+//   type ClientButtonProps = React.ComponentProps<typeof Button>
+//
+//   export const ClientButton = ({ children,  ...otherProps }: ClientButtonProps) => {
+//     const router = useRouter()
+//     return (
+//       <Button onClick={() => { router.push('/about')}} {...otherProps}>{children}</Button>
+//     )
+//   }
+//
+// Then we can choose to opt-in to the CurrentPageLoader for this button on the consuming
+// side:
+//
+//     <ClientButton data-href='/about'>Go To About</ClientButton>
+//
+// Here's an example that's not even a Button or Link:
+//
+//   <div
+//     className='flex cursor-pointer items-center justify-center rounded-lg border border-red-700 bg-red-500 px-2 py-1 text-sm leading-[1.5] font-bold text-white'
+//     data-href='/about'
+//   >
+//     Go To About (opt in)
+//   </div>
 //
 // This component is best implemented within the <Page /> component definition.
 // That way, it will only fill up the space inside of the Page itself - i.e.,
@@ -99,7 +127,13 @@ export const CurrentPageLoader = ({
         return
       }
 
-      const element = target.closest('[data-href]') || target.closest('a')
+      // While it's possible to also just target <a> tags, it's safer and more
+      // controlled to opt-in using data-href='/abc123' for each element that we
+      // want to use in conjunction with CurrentPageLoader. Thus, CurrentPageLoader
+      // itself is opt-in when consuming Page with the `currentPageLoader` prop.
+      // Then on top of that, the element that you want to leverage this feature
+      // must also have a `data-href` attribute.
+      const element = target.closest('[data-href]') // ❌ || target.closest('a')
       if (!element || !(element instanceof HTMLElement)) {
         return
       }
@@ -112,17 +146,18 @@ export const CurrentPageLoader = ({
       }
 
       const hasHref =
-        (element?.hasAttribute('data-href') &&
-          typeof element.getAttribute('data-href') === 'string') ||
-        (element.hasAttribute('href') &&
-          typeof element.getAttribute('href') === 'string')
+        element?.hasAttribute('data-href') &&
+        typeof element.getAttribute('data-href') === 'string'
+      // ❌ || (element.hasAttribute('href') && typeof element.getAttribute('href') === 'string')
 
       if (!hasHref) {
         return
       }
 
       const href =
-        element.getAttribute('data-href') || element.getAttribute('href') || ''
+        element.getAttribute(
+          'data-href'
+        ) /* ❌ || element.getAttribute('href')*/ || ''
 
       const hrefStartsWithSlash = href.startsWith('/')
 
@@ -130,7 +165,6 @@ export const CurrentPageLoader = ({
         return
       }
 
-      e.preventDefault()
       handleRouteChange(href)
     }
 

@@ -4,6 +4,7 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // import Link from 'next/link'
 // import { Navigation } from 'lucide-react'
 // import { Button } from '@/components'
+// import { ClientButton } from './ClientButton'
 
 /* ========================================================================
 
@@ -48,10 +49,10 @@ const Home = () => {
 
   return (
     <Page
-      currentPageLoader
-      currentPageLoaderProps={{
-        className: 'border border-2 border-dashed border-pink-500'
-      }}
+    // currentPageLoader
+    // currentPageLoaderProps={{
+    //   className: 'border border-2 border-dashed border-pink-500'
+    // }}
     >
       <PageContainer
 
@@ -76,21 +77,35 @@ const Home = () => {
           Home
         </Title>
 
-        {/* <div className='flex justify-center gap-4'>
+        {/* <div className='flex flex-wrap items-center justify-center gap-4'>
           <Button asChild size='sm'>
             <Link href='/'>
               Go Home <Navigation />
             </Link>
           </Button>
+
           <Button asChild size='sm'>
-            <Link href='/about'>
-              Go To About <Navigation />
+            <Link href='/about'>Go To About (Normal)</Link>
+          </Button>
+
+          <Button asChild size='sm'>
+            <Link href='/about' data-href='/about'>
+              Go To About (opt in)
             </Link>
           </Button>
 
           <Button size='sm' data-href='/about'>
-            Go To About with data-href='/about' <Navigation />
+            Go To About (opt in)
           </Button>
+
+          <ClientButton data-href='/about'>Go To About (opt in)</ClientButton>
+
+          <div
+            className='flex cursor-pointer items-center justify-center rounded-lg border border-red-700 bg-red-500 px-2 py-1 text-sm leading-[1.5] font-bold text-white'
+            data-href='/about' // Not even a button!
+          >
+            Go To About (opt in)
+          </div>
         </div> */}
 
         <ComponentDemos />

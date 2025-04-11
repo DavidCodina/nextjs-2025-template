@@ -6,9 +6,9 @@ import { useEffect, useRef } from 'react'
 ///////////////////////////////////////////////////////////////////////////
 //
 // This implementation works by avoiding having to pass the cleanup function into
-// the final useEffect's dependency arrray by assigining it to a ref. However,
-// to avoid closure issues, the ref itself is actually updated on every render.
-// The end result is a cleanup function that can update along with the environment.
+// the final useEffect's dependency array by assgining it to a ref. However,
+// to avoid stale closure issues, the ref itself is actually updated on every render.
+// The end result is a cleanup function that can update along with the environment
 // of the consuming component.
 //
 // Usage:
