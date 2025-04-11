@@ -175,13 +175,13 @@ export const CurrentPageLoader = ({
     }
   }, [handleRouteChange])
 
-  if (!routePending) {
-    return null
-  }
-
   /* ======================
           return
   ====================== */
+
+  if (!routePending) {
+    return null
+  }
 
   return (
     <div

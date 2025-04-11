@@ -4,7 +4,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // import Link from 'next/link'
 // import { Navigation } from 'lucide-react'
 // import { Button } from '@/components'
-// import { ClientButton } from './ClientButton'
 
 /* ========================================================================
 
@@ -97,8 +96,6 @@ const Home = () => {
           <Button size='sm' data-href='/about'>
             Go To About (opt in)
           </Button>
-
-          <ClientButton data-href='/about'>Go To About (opt in)</ClientButton>
 
           <div
             className='flex cursor-pointer items-center justify-center rounded-lg border border-red-700 bg-red-500 px-2 py-1 text-sm leading-[1.5] font-bold text-white'
