@@ -40,6 +40,12 @@
 // and gives us back the initial data type. This way we maintain type information. Which version
 // you use depends on your application setup.
 //
+// Also look into superjson:
+//
+//   export const serializeData = <T>(value: T): T => {
+//     return superjson.parse(superjson.stringify(value));
+//   }
+//
 ///////////////////////////////////////////////////////////////////////////
 
 const _serializeDataToUnknown = (value: unknown) => {

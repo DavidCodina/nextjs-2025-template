@@ -139,7 +139,12 @@ export const ButtonDemo = () => {
             Click Me
           </Button>
 
-          <Button size='md' variant='orange' leftSection={<Omega />}>
+          <Button
+            size='md'
+            variant='orange'
+            leftSection={<Omega />}
+            rightSection={<Omega />}
+          >
             Click Me
           </Button>
 

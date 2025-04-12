@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { type VariantProps } from 'class-variance-authority'
 //import { Loader2 } from 'lucide-react'
 import { cn } from '@/utils'
@@ -9,22 +9,8 @@ import { buttonVariants } from './buttonVariants'
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// Gotcha: The original ShadCN implementation implemented Slot for the
-// asChild feature. However, the Radix Slot has trade-offs. If the child
-// content is more than just {children}, then you'll get an error when
-// using asChild. For example:
-//
-//   <Button asChild className='mx-auto flex' variant='success' size='sm'>
-//     <span>Click Me</span>
-//   </Button>
-//
-//   ❌ Error: React.Children.only expected to receive a single React element child.
-//
-// The problem is not in the consuming code, but in the fact that we have leftSection
-// and rightSection here.
-//
-// Thus whenever possible, prefer an actual polymorphic implementation.
-// Here's the basic setup:
+// This component uses asChild for polymorphism. Here's a more traditional
+// polymorphic implementation:
 //
 //   type ButtonOwnProps<T extends ElementType = ElementType> = { as?: T }
 //
@@ -45,11 +31,11 @@ import { buttonVariants } from './buttonVariants'
 //
 ///////////////////////////////////////////////////////////////////////////
 
-type ButtonOwnProps<T extends React.ElementType = React.ElementType> = {
-  as?: T
+type ButtonProps = React.ComponentProps<'button'> & {
   asChild?: boolean
   leftSection?: React.ReactNode
   rightSection?: React.ReactNode
+  /** loading, loader, loadingClassName, loadingStyle are all only available when asChild is false. */
   loading?: boolean
   loadingStyle?: React.CSSProperties
   loadingClassName?: string
@@ -57,17 +43,11 @@ type ButtonOwnProps<T extends React.ElementType = React.ElementType> = {
   isIcon?: boolean
 } & VariantProps<typeof buttonVariants>
 
-type ButtonProps<T extends React.ElementType> = ButtonOwnProps<T> &
-  Omit<React.ComponentProps<T>, keyof ButtonOwnProps<T>>
-
-const defaultElement = 'button'
-
 /* ========================================================================
                                     Button
 ======================================================================== */
 
-const Button = <T extends React.ElementType = typeof defaultElement>({
-  as,
+const Button = ({
   asChild = false,
   children,
   className = '',
@@ -83,40 +63,11 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
   style = {},
   variant,
   ...otherProps
-}: ButtonProps<T>) => {
-  ///////////////////////////////////////////////////////////////////////////
-  //
-  // Recap:
-  //
-  // The downside of the `asChild` prop is that it won't allow children to be more than
-  // one element.
-  //
-  //   ❌ Error: React.Children.only expected to receive a single React element child.
-  //
-  // This makes it difficult to implement a built-in leftSection and
-  // rightSection. Consequently, the `as` prop was added to allow for true
-  // polymorphic implementations. However, what if we want to do:
-  //
-  //   <Button asChild><Link /></Button>
-  //
-  // That's still an important use case. Consequently, the `asChild` prop has been
-  // kept, but has precedence over the `as` prop. Moreover, when `asChild` is true,
-  // it omits the leftSection, rightSection, loader, etc and instead just passes
-  // children through. Usage:
-  //
-  //   <Button asChild>
-  //     <Link href='/about'>Go To About Page</Link>
-  //   </Button>
-  //
-  //   <Button
-  //     as='a'
-  //     href='https://www.google.com'
-  //     rel='noopener noreferrer'
-  //     target='_blank'
-  //   >Google</Button>
-  //
-  ///////////////////////////////////////////////////////////////////////////
-  const Component = asChild ? Slot : as ? as : defaultElement
+}: ButtonProps) => {
+  // Radix Slot does not automatically strip invalid attributes - it passes
+  // all props down to the child element. Generally, the browser will simply
+  // ignore invalid attributes (e.g., <a disabled>).
+  const Component = asChild ? Slot : 'button'
 
   /* ======================
       renderLoader()
@@ -161,24 +112,6 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
   }
 
   /* ======================
-      renderChildren()
-  ====================== */
-
-  const renderChildren = () => {
-    if (asChild) {
-      return children
-    }
-
-    return (
-      <>
-        {loading && !isIcon ? renderLoader() : leftSection}
-        {loading && isIcon ? renderLoader() : children}
-        {rightSection}
-      </>
-    )
-  }
-
-  /* ======================
           return
   ====================== */
 
@@ -212,7 +145,29 @@ const Button = <T extends React.ElementType = typeof defaultElement>({
       )}
       style={{ ...style }}
     >
-      {renderChildren()}
+      {/* Gotcha: The original ShadCN version implemented Slot for the
+      asChild feature. However, if the child content is more than just {children},
+      then you'll get an error when using asChild. For example:
+  
+        ❌ Error: React.Children.only expected to receive a single React element child.
+  
+      Solution: Also use <Slottable>{children}</Slottable> 
+
+      The primary difference between the asChild and non-asChild implementation
+      is that all loading related features have been removed when asChild.
+      Most likely, if one is using asChild, it's to switch to <a>. In that
+      case, they wouldn't need loading. Morever, if asChild then we definitely
+      do not want to do this: {loading && isIcon ? renderLoader() : children} */}
+
+      {loading && !asChild && !isIcon ? renderLoader() : leftSection}
+
+      {loading && !asChild && isIcon ? (
+        renderLoader()
+      ) : (
+        <Slottable>{children}</Slottable>
+      )}
+
+      {rightSection}
     </Component>
   )
 }
