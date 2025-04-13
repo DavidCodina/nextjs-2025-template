@@ -1,13 +1,16 @@
 import { Page, PageContainer, Title } from 'components'
 import { ComponentDemos } from '@/components/ComponentDemos'
-
 // import Link from 'next/link'
 // import { Navigation } from 'lucide-react'
-// import { Button } from '@/components'
 
 /* ========================================================================
 
 ======================================================================== */
+
+//# Unfortunately, Label can't be fixed with Slottable.
+//# You would have to wrap children in a span.
+//# Since I generally don't like doing that, we could ONLY do it when
+//# asChild is true. Alternatively, it might be possible to use a render children patter.
 
 //# Add a [not( ... )] abritrary modifier to correct for the fact that
 //# last:mb-6 on CardContent will generate a higher specificity.
