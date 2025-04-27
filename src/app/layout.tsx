@@ -59,6 +59,9 @@ export default async function RootLayout({
         }}
       >
         <Providers>
+          {/* ⚠️ Make sure <Toaster /> is placed first to avoid potential race conditions when a page mounts.
+          Also, make sure <Toaster /> is inside of <Providers>, so it has access to the theme. */}
+          <Toaster />
           {/* The SidebarProvider is consumed here and not with the other providers in order
           to implement the optional 'persisted State' feature with cookies. */}
 
@@ -99,9 +102,6 @@ export default async function RootLayout({
               </SidebarInset>
             </SidebarFlipper>
           </SidebarProvider>
-
-          {/* Make sure <Toaster /> is inside of <Providers>, so it has access to the theme.*/}
-          <Toaster />
         </Providers>
       </body>
     </html>

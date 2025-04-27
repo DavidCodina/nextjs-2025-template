@@ -5,7 +5,13 @@ import * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cn } from '@/utils'
 
-type LabelProps = React.ComponentProps<typeof LabelPrimitive.Root> & {
+// Currently, it's still okay to derive types direclty from LabelPrimitive.Root
+// However, because we're using Slot, it's safer to not do that, just in case
+// the LabelPrimitive.Root props change in the future and some of the props
+// are not compatible with ordinary HTML attributes.
+// ❌ type LabelProps = React.ComponentProps<typeof LabelPrimitive.Root> & ...
+type LabelProps = React.ComponentProps<'label'> & {
+  asChild?: boolean
   disabled?: boolean
   error?: string
   labelRequired?: boolean

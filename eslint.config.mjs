@@ -7,6 +7,15 @@ import js from '@eslint/js'
 
 // Maybe add eslint-plugin-jsx-a11y
 
+///////////////////////////////////////////////////////////////////////////
+//
+// ⚠️ Flat configs are still experimental and need to be enabled in VSCode ESLint using
+// the eslint.experimental.useFlatConfig setting:  "eslint.useFlatConfig": true
+// That said, Editor linting may still not support all flat config features or custom rules.
+//
+///////////////////////////////////////////////////////////////////////////
+import custom from 'custom-eslint-plugin'
+
 /* ========================================================================
 
 ======================================================================== */
@@ -30,7 +39,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
-    ignores: ['!.storybook']
+    ignores: ['!.storybook', 'src/generated']
   },
   // Next.js gives you ...compat.extends() by default, but you can switch to compat.config({ }).
   // This method provides a more comprehensive way to define your ESLint configuration.
@@ -81,8 +90,12 @@ const eslintConfig = [
   }),
   {
     files: ['**/*.{js,jsx,ts,tsx,mjs,cjs}'],
-    plugins: {},
+    plugins: {
+      custom
+    },
     rules: {
+      'custom/no-form-action-prop': 'warn',
+      'custom/no-button-form-action-prop': 'warn',
       /* ======================
         eslint-plugin-prettier
       ====================== */
