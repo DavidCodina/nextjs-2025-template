@@ -2,13 +2,24 @@
 
 import { cva } from 'class-variance-authority'
 
+///////////////////////////////////////////////////////////////////////////
+//
+// The original ShadCN implementation had classes like this:
+//
+//   grid grid-cols-[0_1fr] items-start
+//   has-[>svg]:grid-cols-[calc(var(--spacing)*6)_1fr]
+//   has-[>svg]:gap-x-3 gap-y-0.5
+//   [&>svg]:size-6 [&>svg]:translate-y-0.5 [&>svg]:text-current
+//
+//
+// The effect was such that it automatically created an initial column for the
+// icon when it was detected. However, the overall implementation wasn't flexible
+// enough to then also incorporate buttons as a third column.
+//
+///////////////////////////////////////////////////////////////////////////
 const baseClasses = `
-relative w-full rounded-lg border px-4 py-3 text-sm 
-grid grid-cols-[0_1fr] 
-has-[>svg]:grid-cols-[calc(var(--spacing)*6)_1fr] 
-has-[>svg]:gap-x-3 gap-y-0.5 
-items-start 
-[&>svg]:size-6 [&>svg]:translate-y-0.5 [&>svg]:text-current
+flex items-start gap-2 relative w-full rounded-lg border p-3 text-sm 
+[&_svg:not([class*='size-'])]:size-6 [&>svg]:translate-y-0.5
 `
 
 const alertShadowMixin = `shadow-[0_1px_2px_rgb(0,0,0,0.35)]`

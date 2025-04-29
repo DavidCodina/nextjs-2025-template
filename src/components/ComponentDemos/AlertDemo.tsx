@@ -2,7 +2,7 @@
 
 import { ComponentProps } from 'react'
 import { AlertCircle } from 'lucide-react'
-import { Alert, AlertTitle, AlertDescription } from '@/components/alert'
+import { Alert } from '@/components/alert'
 
 type AlertVariant = ComponentProps<typeof Alert>['variant']
 
@@ -141,19 +141,16 @@ const createAlerts = (variants: AlertVariant[]) => {
     }
 
     return (
-      <Alert key={index} variant={variant} className=''>
-        <AlertCircle
-          // The docs set h-4 w-4 on example, but actually that won't do anything.
-          // Internally, the component does this: '[&>svg]:size-6', so if you actually
-          // want to change it you need to do that at the top-level.
-          className='h-4 w-4'
-        />
-        <AlertTitle>{variant.toUpperCase()}</AlertTitle>
-        <AlertDescription>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-          dolore possimus at culpa suscipit accusantium optio porro blanditiis
-          nesciunt minus architecto, quis laboriosam?
-        </AlertDescription>
+      <Alert
+        key={index}
+        leftSection={<AlertCircle className='size-6' />}
+        title={variant.toUpperCase()}
+        variant={variant}
+        className=''
+      >
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti dolore
+        possimus at culpa suscipit accusantium optio porro blanditiis nesciunt
+        minus architecto, quis laboriosam?
       </Alert>
     )
   })
