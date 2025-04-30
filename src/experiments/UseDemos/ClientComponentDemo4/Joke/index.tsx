@@ -141,7 +141,13 @@ const JokeContainer = () => {
           </h2>
         }
       >
-        <Joke jokePromise={jokePromise} />
+        <Joke
+          onRefresh={() => {
+            console.log('onRefresh() called')
+            setUrl({ value: 'https://api.chucknorris.io/jokes/random' })
+          }}
+          jokePromise={jokePromise}
+        />
       </DataContainer>
     </>
   )

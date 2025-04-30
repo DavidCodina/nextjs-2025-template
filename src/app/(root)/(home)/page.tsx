@@ -1,8 +1,9 @@
 import { Page, PageContainer, Title } from 'components'
-import { ComponentDemos } from '@/components/ComponentDemos'
+// import { ComponentDemos } from '@/components/ComponentDemos'
 // import Link from 'next/link'
 // import { Navigation } from 'lucide-react'
 
+import { ClientComponentDemo4 } from '@/experiments/UseDemos/ClientComponentDemo4'
 /* ========================================================================
 
 ======================================================================== */
@@ -110,7 +111,9 @@ const Home = () => {
           </div>
         </div> */}
 
-        <ComponentDemos />
+        {/* <ComponentDemos /> */}
+
+        <ClientComponentDemo4 />
       </PageContainer>
     </Page>
   )
