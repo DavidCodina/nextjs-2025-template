@@ -16,6 +16,8 @@ export * from './CheckboxGroup'
 
 export * from './collapsible'
 export * from './CurrentPageLoader'
+
+export * from './DataContainer'
 export * from './DatePicker'
 export * from './dropdown-menu'
 

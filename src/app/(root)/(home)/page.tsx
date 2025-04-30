@@ -1,8 +1,9 @@
 import { Page, PageContainer, Title } from 'components'
-import { ComponentDemos } from '@/components/ComponentDemos'
+// import { ComponentDemos } from '@/components/ComponentDemos'
 // import Link from 'next/link'
 // import { Navigation } from 'lucide-react'
 
+import { ClientComponentDemo4 } from '@/experiments/UseDemos/ClientComponentDemo4'
 /* ========================================================================
 
 ======================================================================== */
@@ -45,8 +46,10 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 const Home = () => {
   // Anti-pattern: Do not await an async function directly in page.tsx,
-  // especially the home page. It will always block rendering. Use
-  // Suspense and child component instead.
+  // especially the home page. It will always block rendering.
+  // Instead, wrap a child component in a Suspense and either await
+  // the async data locally in the child component, or pass down a
+  // promise as a prop the the child component and implement use() API.
   // ❌ const session = await getData()
 
   return (
@@ -108,7 +111,9 @@ const Home = () => {
           </div>
         </div> */}
 
-        <ComponentDemos />
+        {/* <ComponentDemos /> */}
+
+        <ClientComponentDemo4 />
       </PageContainer>
     </Page>
   )
