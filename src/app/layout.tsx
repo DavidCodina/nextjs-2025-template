@@ -4,6 +4,32 @@ import { CSSProperties } from 'react'
 import { cookies } from 'next/headers'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
+///////////////////////////////////////////////////////////////////////////
+//
+// Next.js will complain if you use <link> to bring in Material Symbols:
+//
+//   <head>
+//     <link // eslint-disable-line
+//       href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200'
+//       rel='stylesheet'
+//     />
+//   </head>
+//
+// Unfortunately, there is no MaterialSymbols export in 'next/font/google' :
+// https://github.com/vercel/next.js/discussions/42881
+//
+// However, we can do this in globals.css :
+//
+//   @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+//
+// Another potential option is to use:
+//
+//   https://github.com/google/material-design-icons --> https://github.com/marella/material-symbols/tree/main/material-symbols#readme
+//
+// This is what I've done here.
+//
+///////////////////////////////////////////////////////////////////////////
+import 'material-symbols'
 import { Providers } from 'contexts'
 import { Toaster } from '@/components/sonner'
 

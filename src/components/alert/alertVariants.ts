@@ -2,6 +2,20 @@
 
 import { cva } from 'class-variance-authority'
 
+const alertShadowMixin = `shadow-[0_1px_2px_rgb(0,0,0,0.35)]`
+
+const verticalBarMixin = `
+before:content-['']
+before:h-full 
+before:absolute
+before:top-0
+before:left-0
+before:border-l-[5px]
+before:border-current
+before:rounded-l-[inherit]
+before:rounded-l-[inherit]
+`
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // The original ShadCN implementation had classes like this:
@@ -18,11 +32,10 @@ import { cva } from 'class-variance-authority'
 //
 ///////////////////////////////////////////////////////////////////////////
 const baseClasses = `
-flex items-start gap-2 relative w-full rounded-lg border p-3 text-sm 
+relative flex items-start gap-2 relative w-full rounded-lg border p-3 text-sm 
 [&_svg:not([class*='size-'])]:size-6 [&>svg]:translate-y-0.5
+${verticalBarMixin}
 `
-
-const alertShadowMixin = `shadow-[0_1px_2px_rgb(0,0,0,0.35)]`
 
 /* ======================
       alertVariants
@@ -45,7 +58,7 @@ export const alertVariants = cva(baseClasses, {
       secondary: `
       bg-(--secondary-soft) text-secondary
       *:data-[slot=alert-description]:text-secondary
-      border-primary
+      border-secondary
       ${alertShadowMixin}
       `,
 

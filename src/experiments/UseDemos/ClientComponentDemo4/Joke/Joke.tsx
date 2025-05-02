@@ -33,7 +33,8 @@ export const Joke = ({ jokePromise, onRefresh }: JokeProps) => {
   }
 
   return (
-    <div className='border-dark relative mx-auto mb-6 max-w-[600px] rounded-lg border bg-white p-4 text-sm shadow-md'>
+    <div className='relative mx-auto mb-6 max-w-[400px] rounded-lg border border-neutral-400 bg-white p-4 text-sm shadow'>
+      <div className='absolute -top-3 -left-3 text-4xl drop-shadow-lg'>🤣</div>
       <button
         className='absolute top-1 right-1 cursor-pointer'
         onClick={onRefresh}
