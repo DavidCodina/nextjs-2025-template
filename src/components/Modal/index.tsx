@@ -24,6 +24,12 @@ import { ModalProps } from './types'
 ======================================================================== */
 ///////////////////////////////////////////////////////////////////////////
 //
+// Modal was last updated in May 2025. It considers the ShadCN Dialog component,
+// and builds on top of it. Modal makes several improvements, including adding a ModalDialog
+// wrapper around ModalContent to improve responsive behavior and abstracting away much
+// of the composability. It also adds centered, scrollable, and fullscreen variants
+// similar to Bootstrap.
+//
 // Docs:
 //
 //   https://www.radix-ui.com/primitives/docs/components/dialog
