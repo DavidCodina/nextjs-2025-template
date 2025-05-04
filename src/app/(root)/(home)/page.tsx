@@ -1,42 +1,23 @@
-import { Page, PageContainer, Title } from 'components'
+import { Page, PageContainer, Title } from '@/components'
 // import { ComponentDemos } from '@/components/ComponentDemos'
-// import Link from 'next/link'
-//import { Navigation } from 'lucide-react'
+import { ControlledModalDemo } from '@/components/Modal/ControlledModalDemo'
 
 /* ========================================================================
 
 ======================================================================== */
 
-//# Compare utils against 2024 Next.js version.
+//* Move all test-experiments over from Vitest to Jest.
 
-//# Comprare hooks against 2024 Next.js version.
+//# 4. Add in Breadcrumbs and compare to older version.
 
-//# Move all test-experiments over from Vitest to Jest.
-
-//* 1. I have an AspectRatio component, but also include the ShadCN version.
-
-//# 2. Compare Placeholder to Skeleton.
-
-//# 3. Review FontIcon
-
-//# 4. Update Moda/Dialog: Add inner container to Dialog to make it responsive.
-
-//# 5. Review NumberFormatter
-
-//# 6. Add in Breadcrumbs and compare to older version.
-
-//# 7. What is this?
-//# Add a [not( ... )] abritrary modifier to correct for the fact that
-//# last:mb-6 on CardContent will generate a higher specificity.
-
-//# 8. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
+//# 6. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
-//# 9. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
+//# 7. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
-//# 10. Todo: add UI for the numeric position of slider thumbs.
+//# 8. Todo: add UI for the numeric position of slider thumbs.
 
-//# 11. Add Pagination - This should have variants for color and size like a button.
+//# 9. Add Pagination - This should have variants for color and size like a button.
 //# https://www.radix-ui.com/primitives/docs/components/toggle-group
 
 //# Possibly add in todos demo, using local Postgres.
@@ -95,34 +76,7 @@ const Home = () => {
           Home
         </Title>
 
-        {/* <div className='flex flex-wrap items-center justify-center gap-4'>
-          <Button asChild size='sm'>
-            <Link href='/'>
-              Go Home <Navigation />
-            </Link>
-          </Button>
-
-          <Button asChild size='sm'>
-            <Link href='/about'>Go To About (Normal)</Link>
-          </Button>
-
-          <Button asChild size='sm'>
-            <Link href='/about' data-href='/about'>
-              Go To About (opt in)
-            </Link>
-          </Button>
-
-          <Button size='sm' data-href='/about'>
-            Go To About (opt in)
-          </Button>
-
-          <div
-            className='flex cursor-pointer items-center justify-center rounded-lg border border-red-700 bg-red-500 px-2 py-1 text-sm leading-[1.5] font-bold text-white'
-            data-href='/about' // Not even a button!
-          >
-            Go To About (opt in)
-          </div>
-        </div> */}
+        <ControlledModalDemo />
 
         {/* <ComponentDemos /> */}
       </PageContainer>

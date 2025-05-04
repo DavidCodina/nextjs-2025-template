@@ -1,7 +1,7 @@
 'use client'
 import { ComponentProps } from 'react'
 
-interface IPlaceholder extends ComponentProps<'div'> {
+type PlaceholderProps = ComponentProps<'div'> & {
   animation?: 'glow' | 'shine' | 'white-wave' | 'wave'
   /** Like size, color is merely for convenience. color can otherwise
    * be set through style or className props.
@@ -17,37 +17,8 @@ interface IPlaceholder extends ComponentProps<'div'> {
 /* =============================================================================
                                   Placeholder
 ============================================================================= */
-////////////////////////////////////////////////////////////////////////////////
-//
-// The react-bootstrap version uses xs, sm, md, xl, xxl props to set the width.
-// Each of the props can take in a number from 1 to 12, this will set the
-// length of the Placeholder to that many grid units.
-//
-// However, react-bootstrap also allows for an alternate approach whereby
-// the user can set style={{ width: '75%' }}. While this is not responsive,
-// it does allow the user to have a more specific amount. This is the
-// approach that has been taken for this Placeholder. If at some point, we
-// also want to add in the grid props, then we can do that later.
-// By default, each line will be set to a width of 100%.
-//
-// A shape prop has been omitted, since it's relatively easy to style shapes
-// using the style prop.
-//
-// By default, the background-color is 0.5 opacity of the currentColor.
-//
-// Placeholder by itself is not very impressive. The idea is that it's
-// used to compose more elaborate skeletons that are themselves reusable.
-//
-// The only problem with the use of currentColor to set the default backgroundColor,
-// is when you go to dark mode and the currentColor actually becomes '#fff'. This issue
-// may warrant rethinking the implementation.
-//
-// See also:
-//
-//   https://ui.shadcn.com/docs/components/skeleton
-//   https://www.npmjs.com/package/react-placeholder-loading
-//
-////////////////////////////////////////////////////////////////////////////////
+// This is a custom Skeleton/Placeholder. It's much better than the default
+// ShadCN Skeleton component.
 
 export const Placeholder = ({
   animation,
@@ -56,7 +27,7 @@ export const Placeholder = ({
   size,
   style = {},
   ...otherProps
-}: IPlaceholder) => {
+}: PlaceholderProps) => {
   /* ======================
         getClasses()
   ====================== */
@@ -100,11 +71,7 @@ export const Placeholder = ({
       className={getClasses()}
       style={{
         ...style,
-        // By setting backgroundColor: color, we are ensuring that this
-        // has precedence over setting the actual color property in the style prop.
         ...(color ? { backgroundColor: color } : {})
-        // We could also add this, but it's actually not needed.
-        // ...(color ? {  color } : {})
       }}
       {...otherProps}
     />

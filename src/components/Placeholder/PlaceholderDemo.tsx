@@ -1,6 +1,13 @@
 'use client'
 
 import { Placeholder } from './'
+import { cn } from '@/utils'
+
+/* ========================================================================
+
+======================================================================== */
+// This is a custom Skeleton/Placeholder. It's much better than the default
+// ShadCN Skeleton component.
 
 const CardPlaceholder = ({
   animation = 'wave',
@@ -9,7 +16,7 @@ const CardPlaceholder = ({
 }: any) => {
   return (
     <section
-      className={`border border-neutral-400 bg-white dark:border-[--tw-dark-primary-color] dark:bg-[--tw-dark-bg-color] ${className ? ` ${className}` : ''} `}
+      className={cn('bg-background-light border', className)}
       style={{
         borderRadius: 10,
         padding: 15,
@@ -55,10 +62,9 @@ const CardPlaceholder = ({
 
         <Placeholder
           animation={animation}
+          className='bg-secondary/35'
           style={{
             alignSelf: 'flex-start',
-            backgroundColor: '#00b5e2',
-            borderRadius: 6,
             height: 25,
             width: 60
           }}
@@ -69,10 +75,10 @@ const CardPlaceholder = ({
 
       <Placeholder
         animation={animation}
-        style={{ marginLeft: '5%', width: '95%' }}
+        style={{ marginBottom: 8, marginLeft: '5%', width: '95%' }}
       />
-      <Placeholder animation={animation} />
-      <Placeholder animation={animation} />
+      <Placeholder animation={animation} style={{ marginBottom: 8 }} />
+      <Placeholder animation={animation} style={{ marginBottom: 8 }} />
       <Placeholder
         animation={animation}
         style={{ marginBottom: 20, width: '75%' }}
@@ -81,21 +87,20 @@ const CardPlaceholder = ({
       {/* Paragraph 2 */}
       <Placeholder
         animation={animation}
-        style={{ marginLeft: '5%', width: '95%' }}
+        style={{ marginBottom: 8, marginLeft: '5%', width: '95%' }}
       />
 
-      <Placeholder animation={animation} />
-      <Placeholder animation={animation} />
-      <Placeholder animation={animation} />
+      <Placeholder animation={animation} style={{ marginBottom: 8 }} />
+      <Placeholder animation={animation} style={{ marginBottom: 8 }} />
+      <Placeholder animation={animation} style={{ marginBottom: 8 }} />
       <Placeholder animation={animation} style={{ width: '35%' }} />
 
       {/* Bottom Buttons */}
       <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
         <Placeholder
           animation={animation}
+          className='bg-destructive/35'
           style={{
-            backgroundColor: '#dc3545',
-            borderRadius: 6,
             marginBottom: 0,
             marginTop: 15,
             height: 30,
@@ -105,9 +110,8 @@ const CardPlaceholder = ({
 
         <Placeholder
           animation={animation}
+          className='bg-primary/35'
           style={{
-            backgroundColor: '#409',
-            borderRadius: 6,
             marginBottom: 0,
             marginTop: 15,
             height: 30,
@@ -130,6 +134,7 @@ export const PlaceholderDemo = () => {
 
   return (
     <div
+      // [--placeholder-animation-duration:2s]
       className='relative'
       style={{
         margin: '120px auto',
@@ -144,7 +149,7 @@ export const PlaceholderDemo = () => {
           left: -50,
           transform: 'rotate(-20deg)'
         }}
-        className='absolute w-full [--placeholder-opacity:0.25]'
+        className='absolute w-full'
       />
 
       <CardPlaceholder
@@ -154,27 +159,12 @@ export const PlaceholderDemo = () => {
           left: -25,
           transform: 'rotate(-10deg)'
         }}
-        className='absolute w-full [--placeholder-opacity:0.25]'
+        className='absolute w-full'
       />
 
       <CardPlaceholder
         animation='shine' // 'glow' | 'shine' | 'white-wave' | 'wave'
-        style={
-          {
-            // Each Placeholder sets the background-color: currentcolor;
-            // This means we can change the color of the placeholder by setting
-            // the normal color (i.e., text color). The strength of the color is
-            // determinted by the opacity for each placeholder. However, we can
-            // set it for all of them using: className='[--placeholder-opacity:0.25]'
-            // color: 'black',
-            // backgroundColor: '#333',
-            // maxWidth: 350
-          }
-        }
-        // Demure:  https://manuarora.in/boxshadows
-
-        // [--placeholder-bg:#333]
-        className={`relative shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] [--placeholder-min-height:15px] [--placeholder-opacity:0.25]`}
+        className={`relative shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]`}
       />
     </div>
   )

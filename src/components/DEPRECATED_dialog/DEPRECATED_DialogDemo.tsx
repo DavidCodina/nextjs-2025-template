@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from '@/components/dialog'
+} from '@/components/DEPRECATED_dialog'
 
 import { Button } from '@/components'
 

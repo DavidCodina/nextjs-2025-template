@@ -7,4 +7,8 @@ export * from './randomFail'
 export * from './searchParamsToObject'
 export * from './sleep'
 export * from './serializeData'
+
 export * from './isPromise'
+export * from './isTruthyArray'
+export * from './isStringDict'
+export * from './isResBody'

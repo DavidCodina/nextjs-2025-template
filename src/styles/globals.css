@@ -395,6 +395,21 @@ Tailwind utility classes. */
 /* stroke='${theme('colors.green-500')}' */
 @layer components {
   @import '../components/Table/index.css';
+
+  /* 
+  This is how Bootstap implements the padding hack trick. It was included for 
+  purposes of demonstration, but ultimately it's better to use Tailwind's aspect-*.
+
+  .ratio { position: relative; width: 100%; }
+
+  .ratio::before { display: block; padding-top: var(--aspect-ratio); content: ''; }
+  .ratio > * { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+  .ratio-1x1 { --aspect-ratio: 100%; }
+  .ratio-4x3 { --aspect-ratio: 75%; }
+  .ratio-16x9 { --aspect-ratio: 56.25%; }
+  .ratio-21x9 { --aspect-ratio: 42.8571428571%; }
+  */
 }
 
 /* ======================
@@ -409,10 +424,10 @@ Tailwind utility classes. */
 ====================== */
 
 @plugin 'tailwindcss-animate';
-
 @plugin '../tw-plugins//placeholderPlugin';
 @plugin '../tw-plugins/readMorePlugin';
 @plugin '../tw-plugins/spinnerPlugin';
+@plugin '../tw-plugins/modalPlugin';
 
 /* ======================
         Variants

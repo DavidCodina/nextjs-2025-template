@@ -1,9 +1,3 @@
-import '../styles/globals.css'
-
-import { CSSProperties } from 'react'
-import { cookies } from 'next/headers'
-import type { Metadata } from 'next'
-import { Poppins } from 'next/font/google'
 ///////////////////////////////////////////////////////////////////////////
 //
 // Next.js will complain if you use <link> to bring in Material Symbols:
@@ -29,7 +23,15 @@ import { Poppins } from 'next/font/google'
 // This is what I've done here.
 //
 ///////////////////////////////////////////////////////////////////////////
+
 import 'material-symbols'
+import '../styles/globals.css'
+
+import { CSSProperties } from 'react'
+import { cookies } from 'next/headers'
+import type { Metadata } from 'next'
+import { Poppins } from 'next/font/google'
+
 import { Providers } from 'contexts'
 import { Toaster } from '@/components/sonner'
 

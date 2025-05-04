@@ -11,7 +11,6 @@ import { ButtonGroupDemo } from './ButtonGroupDemo'
 import { CardDemo } from './CardDemo'
 import { CollapsibleDemo } from './CollapsibleDemo'
 import { DatePickerDemo } from './DatePickerDemo'
-import { DialogDemo } from './DialogDemo'
 import { DropdownMenuDemo } from './DropdownMenuDemo'
 import { InputPasswordDemo } from './InputPasswordDemo'
 import { UncontrolledFormDemo } from './UncontrolledFormDemo'
@@ -139,12 +138,6 @@ export const ComponentDemos = () => {
 
       <TabsContent value='date-picker'>
         <DatePickerDemo />
-      </TabsContent>
-
-      {/* ================= */}
-
-      <TabsContent value='dialog'>
-        <DialogDemo />
       </TabsContent>
 
       {/* ================= */}

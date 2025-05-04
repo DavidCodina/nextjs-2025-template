@@ -1,5 +1,15 @@
 'use client'
 
+import { ComponentProps } from 'react'
+import { cn } from '@/utils'
+
+type FontIconProps = ComponentProps<'span'> & {
+  color?: string
+  fill?: boolean
+  opsz?: number
+  size?: number | string
+  weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+}
 /* ========================================================================
                                 FontIcon        
 ======================================================================== */
@@ -10,7 +20,7 @@
 // For info on font-variation-settings: https://developer.mozilla.org/en-US/docs/Web/CSS/font-variation-settings
 // For info on ligatures:               https://fonts.google.com/knowledge/glossary/ligature
 //
-// The  new Material Symbols usse a typographic feature called ligatures,
+// The new Material Symbols use a typographic feature called ligatures,
 // which allows rendering of an icon glyph simply by using its textual name.
 //
 /////////////////////////
@@ -66,18 +76,19 @@ export const FontIcon = ({
   style = {},
   weight = 400,
   fill = false,
-  size,
+  size = '1em',
+  opsz = 48,
   color
-}: any) => {
+}: FontIconProps) => {
   const fontVariationSettings = `'FILL' ${
     fill ? 1 : 0
-  }, 'wght' ${weight}, 'GRAD' 0, 'opsz' 48`
+  }, 'wght' ${weight}, 'GRAD' 0, 'opsz' ${opsz}`
 
-  if (size) {
+  if (typeof size === 'number' || typeof size === 'string') {
     style.fontSize = size
   }
 
-  if (color) {
+  if (typeof color === 'string') {
     style.color = color
   }
 
@@ -86,7 +97,7 @@ export const FontIcon = ({
   ====================== */
   return (
     <span
-      className={`material-symbols-outlined${className ? ` ${className}` : ''}`}
+      className={cn('material-symbols-outlined align-middle', className)}
       style={{
         ///////////////////////////////////////////////////////////////////////////
         //
@@ -95,29 +106,9 @@ export const FontIcon = ({
         //   font-size: 24px;
         //   line-height: 1;
         //
-        // We don't actually want to hardcode fontSize: 'inherit' here
-        // because then the className won't be able to override it.
-        //
-        // The default style works quite well when the parent has:
-        //
-        //  font-size: 24px;
-        //  line-height: 1.5;
-        //
-        // This is a common norm for paragraphs (e.g., Bootstrap styles, etc).
-        // That said, it probably makes more sense to set the default font-size to
-        //
-        //   font-size: 1.5em;
-        //
-        // This way if you have a fluid font, it will scale accordingly.
-        // The best place to do this is in the tailwind.config.js. If you
-        // did it in main.css, then we'd run into the same issue that it
-        // could potentially block Tailwind styling.
-        //
-        // We also don't want to set verticalAlign here, but I prefer it to default to
-        // middle, so that should also be set in tailwind.config.js
-        //
         ///////////////////////////////////////////////////////////////////////////
 
+        lineHeight: 'inherit',
         ...style,
         fontVariationSettings: fontVariationSettings
       }}

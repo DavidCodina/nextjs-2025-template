@@ -1,5 +1,11 @@
 import plugin from 'tailwindcss/plugin'
 
+// To inspect the theme that the theme() function is using
+// uncomment this and right-click to inspect.
+// Or see the following URL
+// https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/src/compat/default-theme.ts
+// import theme from 'tailwindcss/defaultTheme'
+
 /* ========================================================================
                               readMorePlugin
 ======================================================================== */

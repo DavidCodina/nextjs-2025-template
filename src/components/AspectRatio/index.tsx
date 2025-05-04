@@ -1,104 +1,79 @@
-'use client'
-import { CSSProperties, forwardRef, LegacyRef, ReactNode } from 'react'
-
-interface IAspectRatio {
-  children?: ReactNode
-  className?: string
-  ratio?: number
-  style?: CSSProperties
-  // [key: string]: any
-}
+import * as AspectRatioPrimitive from '@radix-ui/react-aspect-ratio'
 
 /* ========================================================================
-                                AspectRatio
+
 ======================================================================== */
 ///////////////////////////////////////////////////////////////////////////
 //
-// Inspiration:
+// The Radix AspectRatio relies on the padding hack trick.
+
+// Consequently, when you want to set the height based on the width, the width
+// needs to be defined by the parent element.
 //
-//   https://www.radix-ui.com/primitives
-//   https://www.radix-ui.com/primitives/docs/components/aspect-ratio
-//   https://github.com/radix-ui/primitives/tree/main/packages/react/aspect-ratio/src
-//   See also: https://github.com/shadcn-ui/ui/tree/main/apps/www/registry/default/ui
+//   <div className='mx-auto mb-6 max-w-[800px] rounded-xl border bg-white shadow'>
+//     <AspectRatio className='' ratio={16 / 9}></AspectRatio>
+//   </div>
 //
-// However, I put the ref in a different place
-// I also baked the container into the component.
-// This results in more intuitive consumption in terms of
-// styling margin, padding, width, etc.
-// Also, in the Radix primitive example, the style and className props were
-// assigned to the innermost <div>. This doesn't make any sense to me.
-// Instead, I gave them to the top-most <div>. Any styling of the inner
-// content can instead be handled in the consuming environment.
+// This kind of implementation is very clunky. Bootstrap actually has a more elegant approach.
 //
-// Usage:
+//    <div className='ratio ratio-16x9'></div>
 //
-//   <AspectRatio className='mx-auto mb-6' ratio={3 / 1} style={{ maxWidth: 600 }}>
-//     <div className='flex h-full items-center justify-center rounded-3xl bg-neutral-800 text-4xl font-black text-white'>
-//       3 x 1
-//     </div>
-//   </AspectRatio>
+/////////////////////////
+//
+// The basic idea with the Radix AspectRatio is as follows:
+// https://github.com/radix-ui/primitives/blob/main/packages/react/aspect-ratio/src/aspect-ratio.tsx
 //
 //
-// Tailwind does have aspect ratio utilities. I think the benefit of this
-// component is that it will work in Safari 14. In other words the CSS
-// aspect ratio property does NOT work in Safari 14, but this will.
+//   import * as React from 'react'
+//   import { Primitive } from '@radix-ui/react-primitive'
 //
-//  https://caniuse.com/mdn-css_properties_aspect-ratio
+//   type AspectRatioElement = React.ElementRef<typeof Primitive.div>
+//   type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
+//
+//   interface AspectRatioProps extends PrimitiveDivProps {
+//     ratio?: number
+//   }
+//
+//   const NAME = 'AspectRatio'
+//
+//   const AspectRatio = React.forwardRef<AspectRatioElement, AspectRatioProps>((props, forwardedRef) => {
+//     const { ratio = 1 / 1, style, ...aspectRatioProps } = props
+//     return (
+//       <div
+//         style={{ position: 'relative', width: '100%', paddingBottom: `${100 / ratio}%` }}
+//         data-radix-aspect-ratio-wrapper=''
+//       >
+//         <Primitive.div
+//           {...aspectRatioProps}
+//           ref={forwardedRef}
+//           style={{ ...style, position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+//         />
+//       </div>
+//     )
+//   })
+//
+//   AspectRatio.displayName = NAME
+//   const Root = AspectRatio
+//   export { AspectRatio, Root }
+//   export type { AspectRatioProps }
+//
+// The `Primitive` component bakes in the Slot functionality.
+// https://github.com/radix-ui/primitives/blob/main/packages/react/primitive/src/primitive.tsx
+//
+// Either the ShadCN/Radix or Bootstrap approaches work, but they're entirely unnecessary for
+// modern browsers. This project implements Tailwind v4, which already assumes the user's
+// browser can handle oklch() values. That being the case, it makes mores sense to simply use
+// Tailwind's aspect-* classes, which leverage the CSS aspect-ratio property.
+//
+// Conclustion: This component has been added to the project for now, but ultimately...
+// ⚠️ Don't use this component! Prefer Tailwind's aspect-* classes.
 //
 ///////////////////////////////////////////////////////////////////////////
 
-export const AspectRatio = forwardRef(
-  (props: IAspectRatio, ref: LegacyRef<HTMLDivElement> | undefined) => {
-    const {
-      children,
-      className = '',
-      ratio = 1 / 1,
-      style = {},
-      ...otherProps
-    } = props
+function AspectRatio({
+  ...props
+}: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {
+  return <AspectRatioPrimitive.Root data-slot='aspect-ratio' {...props} />
+}
 
-    /* ======================
-          return
-  ====================== */
-
-    return (
-      <section
-        // Add twMerge() here if you ever implement internal Tailwind classes.
-        className={className}
-        // Radix UI puts ref on innermost <div>. I disagree with that.
-        ref={ref}
-        style={style}
-        {...otherProps}
-      >
-        <div
-          style={{
-            // ensures inner element is contained
-            position: 'relative',
-            // ensures padding bottom trick maths works
-            width: '100%',
-            paddingBottom: `${100 / ratio}%`
-          }}
-        >
-          <div
-            style={{
-              // ensures children expand in ratio
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0
-            }}
-          >
-            {children}
-          </div>
-        </div>
-      </section>
-    )
-  }
-)
-
-AspectRatio.displayName = 'AspectRatio'
-
-export default AspectRatio
-
-// AspectRatio.displayName = 'AspectRatio'
+export { AspectRatio }
