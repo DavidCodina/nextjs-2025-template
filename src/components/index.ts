@@ -30,6 +30,7 @@ export * from './Input'
 export * from './InputPassword'
 export * from './label'
 
+export * from './Modal'
 export * from './NumberFormatter'
 export * from './Page'
 export * from './PageError'

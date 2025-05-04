@@ -1,5 +1,6 @@
 'use client'
-import { Fragment } from 'react'
+
+import { Button } from '@/components'
 import { UncontrolledModal } from './UncontrolledModal'
 
 /* ========================================================================
@@ -12,17 +13,16 @@ export const UncontrolledModalDemo = () => {
   ====================== */
 
   return (
-    <Fragment>
-      <UncontrolledModal
-        trigger={
-          <button
-            className='btn-sky btn-sm mx-auto mb-6 block'
-            style={{ minWidth: 150 }}
-          >
-            Open Uncontrolled Modal
-          </button>
-        }
-      />
-    </Fragment>
+    <UncontrolledModal
+      trigger={
+        <Button
+          className='mx-auto mb-6 flex'
+          style={{ minWidth: 150 }}
+          size='sm'
+        >
+          Open Uncontrolled Modal
+        </Button>
+      }
+    />
   )
 }

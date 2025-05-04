@@ -15,6 +15,8 @@ import { DropdownMenuDemo } from './DropdownMenuDemo'
 import { InputPasswordDemo } from './InputPasswordDemo'
 import { UncontrolledFormDemo } from './UncontrolledFormDemo'
 import { ControlledFormDemo } from './ControlledFormDemo'
+
+import { ControlledModalDemo } from './ControlledModalDemo'
 import { PopoverDemo } from './PopoverDemo'
 import { ReadMoreDemo } from './ReadMoreDemo'
 import { ScrollAreaDemo } from './ScrollAreaDemo'
@@ -39,7 +41,7 @@ import { CalendarDemo } from './CalendarDemo'
 
 export const ComponentDemos = () => {
   return (
-    <Tabs defaultValue='alert' className='mx-auto mb-6 gap-6'>
+    <Tabs defaultValue='modal' className='mx-auto mb-6 gap-6'>
       <TabsList className='grid w-full grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'>
         <TabsTrigger value='accordion'>Accordion</TabsTrigger>
         <TabsTrigger value='alert'>Alert</TabsTrigger>
@@ -57,6 +59,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='input-password'>Input Password</TabsTrigger>
         <TabsTrigger value='uncontrolled-form'>Uncontrolled Form</TabsTrigger>
         <TabsTrigger value='controlled-form'>Controlled Form</TabsTrigger>
+        <TabsTrigger value='modal'>Modal</TabsTrigger>
         <TabsTrigger value='popover'>Popover</TabsTrigger>
         <TabsTrigger value='read-more'>Read More</TabsTrigger>
         <TabsTrigger value='scroll-area'>Scroll Area</TabsTrigger>
@@ -162,6 +165,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='controlled-form'>
         <ControlledFormDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='modal'>
+        <ControlledModalDemo />
       </TabsContent>
 
       {/* ================= */}

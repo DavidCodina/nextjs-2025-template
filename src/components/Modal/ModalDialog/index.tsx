@@ -9,6 +9,16 @@ type ModalDialogProps = React.ComponentProps<'div'> & {
   fullscreen: boolean
 }
 
+// Was using [--modal-border-color:var(--border)], but I like --primary better for now.
+const baseClasses = `
+radix-modal-dialog
+relative
+[--modal-dialog-spacing:24px]
+[--modal-border-radius:var(--radius-lg)]
+[--modal-border-color:var(--primary)]
+pointer-events-none
+`
+
 /* ========================================================================
 
 ======================================================================== */
@@ -53,7 +63,11 @@ export const ModalDialog = ({
   return (
     <div
       className={cn(
-        'radix-modal-dialog',
+        baseClasses,
+        // The margin and width styles are defined in radix-modal-fullscreen,
+        // but
+        !fullscreen &&
+          'mx-auto my-(--modal-dialog-spacing) max-w-[calc(100%_-_var(--modal-dialog-spacing)_*_2)]',
         fullscreen && 'radix-modal-fullscreen',
         // scrollable will interfere with fullscreen
         scrollable && !fullscreen && 'radix-modal-dialog-scrollable',

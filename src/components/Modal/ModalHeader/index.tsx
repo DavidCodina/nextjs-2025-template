@@ -15,8 +15,8 @@ type ModalHeaderProps = Omit<React.ComponentProps<'div'>, 'title'> & {
 
 //^ Do we need shrink-0 here?
 const baseClasses = `
-flex shrink-0 flex-col gap-2 px-4 py-4 text-center sm:text-left
-rounded-t-[calc(var(--radix-modal-border-radius)_-_1px)]
+flex shrink-0 flex-col gap-2 px-4 pt-4 pb-2 text-center sm:text-left
+rounded-t-[calc(var(--modal-border-radius)_-_1px)]
 `
 
 /* ========================================================================

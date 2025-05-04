@@ -1,17 +1,13 @@
 'use client'
-import { ComponentProps, Fragment } from 'react'
-import { Modal } from '../../'
 
-type UncontrolledModalProps = ComponentProps<typeof Modal>
+import { Modal, ModalProps } from '../../'
+import { Button } from '@/components'
 
 /* ========================================================================
                               UncontrolledModal
 ======================================================================== */
 
-export const UncontrolledModal = ({
-  trigger,
-  ...otherProps
-}: UncontrolledModalProps) => {
+export const UncontrolledModal = ({ trigger, ...otherProps }: ModalProps) => {
   /* ======================
           return
   ====================== */
@@ -20,40 +16,36 @@ export const UncontrolledModal = ({
     <Modal
       centered
       scrollable
-      // defaultOpen
+      //defaultOpen
       // disableAnimation
-      // Obviously don't set width or --radix-modal-rem-spacing on dialogClassName
-      // if you want it to be fullscreen
-      fullscreen
+      // fullscreen
       trigger={trigger}
-      // dialogClassName='w-[800px] [--radix-modal-rem-spacing:1.5625rem]'
-      headerClassName='flex flex-col items-center'
+      // headerClassName=''
       title='Uncontrolled Modal'
-      titleClassName='text-violet-800 text-2xl font-black text-center'
+      // titleClassName=''
       description='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, eligendi.'
-      descriptionClassName='text-sm text-sky-500 text-center'
-      bodyClassName='rounded-none'
-      bodyStyle={{ boxShadow: 'inset 0px 0px 1px 0.5px rgba(0,0,0,0.35)' }}
-      closeButton={true}
+      // descriptionClassName=''
+      // bodyClassName=''
+      // bodyStyle={{ }}
+      closeButton={false}
       contentClassName=''
       footer={
-        <Fragment>
-          <Modal.Close asChild>
-            <button
-              className='btn-sky btn-sm min-w-[100px]'
-              type='button'
-              style={{}}
-            >
-              Accept
-            </button>
-          </Modal.Close>
-        </Fragment>
+        <Modal.Close asChild>
+          <Button
+            className='min-w-[100px]'
+            type='button'
+            size='sm'
+            style={{}}
+            variant='success'
+          >
+            Accept
+          </Button>
+        </Modal.Close>
       }
-      footerClassName='justify-end '
-      // footerClassName='bg-stone-100'
+      footerClassName='justify-end'
       {...otherProps}
     >
-      <p className='text-sm'>
+      <p className='mb-4 text-sm'>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate
         eaque numquam culpa, quisquam commodi explicabo dignissimos deleniti
         obcaecati accusantium necessitatibus id provident pariatur eum officiis
@@ -62,7 +54,7 @@ export const UncontrolledModal = ({
         labore aperiam ratione facilis delectus dolorem!
       </p>
 
-      <p className='text-sm'>
+      <p className='mb-4 text-sm'>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate
         eaque numquam culpa, quisquam commodi explicabo dignissimos deleniti
         obcaecati accusantium necessitatibus id provident pariatur eum officiis

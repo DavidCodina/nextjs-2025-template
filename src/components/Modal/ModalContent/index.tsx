@@ -24,7 +24,7 @@ type ModalContentProps = React.ComponentProps<typeof Dialog.Content>
 
 const baseClasses = `
 flex flex-col relative w-full bg-background-light text-base
-border rounded-(--radix-modal-border-radius)
+border border-(--modal-border-color) rounded-(--modal-border-radius)
 shadow-[0_3px_10px_rgb(0,0,0,0.35)]
 pointer-events-auto
 focus:outline-none

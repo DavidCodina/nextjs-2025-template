@@ -7,8 +7,9 @@ type ModalFooterProps = React.ComponentProps<'div'>
 
 const baseClasses = `
 flex items-center justify-center shrink-0 flex-wrap gap-2 px-4 py-2
-rounded-b-[calc(var(--radix-modal-border-radius)_-_1px)]
+rounded-b-[calc(var(--modal-border-radius)_-_1px)]
 `
+
 /* ========================================================================
 
 ======================================================================== */

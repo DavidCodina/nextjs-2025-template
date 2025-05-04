@@ -4,19 +4,37 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 
 import { ModalOverlay } from './ModalOverlay'
-
-// In Radix, the convention is to name the entire component 'Dialog'. However, in Bootstrap
-// the 'dialog' (i.e., <div className='modal-dialog'>) refers to the part of the modal that
-// contains/wraps the <div className='modal-content'>. This extra wrapper is useful
-// for features like centering and scrolling.
+///////////////////////////////////////////////////////////////////////////
+//
+// Dialog vs Modal:
+//
+// In Radix, the convention is to name the entire component 'Dialog'.
+// Radix likely named it Dialog instead of Modal to emphasize its broader usability
+// beyond traditional modal interactions. In UI/UX terminology:
+//
+//   - Modal typically refers to a UI element that temporarily interrupts user flow and
+//     requires action before returning to the previous state.
+//
+//   - Dialog is a more general term that can encompass modal behavior but also includes
+//     non-blocking interactions, such as floating dialogs or dismissible pop-ups.
+//
+// By using "Dialog," Radix signals that their primitive is versatile, allowing developers
+// to define whether the component behaves modally or functions in a lighter, more interactive
+// way. The name choice aligns with web standards, too—the HTML<dialog>element supports both
+// modal and non-modal behaviors.
+//
+// With that said, this component is a Modal, and the use of the term 'Dialog' in the ModalDialog
+// component is very specific. In Bootstrap, the 'dialog' (i.e., <div className='modal-dialog'>)
+// refers to the part of the modal that contains/wraps the <div className='modal-content'>.
+// This extra wrapper is useful for features responsiveness, centering and scrolling.
+//
+///////////////////////////////////////////////////////////////////////////
 import { ModalDialog } from './ModalDialog'
-
 import { ModalContent } from './ModalContent'
 import { ModalHeader } from './ModalHeader'
 import { ModalBody } from './ModalBody'
 import { ModalFooter } from './ModalFooter'
 import { ModalClose } from './ModalClose'
-
 import { ModalProps } from './types'
 
 /* ========================================================================
@@ -52,13 +70,6 @@ import { ModalProps } from './types'
 //
 ///////////////////////////////////////////////////////////////////////////
 
-//# Continue moving plugin styles into local components.
-
-//# Test out ControlledModalDemo with Form back in.
-
-//# The ShadCN DIALOG_ZINDEX_CLASS  was z-50.
-//# Consider changing the default z-index to 50 for Modal.
-
 //# Test nested modals
 
 const Modal = ({
@@ -84,8 +95,7 @@ const Modal = ({
 
   /* ====== Dialog ===== */
 
-  centered = false, // ???
-
+  centered = false,
   // ⚠️ By default, this should be false so that <select>s will be able to overflow.
   scrollable = false,
   fullscreen = false,
@@ -96,18 +106,15 @@ const Modal = ({
 
   contentClassName = '',
   contentStyle = {},
-
   children,
 
   /* === ModalHeader === */
 
   headerClassName = '',
   headerStyle = {},
-
   title = '',
   titleClassName = '',
   titleStyle = {},
-
   description = '',
   descriptionClassName = '',
   descriptionStyle = {},
@@ -178,14 +185,22 @@ const Modal = ({
           descriptionStyle={descriptionStyle}
         />
 
-        {/* In general, any content that manages some state should be abstracted into its own component.
-        For example a UserDialog instance that has a form and form state should abstract that logic into
-        its own <Form /> component. That way when the modal closes, the content's state will be reset when unmounted.
-        This point is emphasized in the following Sam Selikoff tutorial at 12:30 :
-        https://www.youtube.com/watch?v=3ijyZllWBwU 
-    
-        Conversely, if you want the state to persist (e.g., a modal that shows API data that rarely changes).
-        Then implement the state directly within the component instance. */}
+        {/* ⚠️ Does Radix Dialog unmount its content?
+
+        By default, Radix Dialog’s <Dialog.Content> is only rendered in the DOM when the dialog is open. 
+        When you close the dialog, Radix removes (unmounts) the content from the DOM.
+      
+        In general, any content that manages some state should be abstracted into its own component.
+        That way when the Modal closes, the content's state will be reset when unmounted.
+      
+        Conversely, if you want the state to persist, then implement the state directly within 
+        the body of the component that consumes the <Modal /> instance. 
+        
+          const MyModal = () => {
+            const [count, setCount] = React.useState(0)
+            return <Modal>...</Modal>
+          }
+        */}
 
         <ModalBody className={bodyClassName} style={bodyStyle}>
           {children}
@@ -269,4 +284,4 @@ const CompoundComponent = Object.assign(Modal, {
   Close: Dialog.Close
 })
 
-export { CompoundComponent as Modal }
+export { CompoundComponent as Modal, type ModalProps }

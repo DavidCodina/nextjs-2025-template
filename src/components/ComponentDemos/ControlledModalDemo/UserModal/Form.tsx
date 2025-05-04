@@ -1,8 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Modal } from '../../.'
-import { Button, Input } from '@/components'
-import { sleep } from 'utils'
+import { Button, Input, Modal } from '@/components'
+import { sleep } from '@/utils'
 
 type FormProps = {
   onSubmitted: VoidFunction
@@ -71,7 +70,7 @@ export const Form = ({ onSubmitted }: FormProps) => {
           className='min-w-[100px]'
           onClick={async () => {
             setPending(true)
-            await sleep(3000)
+            await sleep(1500)
             setPending(false)
             onSubmitted?.()
           }}

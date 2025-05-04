@@ -1,8 +1,7 @@
 'use client'
 
 import * as React from 'react'
-// import { Button } from '@/components'
-import { Modal } from '../../'
+import { Modal } from '@/components'
 // import { CustomCloseButton } from './CustomCloseButton'
 import { Form } from './Form'
 
@@ -39,7 +38,7 @@ export const UserModal = ({ open, setOpen, trigger }: UserModalProps) => {
       // back to the trigger element when the dialog/modal is closed. This is not true if one was
       // using some random programmatic button.
       trigger={trigger}
-      // dialogClassName='w-[800px] [--modal-dialog-spacing:50px] [--modal-border-radius:24px]'
+      dialogClassName='w-[600px] [--modal-dialog-spacing:24px] [--modal-border-radius:12px]'
       // dialogStyle={{ outline: '2px dashed red' }}
       // headerClassName='border-2 border-red-500'
       // headerStyle={{ border: '2px solid red' }}

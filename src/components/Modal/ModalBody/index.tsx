@@ -7,19 +7,19 @@ type ModalBodyProps = React.ComponentProps<'div'>
 
 const baseClasses = `
 relative flex-auto p-4
-rounded-[calc(var(--radix-modal-border-radius)_-_1px)]
+rounded-[calc(var(--modal-border-radius)_-_1px)]
 `
 
 /* ========================================================================
 
 ======================================================================== */
 
-function ModalBody({
+export const ModalBody = ({
+  children,
   className,
   style,
-  children,
   ...otherProps
-}: ModalBodyProps) {
+}: ModalBodyProps) => {
   return (
     <div
       className={cn(baseClasses, className)}
@@ -31,5 +31,3 @@ function ModalBody({
     </div>
   )
 }
-
-export { ModalBody }
