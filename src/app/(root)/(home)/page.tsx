@@ -1,6 +1,5 @@
 import { Page, PageContainer, Title } from '@/components'
-// import { ComponentDemos } from '@/components/ComponentDemos'
-import { BreadcrumbDemo } from '@/components/Breadcrumb/BreadcrumbDemo'
+import { ComponentDemos } from '@/components/ComponentDemos'
 
 /* ========================================================================
 
@@ -72,8 +71,7 @@ const Home = () => {
           Home
         </Title>
 
-        {/* <ComponentDemos /> */}
-        <BreadcrumbDemo />
+        <ComponentDemos />
       </PageContainer>
     </Page>
   )

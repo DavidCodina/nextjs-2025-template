@@ -6,6 +6,7 @@ import { AlertDemo } from './AlertDemo'
 import { AlertDialogDemo } from './AlertDialogDemo'
 import { AnchorDemo } from './AnchorDemo'
 import { BadgeDemo } from './BadgeDemo'
+import { BreadcrumbDemo } from './BreadcrumbDemo'
 import { ButtonDemo } from './ButtonDemo'
 import { ButtonGroupDemo } from './ButtonGroupDemo'
 import { CardDemo } from './CardDemo'
@@ -48,6 +49,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='alert-dialog'>Alert Dialog</TabsTrigger>
         <TabsTrigger value='anchor'>Anchor</TabsTrigger>
         <TabsTrigger value='badge'>Badge</TabsTrigger>
+        <TabsTrigger value='breadcrumb'>Breadcrumb</TabsTrigger>
         <TabsTrigger value='button'>Button</TabsTrigger>
         <TabsTrigger value='button-group'>Button Group</TabsTrigger>
         <TabsTrigger value='calendar'>Calendar</TabsTrigger>
@@ -105,6 +107,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='badge'>
         <BadgeDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='breadcrumb'>
+        <BreadcrumbDemo />
       </TabsContent>
 
       {/* ================= */}

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Breadcrumb /*, BreadcrumbItem */ } from './index'
+import { Breadcrumb /*, BreadcrumbItem */ } from '@/components'
 
 const _Separator = () => {
   return (
