@@ -69,7 +69,7 @@ export function Step({
   const gapRef = React.useRef<HTMLDivElement | null>(null)
 
   /* ======================
-          useEffect()
+      useLayoutEffect()
   ====================== */
   // Implement useLayoutEffect to run after render and before paint.
   // At the time immediately following the first render, all steps

@@ -1,13 +1,10 @@
 import { Page, PageContainer, Title } from '@/components'
-import { ComponentDemos } from '@/components/ComponentDemos'
+// import { ComponentDemos } from '@/components/ComponentDemos'
+import { BreadcrumbDemo } from '@/components/Breadcrumb/BreadcrumbDemo'
 
 /* ========================================================================
 
 ======================================================================== */
-
-//* Move all test-experiments over from Vitest to Jest.
-
-//# 4. Add in Breadcrumbs and compare to older version.
 
 //# 6. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
@@ -75,7 +72,8 @@ const Home = () => {
           Home
         </Title>
 
-        <ComponentDemos />
+        {/* <ComponentDemos /> */}
+        <BreadcrumbDemo />
       </PageContainer>
     </Page>
   )

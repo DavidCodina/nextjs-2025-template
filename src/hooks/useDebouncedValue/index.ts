@@ -57,6 +57,5 @@ export function useDebouncedValue<T = any>(
     return cancel
   }, [])
 
-  // eslint-disable-next-line
   return [_value, cancel] as const
 }
