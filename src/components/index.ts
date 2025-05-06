@@ -13,6 +13,7 @@ export * from './Button'
 export * from './ButtonGroup'
 export * from './Calendar'
 export * from './card'
+export * from './Carousel'
 export * from './Checkbox'
 export * from './CheckboxGroup'
 
