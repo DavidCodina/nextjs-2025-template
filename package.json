@@ -45,7 +45,7 @@
     "date-fns": "^3.6.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
-    "i": "^0.3.7",
+    "framer-motion": "^12.10.1",
     "lqip-modern": "^2.2.1",
     "lucide-react": "^0.479.0",
     "material-symbols": "^0.31.2",
