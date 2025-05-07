@@ -10,7 +10,7 @@ type CarouselNextProps = React.ComponentProps<'button'> & {
 }
 
 const baseClasses = `
-absolute items-center justify-center rounded-full cursor-pointer
+absolute items-center justify-center text-white rounded-full cursor-pointer
 outline-none focus-visible:ring-2 focus-visible:ring-white/50 
 `
 

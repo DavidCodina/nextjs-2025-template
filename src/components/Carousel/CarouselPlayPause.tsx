@@ -8,7 +8,7 @@ import { useAutoplay } from './useAutoplay'
 type CarouselPlayPauseProps = React.ComponentProps<'button'>
 
 const baseClasses = `
-absolute top-2 left-2 cursor-pointer rounded-full 
+text-white absolute top-2 left-2 cursor-pointer rounded-full 
 outline-none focus-visible:ring-2 focus-visible:ring-white/50 
 `
 
