@@ -18,14 +18,20 @@ type CarouselIndicatorsProps = React.ComponentProps<'div'> & {
 }
 
 const baseClasses = `
-absolute bottom-0 left-0 flex w-full flex-wrap items-center justify-center gap-2 p-2
+flex w-full flex-wrap items-center justify-center absolute bottom-0 left-0  gap-2 p-2
 `
 
 /* ========================================================================
                             CarouselIndicators               
 ======================================================================== */
+///////////////////////////////////////////////////////////////////////////
+//
 // ShadCDN does not implement optional indicators. This feature was added using a modified version of this example:
 // https://codesandbox.io/p/sandbox/embla-carousel-arrows-dots-react-z5fbs?file=%2Fsrc%2Fjs%2FEmblaCarousel.js%3A11%2C3-11%2C57
+//
+// See also: https://www.embla-carousel.com/examples/predefined/
+//
+///////////////////////////////////////////////////////////////////////////
 
 export const CarouselIndicators = ({
   className = '',

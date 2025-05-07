@@ -1,20 +1,18 @@
 import { Page, PageContainer, Title } from '@/components'
-// import { ComponentDemos } from '@/components/ComponentDemos'
-import { CarouselDemo } from '@/components/Carousel/CarouselDemo'
-import { CarouselVerticalDemo } from '@/components/Carousel/CarouselVerticalDemo'
+import { ComponentDemos } from '@/components/ComponentDemos'
 
 /* ========================================================================
 
 ======================================================================== */
 
-//# 6. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
+//# 1. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
-//# 7. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
+//# 2. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
-//# 8. Todo: add UI for the numeric position of slider thumbs.
+//# 3. Todo: add UI for the numeric position of slider thumbs.
 
-//# 9. Add Pagination - This should have variants for color and size like a button.
+//# 4. Add Pagination - This should have variants for color and size like a button.
 //# https://www.radix-ui.com/primitives/docs/components/toggle-group
 
 //# Possibly add in todos demo, using local Postgres.
@@ -73,14 +71,7 @@ const Home = () => {
           Home
         </Title>
 
-        {/* <ComponentDemos /> */}
-
-        <CarouselDemo />
-
-        <br />
-        <br />
-
-        <CarouselVerticalDemo />
+        <ComponentDemos />
       </PageContainer>
     </Page>
   )

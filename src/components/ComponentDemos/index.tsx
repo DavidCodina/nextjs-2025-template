@@ -10,6 +10,7 @@ import { BreadcrumbDemo } from './BreadcrumbDemo'
 import { ButtonDemo } from './ButtonDemo'
 import { ButtonGroupDemo } from './ButtonGroupDemo'
 import { CardDemo } from './CardDemo'
+import { CarouselDemo } from './CarouselDemo'
 import { CollapsibleDemo } from './CollapsibleDemo'
 import { DatePickerDemo } from './DatePickerDemo'
 import { DropdownMenuDemo } from './DropdownMenuDemo'
@@ -42,7 +43,7 @@ import { CalendarDemo } from './CalendarDemo'
 
 export const ComponentDemos = () => {
   return (
-    <Tabs defaultValue='modal' className='mx-auto mb-6 gap-6'>
+    <Tabs defaultValue='carousel' className='mx-auto mb-6 gap-6'>
       <TabsList className='grid w-full grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'>
         <TabsTrigger value='accordion'>Accordion</TabsTrigger>
         <TabsTrigger value='alert'>Alert</TabsTrigger>
@@ -54,6 +55,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='button-group'>Button Group</TabsTrigger>
         <TabsTrigger value='calendar'>Calendar</TabsTrigger>
         <TabsTrigger value='card'>Card</TabsTrigger>
+        <TabsTrigger value='carousel'>Carousel</TabsTrigger>
         <TabsTrigger value='collapsible'>Collapsible</TabsTrigger>
         <TabsTrigger value='date-picker'>Date Picker</TabsTrigger>
         <TabsTrigger value='dialog'>Dialog</TabsTrigger>
@@ -137,6 +139,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='card'>
         <CardDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='carousel'>
+        <CarouselDemo />
       </TabsContent>
 
       {/* ================= */}

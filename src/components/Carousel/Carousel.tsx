@@ -2,16 +2,20 @@
 
 import * as React from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 import { cn } from '@/utils'
-
 import { CarouselContext } from './CarouselContext'
 import { CarouselApi, CarouselOptions, CarouselPlugin } from './types'
+import { useAutoplay } from './useAutoplay'
 
 export type CarouselProps = React.ComponentProps<'div'> & {
   options?: CarouselOptions
   plugins?: CarouselPlugin
   orientation?: 'horizontal' | 'vertical'
+  /** Used to expose api to the consumer. */
   setApi?: (api: CarouselApi) => void
+  playOnInit?: boolean
+  autoplayDelay?: number
 }
 
 /* ========================================================================
@@ -19,65 +23,74 @@ export type CarouselProps = React.ComponentProps<'div'> & {
 ======================================================================== */
 ///////////////////////////////////////////////////////////////////////////
 //
-//   - I'm not loving Embla Carousel's easing, and there doesn't seem to be a way to change it.
+// - It would be nice to have a customNext and customPrevious prop that for CarouselPrevious,
+//   and CarouselNext, respectively. I've skipped that for now.
 //
-//   - I do like how <CarouselPrevious /> & <CarouselNext /> are actually components
-//     that we add to the instance, rather than options that we pass in. This leads
-//     to more work on the consuming side, but also more flexibility.
-//
-//   - It would be nice to have a customNext and customPrevious prop that for CarouselPrevious,
-//     and CarouselNext, respectively. I've skipped that for now.
-//
-//   - Also could include and auto feature.
-//
-//   - There's also a way to make Embla Carousel have a gallery.
+// - There's also a way to make Embla Carousel have a gallery.
 //
 ///////////////////////////////////////////////////////////////////////////
 
-//# Test ref of Carousel. It should be the div.
-//# Review Embla docs.
-//# Review CarouselVerticalDemo
-//# Review the entire carousel indicators feature.
-//# See if there's a way to change the easing.
-
 export const Carousel = ({
   orientation = 'horizontal',
-  options,
+  options = {},
   setApi,
-  plugins,
+  plugins = [],
   style = {},
   className = '',
   children,
+  playOnInit = false,
+  autoplayDelay = 4000,
   ...props
 }: CarouselProps) => {
   /* ======================
             state
-    ====================== */
+  ====================== */
 
+  if (!options.duration) {
+    options.duration = 20
+  }
+
+  // https://www.embla-carousel.com/get-started/react/#accessing-the-carousel-api
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...options,
       axis: orientation === 'horizontal' ? 'x' : 'y'
     },
-    plugins
+    [
+      ...plugins,
+      // https://www.embla-carousel.com/plugins/autoplay/
+      // https://www.embla-carousel.com/get-started/react/#adding-plugins
+      // https://www.embla-carousel.com/examples/predefined/#autoplay
+      Autoplay({
+        playOnInit: playOnInit,
+        delay: autoplayDelay
+      })
+    ]
   )
+
+  const { resetAutoplayOnClick } = useAutoplay(api)
 
   // Passed into CarouselContext.Provider then consumed by CarouselPrevious: disabled={!canScrollPrev}
   const [canScrollPrev, setCanScrollPrev] = React.useState(false)
   // Passed into CarouselContext.Provider then consumed by CarouselNext: disabled={!canScrollNext}
   const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-  //* Added...
   // In the examples, I've seen thus far, api?.scrollSnapList() can be used to
   // deduce how many slides there are, which can then be used to map out the indicators.
+  // scrollSnaps is passed into the CarouselContext.Provider then consumed by the
+  // CarouselIndicators component.
   const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([])
 
-  //* Added...
-  // Set selectedIndex within onSelect to be consumed by Indicator component
+  // Set selectedIndex is initialized with an index of 0.
+  // It is upadated programmatically within onSelect's
+  // setSelectedIndex(api.selectedScrollSnap()).
+  // selectedIndex state is passed into the CarouselContext.Provider
+  // then consumed by the CarouselIndicators component.
+
   const [selectedIndex, setSelectedIndex] = React.useState(0)
 
   /* ======================
-          onSelect()
+        onSelect()
   ====================== */
   // Consumed in useEffect() below when api (i.e., useEmblaCarousel api) changes.
   // In particular, it sets canScrollPrev and canScrollNext state.
@@ -87,48 +100,72 @@ export const Carousel = ({
       return
     }
 
-    //* Added - for Indicator feature/component
     // Set selectedIndex to be consumed by Indicator component.
+    // https://www.embla-carousel.com/api/methods/#selectedscrollsnap
+    // Get the index of the selected snap point.
     setSelectedIndex(api.selectedScrollSnap())
 
+    // https://www.embla-carousel.com/api/methods/#canscrollprev
+    // Check the possiblity to scroll to a previous snap point.
+    // If loop is enabled and the container holds any slides, this will always return true.
     setCanScrollPrev(api.canScrollPrev())
+
+    // Check the possiblity to scroll to a next snap point. If loop is enabled and the
+    // container holds any slides, this will always return true.
     setCanScrollNext(api.canScrollNext())
   }, [])
 
   /* ======================
-          prev
+          prev()
   ====================== */
   // Used in handleKeyDown()
   // Also passed into the CarouselContext.Provider then consumed by CarouselPrevious.
 
   const prev = React.useCallback(() => {
-    api?.scrollPrev()
-  }, [api])
+    // https://www.embla-carousel.com/api/methods/#scrollprev
+    // Scroll to the previous snap point if possible. When loop is disabled and the carousel
+    // has reached the first snap point, this method won't do anything. Set the jump
+    // parameter to true when you want to go to the previous slide instantly.
+
+    // Initially, did this: api?.scrollPrev(), but wrapping it in resetAutoplayOnClick()
+    // now resets the autoPlay then fires api?.scrollPrev() as a callback.
+    // ❌ api?.scrollPrev()
+    resetAutoplayOnClick(api?.scrollPrev)
+  }, [api, resetAutoplayOnClick])
 
   /* ======================
-          next
+          next()
   ====================== */
   // Used in handleKeyDown()
   // Also passed into the CarouselContext.Provider  then consumed by CarouselNext.
 
   const next = React.useCallback(() => {
-    api?.scrollNext()
-  }, [api])
+    // https://www.embla-carousel.com/api/methods/#scrollnext
+    // Scroll to the next snap point if possible. When loop is disabled and the carousel
+    // has reached the last snap point, this method won't do anything. Set the jump parameter
+    // to true when you want to go to the next slide instantly.
+    // ❌ api?.scrollNext()
+    resetAutoplayOnClick(api?.scrollNext)
+  }, [api, resetAutoplayOnClick])
 
   /* ======================
-          scrollTo
+          scrollTo()
   ====================== */
-  //* Added this...
+  // scrollTo() is defined here, passed into CarouselContext.Provider then
+  // consumed by the CarouselIndicators component.
 
   // https://codesandbox.io/p/sandbox/embla-carousel-arrows-dots-react-z5fbs?file=%2Fsrc%2Fjs%2FEmblaCarousel.js%3A16%2C3-18%2C6
   const scrollTo = React.useCallback(
     (index: number) => {
-      // The 2nd arg is jump. However, rather than scrolling from 1 to 3
-      // instead of merely skipping 2, what it actually does is replace
-      // 1 with 3, completely bypassing the scroll animation. :(
-      api?.scrollTo(index)
+      // https://www.embla-carousel.com/api/methods/#scrollto
+      // Scroll to a snap point by its unique index. If loop is enabled, Embla Carousel will
+      // choose the closest way to the target snap point. Set the jump parameter to true when
+      // you want to go to the desired slide instantly.
+      // ❌ api?.scrollTo(index)
+
+      resetAutoplayOnClick(() => api?.scrollTo(index))
     },
-    [api]
+    [api, resetAutoplayOnClick]
   )
 
   /* ======================
@@ -151,7 +188,9 @@ export const Carousel = ({
   /* ======================
         useEffect()
   ====================== */
-  // This may be for a controlled implementation.
+  // The optional setApi() prop exposes the internal api to the consumer.
+  // Then the consumer could programmatically control or access carousel state
+  // from the outside.
 
   React.useEffect(() => {
     if (!api || !setApi) {
@@ -171,10 +210,17 @@ export const Carousel = ({
 
     onSelect(api)
     // Presumably api.on() automatically passes an instance of api as an arg (???).
+    // https://www.embla-carousel.com/api/methods/#on
+    // Subscribe to an Embla specific event with a callback. Added event listeners will
+    // persist even if reInit is called, either until the carousel is destroyed or the
+    // event is removed with the off method.
     api.on('reInit', onSelect)
     api.on('select', onSelect)
 
     return () => {
+      // https://www.embla-carousel.com/api/methods/#off
+      // Unsubscribe from an Embla specific event. Make sure to pass the same callback
+      // reference when the callback was added with the on method.
       api?.off('select', onSelect)
     }
   }, [api, onSelect])
@@ -182,8 +228,6 @@ export const Carousel = ({
   /* ======================
          useEffect() 
   ====================== */
-  //* Added this...
-
   // This useEffect() sets the scrollSnaps state, which is used to
   // determine how many slides there are when mapping out the
   // associated indicator.
@@ -194,6 +238,9 @@ export const Carousel = ({
     }
 
     // console.log('Setting scrollSnaps to:', api?.scrollSnapList())
+    // https://www.embla-carousel.com/api/methods/#scrollsnaplist
+    // Get an array containing all the snap point positions. Each position represents
+    // how far the carousel needs to progress in order to reach this position.
     setScrollSnaps(api?.scrollSnapList())
   }, [setScrollSnaps, api])
 
@@ -211,12 +258,12 @@ export const Carousel = ({
           orientation || (options?.axis === 'y' ? 'vertical' : 'horizontal'),
         prev,
         next,
-        scrollTo, //* Added
+        scrollTo,
         canScrollPrev,
         canScrollNext,
-        selectedIndex, //* Added
-        scrollSnaps //* Added
-        // plugins: [] // optional
+        selectedIndex,
+        scrollSnaps
+        // plugins: [] // Optional: https://www.embla-carousel.com/plugins/
         // setApi: (_api) => {} // optional
       }}
     >

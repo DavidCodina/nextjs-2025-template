@@ -12,14 +12,14 @@ import {
   CarouselIndicators,
   CarouselPlayPause,
   CarouselProgress
-} from '../'
+} from '@/components/Carousel'
 
 const items = [
-  { id: '1', bg: 'bg-red-500' },
+  { id: '1', bg: 'bg-rose-500' },
   { id: '2', bg: 'bg-orange-500' },
   { id: '3', bg: 'bg-yellow-500' },
-  { id: '4', bg: 'bg-green-500' },
-  { id: '5', bg: 'bg-blue-500' },
+  { id: '4', bg: 'bg-lime-500' },
+  { id: '5', bg: 'bg-sky-500' },
   { id: '6', bg: 'bg-purple-500' }
 ]
 

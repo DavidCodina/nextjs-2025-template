@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { ArrowRight } from 'lucide-react'
+import { /* ArrowRight, */ ArrowRightCircle } from 'lucide-react'
 import { cn } from '@/utils'
 import { useCarousel } from './CarouselContext'
 
@@ -10,8 +10,8 @@ type CarouselNextProps = React.ComponentProps<'button'> & {
 }
 
 const baseClasses = `
-absolute flex items-center justify-center bg-white text-black
-rounded-full border border-black cursor-pointer
+absolute items-center justify-center rounded-full cursor-pointer
+outline-none focus-visible:ring-2 focus-visible:ring-white/50 
 `
 
 /* ========================================================================
@@ -46,19 +46,7 @@ export const CarouselNext = ({
       type='button'
       {...props}
     >
-      {/* <svg
-        fill='currentColor'
-        style={{ width: size, height: size }}
-        viewBox='0 0 16 16'
-      >
-        <path
-          fillRule='evenodd'
-          d='M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8'
-        />
-      </svg> */}
-
-      <ArrowRight style={{ width: size, height: size }} />
-
+      <ArrowRightCircle style={{ width: size, height: size }} />
       <span className='sr-only'>Next slide</span>
     </button>
   )

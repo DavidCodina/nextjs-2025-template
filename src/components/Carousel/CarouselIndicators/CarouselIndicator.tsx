@@ -12,7 +12,10 @@ type CarouselIndicatorProps = Omit<
   style?: React.CSSProperties | ((isSelected: boolean) => React.CSSProperties)
 }
 
-const baseClasses = `h-3 w-6 rounded bg-white cursor-pointer`
+const baseClasses = `
+h-2 w-6 rounded-full cursor-pointer outline-none
+focus-visible:ring-1 focus-visible:ring-white
+`
 
 /* ========================================================================
                           CarouselIndicator               
@@ -35,7 +38,9 @@ export const CarouselIndicator = ({
     <button
       className={cn(
         baseClasses,
-        isSelected ? 'opacity-100' : 'opacity-50',
+        // Using alpha on the bg works better than opacity.
+        // Otherwise, even the ring style would be affected.
+        isSelected ? 'bg-white' : 'bg-white/50',
         className
       )}
       data-slot='carousel-indicator'
