@@ -16,7 +16,7 @@ export const UncontrolledModal = ({ trigger, ...otherProps }: ModalProps) => {
     <Modal
       centered
       scrollable
-      //defaultOpen
+      // defaultOpen
       // disableAnimation
       // fullscreen
       trigger={trigger}

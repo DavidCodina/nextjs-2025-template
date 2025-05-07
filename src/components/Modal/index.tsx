@@ -77,7 +77,7 @@ const Modal = ({
 
   defaultOpen,
   open = undefined,
-  setOpen = undefined,
+  onChange = undefined,
 
   /* =================== */
 
@@ -246,7 +246,7 @@ const Modal = ({
       defaultOpen={defaultOpen}
       open={open}
       onOpenChange={(newOpen) => {
-        setOpen?.(newOpen)
+        onChange?.(newOpen)
       }}
     >
       {trigger && (

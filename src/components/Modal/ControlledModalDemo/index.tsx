@@ -21,7 +21,7 @@ export const ControlledModalDemo = () => {
   return (
     <UserModal
       open={open}
-      setOpen={setOpen}
+      onChange={setOpen}
       trigger={
         <Button
           className='mx-auto mb-6 flex'

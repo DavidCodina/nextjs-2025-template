@@ -5,7 +5,7 @@ export type ModalProps = {
 
   defaultOpen?: boolean
   open?: boolean
-  setOpen?: React.Dispatch<React.SetStateAction<boolean>>
+  onChange?: (open: boolean) => void
 
   /* =================== */
 
@@ -18,19 +18,19 @@ export type ModalProps = {
 
   /* =================== */
 
-  disableAnimation?: boolean // ✅
+  disableAnimation?: boolean
   overlayClassName?: string
   overlayStyle?: CSSProperties
 
   /* ====== Dialog ===== */
 
-  centered?: boolean // ✅
-  scrollable?: boolean // ✅
-  fullscreen?: boolean // ✅
+  centered?: boolean
+  scrollable?: boolean
+  fullscreen?: boolean
   /** This is where you'd set width/maxWidth - NOT on contentClassName/contentStyle. */
-  dialogClassName?: string // ✅
+  dialogClassName?: string
   /** This is where you'd set width/maxWidth - NOT on contentClassName/contentStyle. */
-  dialogStyle?: CSSProperties // ✅
+  dialogStyle?: CSSProperties
 
   /* === ModalContent == */
 

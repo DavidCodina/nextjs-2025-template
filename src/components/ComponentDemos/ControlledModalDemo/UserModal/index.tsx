@@ -9,7 +9,7 @@ type UserModalProps = {
   // Optional in RadixModal, but required in the UserModal instance. // ???
   open: boolean
   // Optional in RadixModal, but required in the UserModal instance.
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  onChange: React.Dispatch<React.SetStateAction<boolean>>
   // Optional in RadixModal, but required in the UserModal instance.
   trigger: React.JSX.Element
 }
@@ -18,7 +18,7 @@ type UserModalProps = {
                                 UserModal
 ======================================================================== */
 
-export const UserModal = ({ open, setOpen, trigger }: UserModalProps) => {
+export const UserModal = ({ open, onChange, trigger }: UserModalProps) => {
   // const [count, setCount] = React.useState(0)
 
   /* ======================
@@ -28,7 +28,7 @@ export const UserModal = ({ open, setOpen, trigger }: UserModalProps) => {
   return (
     <Modal
       open={open}
-      setOpen={setOpen}
+      onChange={onChange}
       // disableAnimation
       centered
       scrollable
@@ -78,7 +78,7 @@ export const UserModal = ({ open, setOpen, trigger }: UserModalProps) => {
       Then implement the state directly within this component. */}
       <Form
         onSubmitted={() => {
-          setOpen(false)
+          onChange(false)
         }}
       />
       {/* <p className='mb-4'>
