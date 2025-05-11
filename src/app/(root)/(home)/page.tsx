@@ -1,16 +1,25 @@
 import { Page, PageContainer, Title } from '@/components'
 import { ComponentDemos } from '@/components/ComponentDemos'
 
+// import { ControlledReactSelectDemo } from '@/components/ReactSelect/ControlledReactSelectDemo'
+// import { ControlledReactSelectMultiDemo } from '@/components/ReactSelect/ControlledReactSelectMultiDemo'
+
 /* ========================================================================
 
 ======================================================================== */
 
-//# 1. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
+//# 1. Create a react-select abstraction.
+
+//# 2. Review Calendar behavior and best practices/contracts when sending dates to server.
+
+//# 3. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
-//# 2. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
+//# 4. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
-//# 3. Todo: add UI for the numeric position of slider thumbs.
+//# 5. Todo: add UI for the numeric position of slider thumbs.
+
+//# 6. Build out RHF controlled form demo.
 
 //# Possibly add in todos demo, using local Postgres.
 //# This would then allow me to test out caching behavior
@@ -20,10 +29,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //# Watch out for Vercel Gotcha - name append 'X' temporarily.
 
 // Todo: Review https://react.dev/reference/react-dom/components/input
-
-// Todo: Build out RHF controlled form demo.
-
-// Todo: Review Calendar behavior and best practices/contracts when sending dates to server.
 
 //# Test dropdown menu that stays open against sidebar and sheet.
 
@@ -69,6 +74,10 @@ const Home = () => {
         </Title>
 
         <ComponentDemos />
+
+        {/* <ControlledReactSelectDemo />
+        <br />
+        <ControlledReactSelectMultiDemo /> */}
       </PageContainer>
     </Page>
   )

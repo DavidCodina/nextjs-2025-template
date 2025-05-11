@@ -12,6 +12,7 @@ import { ButtonGroupDemo } from './ButtonGroupDemo'
 import { CardDemo } from './CardDemo'
 import { CarouselDemo } from './CarouselDemo'
 import { CollapsibleDemo } from './CollapsibleDemo'
+import { CustomSelectDemo } from './CustomSelectDemo'
 import { DatePickerDemo } from './DatePickerDemo'
 import { DropdownMenuDemo } from './DropdownMenuDemo'
 import { InputPasswordDemo } from './InputPasswordDemo'
@@ -58,6 +59,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='card'>Card</TabsTrigger>
         <TabsTrigger value='carousel'>Carousel</TabsTrigger>
         <TabsTrigger value='collapsible'>Collapsible</TabsTrigger>
+        <TabsTrigger value='custom-select'>Custom Select</TabsTrigger>
         <TabsTrigger value='date-picker'>Date Picker</TabsTrigger>
         <TabsTrigger value='dialog'>Dialog</TabsTrigger>
         <TabsTrigger value='dropdown-menu'>Dropdown Menu</TabsTrigger>
@@ -155,6 +157,12 @@ export const ComponentDemos = () => {
 
       <TabsContent value='collapsible'>
         <CollapsibleDemo />
+      </TabsContent>
+
+      {/* ================= */}
+
+      <TabsContent value='custom-select'>
+        <CustomSelectDemo />
       </TabsContent>
 
       {/* ================= */}
