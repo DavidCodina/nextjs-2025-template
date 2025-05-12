@@ -3,19 +3,16 @@
 import * as React from 'react'
 import { cn } from '@/utils'
 
-import { Label } from '../label'
-import { FormHelp } from '../FormHelp'
-import { FormError } from '../FormError'
-import { ReactSelectBase } from './ReactSelectBase'
-
-export type { SelectInstance } from 'react-select'
+import { Label } from '@/components/label'
+import { FormHelp } from '@/components/FormHelp'
+import { FormError } from '@/components/FormError'
+import { SelectBase } from './SelectBase'
 
 type LabelChildren = React.ComponentProps<typeof Label>['children']
 
-export type SelectOption = { value: string; label: string; [key: string]: any }
-export type SelectValue = SelectOption | SelectOption[] | null
-
-type ReactSelectProps = React.ComponentProps<typeof ReactSelectBase> & {
+export type ReactCreatableSelectProps = React.ComponentProps<
+  typeof SelectBase
+> & {
   errorClassName?: string
   errorStyle?: React.CSSProperties
   groupClassName?: string
@@ -27,19 +24,15 @@ type ReactSelectProps = React.ComponentProps<typeof ReactSelectBase> & {
   labelClassName?: string
   labelRequired?: boolean
   labelStyle?: React.CSSProperties
-  renderReactSelectBaseOnly?: boolean
-  renderReactSelectBase?: (
-    ReactSelectBase: React.JSX.Element
-  ) => React.JSX.Element
+  renderSelectBaseOnly?: boolean
+  renderSelectBase?: (ReactSelectBase: React.JSX.Element) => React.JSX.Element
 }
 
 /* ========================================================================
-                               ReactSelect
-======================================================================== */
-// This component differs from the normal implementation of form fields in that
-// almost all of the react-select props are exposed (i.e., isDisabled, etc.).
 
-export const ReactSelect = ({
+======================================================================== */
+
+export const ReactCreatableSelect = ({
   className = '',
   // react-select uses isDisabled instead of disabled.
   // Here, I'm allowing both for convenience but they get merged below.
@@ -60,8 +53,8 @@ export const ReactSelect = ({
   labelRequired = false,
   labelStyle = {},
 
-  renderReactSelectBaseOnly = false,
-  renderReactSelectBase,
+  renderSelectBaseOnly = false,
+  renderSelectBase,
 
   help = '',
   helpClassName = '',
@@ -75,7 +68,7 @@ export const ReactSelect = ({
   style = {},
 
   ...otherProps // value, defaultValue, etc.
-}: ReactSelectProps) => {
+}: ReactCreatableSelectProps) => {
   /* ======================
           constants
     ====================== */
@@ -108,11 +101,11 @@ export const ReactSelect = ({
   instanceId = instanceId || inputId
 
   /* ======================
-  ReactSelectBaseComponent
+      SelectBaseComponent
   ====================== */
 
-  const ReactSelectBaseComponent = (
-    <ReactSelectBase
+  const SelectBaseComponent = (
+    <SelectBase
       className={className}
       error={error}
       id={id}
@@ -153,17 +146,17 @@ export const ReactSelect = ({
             return
   ====================== */
 
-  if (renderReactSelectBaseOnly) {
-    return ReactSelectBaseComponent
+  if (renderSelectBaseOnly) {
+    return SelectBaseComponent
   }
 
   return (
     <div className={groupClassName} style={groupStyle} suppressHydrationWarning>
       {renderLabel()}
 
-      {typeof renderReactSelectBase === 'function'
-        ? renderReactSelectBase(ReactSelectBaseComponent)
-        : ReactSelectBaseComponent}
+      {typeof renderSelectBase === 'function'
+        ? renderSelectBase(SelectBaseComponent)
+        : SelectBaseComponent}
 
       <FormHelp className={helpClassName} disabled={disabled} style={helpStyle}>
         {help}

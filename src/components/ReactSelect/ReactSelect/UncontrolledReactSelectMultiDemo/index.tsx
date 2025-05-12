@@ -10,11 +10,13 @@ import {
 } from 'react'
 
 import { toast } from 'sonner'
-import { Button } from '@/components'
-
-// Custom imports
-import { ReactSelect, SelectOption, SelectInstance } from '../.'
 import { sleep } from 'utils'
+import {
+  Button,
+  ReactSelect,
+  ReactSelectOption,
+  SelectInstance
+} from '@/components'
 
 /* ======================
         options
@@ -24,12 +26,12 @@ import { sleep } from 'utils'
 // SelectOption is NOT used in the custom ReactSelect typings,
 // but I've still created it and exported it for the consuming side.
 // Here the emoji property is used within the formatOptionLabel prop.
-const options: SelectOption[] = [
+const options: ReactSelectOption[] = [
   { value: 'chocolate', label: 'Chocolate', emoji: '😋' },
   { value: 'strawberry', label: 'Strawberry', emoji: '🤩' },
   { value: 'vanilla', label: 'Vanilla', emoji: '😀' },
 
-  { value: 'vomit', label: 'Vomit', emoji: '🤮' }, // filtered out.
+  { value: 'vomit', label: 'Vomit', emoji: '🤮' }, //^ filtered out.
 
   { value: 'AAA', label: 'AAA', emoji: '😀' },
   { value: 'BBB', label: 'BBB', emoji: '😀' },
@@ -60,14 +62,17 @@ const options: SelectOption[] = [
 ]
 
 type Option = (typeof options)[number]
-type MaybeOption = Option | null
+type Options = Option[]
+
+const defaultValue: Options = []
 
 /* ========================================================================
-                    ControlledReactSelectDemo
+                    UncontrolledReactSelectMultiDemo
 ======================================================================== */
 
-export const ControlledReactSelectDemo = () => {
-  const selectRef = useRef<SelectInstance>(undefined)
+export const UncontrolledReactSelectMultiDemo = () => {
+  const [formKey, setFormKey] = useState(0)
+  const selectRef = useRef<SelectInstance | null>(null)
 
   // react-select types the value passed back from its onChange as unknown.
   // This is becasue it could be a single option, an array of options, or null.
@@ -75,7 +80,7 @@ export const ControlledReactSelectDemo = () => {
   // into type conflicts when consuming the component. That said, I've typed
   // it more strictly here, which then necessitates typecasting where the
   // setter is used.
-  const [selectValue, setSelectValue] = useState<MaybeOption>(null)
+  const [selectValues, setSelectValues] = useState<Options>([])
   const [selectTouched, setSelectTouched] = useState(false)
   const [selectError, setSelectError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -88,12 +93,17 @@ export const ControlledReactSelectDemo = () => {
       validateSelect()
   ====================== */
 
-  const validateSelect = (value?: MaybeOption) => {
-    value = typeof value !== 'undefined' ? value : selectValue
+  const validateSelect = (value?: Options) => {
+    value = typeof value !== 'undefined' ? value : selectValues
 
-    if (!value) {
-      setSelectError('Selction required.')
-      return 'Selction required'
+    if (!Array.isArray(value)) {
+      setSelectError('Invalid type.')
+      return 'Invalid type.'
+    }
+
+    if (value.length === 0) {
+      setSelectError('Selection required.')
+      return 'Selection required.'
     }
 
     setSelectError('')
@@ -152,20 +162,22 @@ export const ControlledReactSelectDemo = () => {
       return
     }
 
-    const requestData = { selectValue }
+    const requestData = { selectValues }
 
     try {
       // Make API request, etc.
       await sleep(1500)
       console.log('requestData:', requestData)
       toast.success('Form validation success!')
+
+      setFormKey((v) => v + 1)
+      setSelectValues([])
+      setSelectTouched(false)
+      setSelectError('')
     } catch (err) {
       console.log(err)
       toast.error('Unable to submit the form!')
     } finally {
-      setSelectValue(null)
-      setSelectTouched(false)
-      setSelectError('')
       setIsSubmitting(false)
     }
   }
@@ -175,8 +187,8 @@ export const ControlledReactSelectDemo = () => {
   ====================== */
 
   useEffect(() => {
-    console.log('selectValue is now:', selectValue)
-  }, [selectValue])
+    console.log('selectValues is now:', selectValues)
+  }, [selectValues])
 
   /* ======================
         useEffect()
@@ -192,8 +204,8 @@ export const ControlledReactSelectDemo = () => {
   // useImperativeHandle
 
   useEffect(() => {
-    if (!selectRef.current) {
-      return
+    if (selectRef.current) {
+      console.dir(selectRef.current)
     }
   }, [])
 
@@ -202,8 +214,9 @@ export const ControlledReactSelectDemo = () => {
   ====================== */
 
   return (
-    <>
+    <Fragment>
       <form
+        key={formKey}
         className='bg-background-light mx-auto mb-6 max-w-[800px] rounded-lg border p-4 shadow'
         onSubmit={(e) => {
           e.preventDefault()
@@ -245,18 +258,15 @@ export const ControlledReactSelectDemo = () => {
           //
           ///////////////////////////////////////////////////////////////////////////
 
-          // Todo: Test this
-          // filterOption={(option, inputValue) => {
-          //   // Check if the option value is not 'vomit'
-          //   const isNotVomit = option.value !== 'vomit'
-          //   // Check if the option label includes the search input
-          //   const matchesSearch = option.label
-          //     .toLowerCase()
-          //     .includes(inputValue.toLowerCase())
-          //   return isNotVomit && matchesSearch
-          // }}
-
-          // Todo: Test this
+          filterOption={(option, inputValue) => {
+            // Check if the option value is not 'vomit'
+            const isNotVomit = option.value !== 'vomit'
+            // Check if the option label includes the search input
+            const matchesSearch = option.label
+              .toLowerCase()
+              .includes(inputValue.toLowerCase())
+            return isNotVomit && matchesSearch
+          }}
           // formatOptionLabel={(data, _formatOptionLabelMeta) => {
           //   // Normally, the react-select would know what data and formatOptionLabelMeta are.
           //   // However, when we abstract the actual Select implementation into the ReactSelect,
@@ -269,12 +279,12 @@ export const ControlledReactSelectDemo = () => {
 
           //   return (
           //     <div style={{ display: 'flex', gap: 5, lineHeight: 1 }}>
-          //       <div className='fw-bold text-secondary'>{DATA.label}</div>
+          //       <div className='font-bold'>{DATA.label}</div>
           //       <div>{DATA.emoji}</div>
           //     </div>
           //   )
           // }}
-          groupClassName='mb-4'
+          groupClassName='mb-3'
           groupStyle={{}}
           help=''
           helpClassName=''
@@ -299,17 +309,19 @@ export const ControlledReactSelectDemo = () => {
           isDisabled={false} // alias for disabled
           // When true, shows a nifty triple-dot loadding animation.
           isLoading={false}
+          isMulti={true} // 🎟🎟🎟... 🚀⚡🚀⚡🚀⚡
           isRtl={false} // Default: false
           isSearchable={true} // Default: true
           label='Select Ice Cream'
           labelRequired
-          // labelClassName='text-primary font-bold'
+          // labelClassName='text-blue-500 font-bold'
           labelStyle={{}}
           // loadingMessage="It's loading..." // Async only!
 
           // ⚠️ I'm not sure what this does. It doesn't seem to actually set the minimum menu height.
           minMenuHeight={500}
           // maxMenuHeight={200} // Set the max menu height
+
           menuPlacement='auto' // Default: 'auto'
           // The default seems to be 'absolute'.
           // When 'absolute', it will scroll the viewport so the men is visible.
@@ -320,13 +332,12 @@ export const ControlledReactSelectDemo = () => {
           menuShouldBlockScroll={false} // Default: false
           menuShouldScrollIntoView={true} // Default: true (at least when menuPosition is 'absolute').
           name='select'
-          // This renders in the menu. Here we're assuming that if options is an
-          // empty array, that the options are then loading. It would be better
-          // to do this dynamically.
+          // By default it will simply say, "No options"
           noOptionsMessage={(_obj) => {
-            // console.log(obj) // => {inputValue: ''}
             return (
-              <div className='fw-bold text-primary text-center'>Loading...</div>
+              <div className='text-center text-sm'>
+                No value matches that search criteria.
+              </div>
             )
           }}
           onBlur={async () => {
@@ -340,18 +351,16 @@ export const ControlledReactSelectDemo = () => {
             // ❌ console.log(e.target)
           }}
           onChange={(value, _actionMeta) => {
-            setSelectValue(value as MaybeOption)
+            //^ With isMulti, when all values are removed, the value passed back from react-select's
+            //^ onChange is an empty array. Whereas when !isMulti, the value is null.
+            setSelectValues(value as Options)
 
             if (selectTouched) {
-              validateSelect(value as MaybeOption)
+              validateSelect(value as Options)
             }
           }}
-          onMenuOpen={() => {
-            console.log('onMenuOpen')
-          }}
-          onMenuClose={() => {
-            console.log('onMenuClose')
-          }}
+          // onMenuOpen={() => { console.log('onMenuOpen')}}
+          // onMenuClose={() => { console.log('onMenuClose') }}
           openMenuOnFocus={false} // Default: false
           // By default you can also open/close the menu with spacebar/escape.
           openMenuOnClick={true} // Default: true
@@ -359,12 +368,12 @@ export const ControlledReactSelectDemo = () => {
           // By default this is 1. On a Mac use up/down arrow keys wih the fn button pressed.
           pageSize={1}
           ref={selectRef}
-          fieldSize='xs'
+          fieldSize='sm'
           style={{}}
           touched={selectTouched}
           placeholder='Select Ice Cream...'
           // placeholder={
-          //   <div className='inline rounded-lg border px-2 font-semibold'>
+          //   <div className='inline rounded-lg border border-neutral-300 bg-neutral-100 px-2 text-xs font-semibold'>
           //     <span className='text-red-500'>S</span>
           //     <span className='text-orange-500'>e</span>
           //     <span className='text-yellow-500'>l</span>
@@ -386,7 +395,11 @@ export const ControlledReactSelectDemo = () => {
           //     <span className='text-red-500'>.</span>
           //   </div>
           // }
-          value={selectValue}
+          // ❌  value={selectValues}
+          // One of the main takeaways of this example is that you don't need a full two-way binding.
+          // That said, when using react-hook-form you will need to use the Controller wrapper because
+          // react-select uses a non-standard onChange callback.
+          defaultValue={defaultValue}
         />
 
         {/* =====================
@@ -415,9 +428,9 @@ export const ControlledReactSelectDemo = () => {
             {allTouched && isErrors ? (
               <Fragment>
                 {/* <FontAwesomeIcon
-                  icon={faTriangleExclamation}
-                  style={{ marginRight: 5 }}
-                />{' '} */}
+                icon={faTriangleExclamation}
+                style={{ marginRight: 5 }}
+              />{' '} */}
                 Please Fix Errors...
               </Fragment>
             ) : (
@@ -427,9 +440,9 @@ export const ControlledReactSelectDemo = () => {
         )}
       </form>
 
-      {/* <pre className='bg-background-light mx-auto mb-6 max-w-[800px] rounded-lg border p-4'>
-        {JSON.stringify(selectValue, null, 2)}
-      </pre> */}
-    </>
+      <pre className='bg-background-light mx-auto mb-6 max-w-[800px] rounded-lg border p-4'>
+        {JSON.stringify(selectValues, null, 2)}
+      </pre>
+    </Fragment>
   )
 }

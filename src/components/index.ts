@@ -43,6 +43,7 @@ export * from './popover'
 
 export * from './Rating'
 export * from './RadioGroup'
+export * from './ReactSelect'
 export * from './ReadMore'
 export * from './Select'
 export * from './SelectNative'

@@ -1,20 +1,15 @@
 'use client'
 
-import {
-  Dispatch,
-  SetStateAction,
-  Fragment,
-  useState,
-  useEffect,
-  useRef
-} from 'react'
-
+import * as React from 'react'
 import { toast } from 'sonner'
-import { Button } from '@/components'
 
-// Custom imports
-import { ReactSelect, SelectOption, SelectInstance } from '../.'
 import { sleep } from 'utils'
+import {
+  Button,
+  ReactCreatableSelect,
+  ReactSelectOption,
+  SelectInstance
+} from '@/components'
 
 /* ======================
         options
@@ -24,12 +19,13 @@ import { sleep } from 'utils'
 // SelectOption is NOT used in the custom ReactSelect typings,
 // but I've still created it and exported it for the consuming side.
 // Here the emoji property is used within the formatOptionLabel prop.
-const options: SelectOption[] = [
+
+const options: ReactSelectOption[] = [
   { value: 'chocolate', label: 'Chocolate', emoji: '😋' },
   { value: 'strawberry', label: 'Strawberry', emoji: '🤩' },
   { value: 'vanilla', label: 'Vanilla', emoji: '😀' },
 
-  { value: 'vomit', label: 'Vomit', emoji: '🤮' }, //^ filtered out.
+  { value: 'vomit', label: 'Vomit', emoji: '🤮' }, // filtered out.
 
   { value: 'AAA', label: 'AAA', emoji: '😀' },
   { value: 'BBB', label: 'BBB', emoji: '😀' },
@@ -60,25 +56,25 @@ const options: SelectOption[] = [
 ]
 
 type Option = (typeof options)[number]
-type Options = Option[]
+type MaybeOption = Option | null
 
 /* ========================================================================
-                    ControlledReactSelectMultiDemo
+                    ControlledReactCreatableSelectDemo 
 ======================================================================== */
 
-export const ControlledReactSelectMultiDemo = () => {
-  const selectRef = useRef<SelectInstance | null>(null)
+export const ControlledReactCreatableSelectDemo = () => {
+  const selectRef = React.useRef<SelectInstance | null>(null)
 
-  // react-select types the value passed back from its onChange as unknown.
+  // react-select tyeps the value passed back from its onChange as unknown.
   // This is becasue it could be a single option, an array of options, or null.
   // If react-select typed it any narrower, it's possible that we would run
   // into type conflicts when consuming the component. That said, I've typed
   // it more strictly here, which then necessitates typecasting where the
   // setter is used.
-  const [selectValues, setSelectValues] = useState<Options>([])
-  const [selectTouched, setSelectTouched] = useState(false)
-  const [selectError, setSelectError] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [selectValue, setSelectValue] = React.useState<MaybeOption>(null) // ???
+  const [selectTouched, setSelectTouched] = React.useState(false)
+  const [selectError, setSelectError] = React.useState('')
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   // Derived state - used to conditionally disable submit button
   const isErrors = selectError !== ''
@@ -88,17 +84,12 @@ export const ControlledReactSelectMultiDemo = () => {
       validateSelect()
   ====================== */
 
-  const validateSelect = (value?: Options) => {
-    value = typeof value !== 'undefined' ? value : selectValues
+  const validateSelect = (value?: MaybeOption) => {
+    value = typeof value !== 'undefined' ? value : selectValue
 
-    if (!Array.isArray(value)) {
-      setSelectError('Invalid type.')
-      return 'Invalid type.'
-    }
-
-    if (value.length === 0) {
-      setSelectError('Selection required.')
-      return 'Selection required.'
+    if (!value) {
+      setSelectError('Selction required.')
+      return 'Selction required'
     }
 
     setSelectError('')
@@ -113,7 +104,9 @@ export const ControlledReactSelectMultiDemo = () => {
     const errors: string[] = []
 
     // Set true on all toucher functions.
-    const touchers: Dispatch<SetStateAction<boolean>>[] = [setSelectTouched]
+    const touchers: React.Dispatch<React.SetStateAction<boolean>>[] = [
+      setSelectTouched
+    ]
 
     touchers.forEach((toucher) => {
       toucher(true)
@@ -157,7 +150,7 @@ export const ControlledReactSelectMultiDemo = () => {
       return
     }
 
-    const requestData = { selectValues }
+    const requestData = { selectValue }
 
     try {
       // Make API request, etc.
@@ -168,7 +161,7 @@ export const ControlledReactSelectMultiDemo = () => {
       console.log(err)
       toast.error('Unable to submit the form!')
     } finally {
-      setSelectValues([])
+      setSelectValue(null)
       setSelectTouched(false)
       setSelectError('')
       setIsSubmitting(false)
@@ -179,9 +172,9 @@ export const ControlledReactSelectMultiDemo = () => {
         useEffect()
   ====================== */
 
-  useEffect(() => {
-    console.log('selectValues is now:', selectValues)
-  }, [selectValues])
+  React.useEffect(() => {
+    console.log('selectValue is now:', selectValue)
+  }, [selectValue])
 
   /* ======================
         useEffect()
@@ -196,26 +189,42 @@ export const ControlledReactSelectMultiDemo = () => {
   // To get similar logic from a function component, it needs to implement
   // useImperativeHandle
 
-  useEffect(() => {
-    if (selectRef.current) {
-      console.dir(selectRef.current)
+  React.useEffect(() => {
+    if (!selectRef.current) {
+      return
     }
+
+    console.dir(selectRef.current)
   }, [])
 
   /* ======================
           return
   ====================== */
+  ///////////////////////////////////////////////////////////////////////////
+  //
+  // The props CreatableSelect include all the props from the standard Select component.
+  // as well as
+  //
+  //   allowCreateWhileLoading
+  //   createOptionPosition
+  //   formatCreateLabel
+  //   isValidNewOption
+  //   getNewOptionData
+  //   onCreateOption
+  //
+  ///////////////////////////////////////////////////////////////////////////
 
   return (
     <>
       <form
-        className='bg-background-light mx-auto mb-6 max-w-[800px] rounded-lg border p-4 shadow'
+        className='bg-background-light mx-auto mb-6 max-w-[800px] rounded-lg border p-4 shadow-md'
         onSubmit={(e) => {
           e.preventDefault()
         }}
         noValidate
       >
-        <ReactSelect
+        <ReactCreatableSelect
+          createOptionPosition='last'
           autoFocus={false}
           // Here the default is true, when isClearable is true.
           // If isClearable is false, then the value is always false.
@@ -250,17 +259,15 @@ export const ControlledReactSelectMultiDemo = () => {
           //
           ///////////////////////////////////////////////////////////////////////////
 
-          // Todo: Test this
-          // filterOption={(option, inputValue) => {
-          //   // Check if the option value is not 'vomit'
-          //   const isNotVomit = option.value !== 'vomit'
-          //   // Check if the option label includes the search input
-          //   const matchesSearch = option.label
-          //     .toLowerCase()
-          //     .includes(inputValue.toLowerCase())
-          //   return isNotVomit && matchesSearch
-          // }}
-          // Todo: Test this
+          filterOption={(option, inputValue) => {
+            // Check if the option value is not 'vomit'
+            const isNotVomit = option.value !== 'vomit'
+            // Check if the option label includes the search input
+            const matchesSearch = option.label
+              .toLowerCase()
+              .includes(inputValue.toLowerCase())
+            return isNotVomit && matchesSearch
+          }}
           // formatOptionLabel={(data, _formatOptionLabelMeta) => {
           //   // Normally, the react-select would know what data and formatOptionLabelMeta are.
           //   // However, when we abstract the actual Select implementation into the ReactSelect,
@@ -303,12 +310,11 @@ export const ControlledReactSelectMultiDemo = () => {
           isDisabled={false} // alias for disabled
           // When true, shows a nifty triple-dot loadding animation.
           isLoading={false}
-          isMulti={true} // 🎟🎟🎟... 🚀⚡🚀⚡🚀⚡
           isRtl={false} // Default: false
           isSearchable={true} // Default: true
           label='Select Ice Cream'
           labelRequired
-          // labelClassName='text-primary font-bold'
+          // labelClassName='text-blue-500 font-bold'
           labelStyle={{}}
           // loadingMessage="It's loading..." // Async only!
 
@@ -326,13 +332,12 @@ export const ControlledReactSelectMultiDemo = () => {
           menuShouldBlockScroll={false} // Default: false
           menuShouldScrollIntoView={true} // Default: true (at least when menuPosition is 'absolute').
           name='select'
-          // This renders in the menu. Here we're assuming that if options is an
-          // empty array, that the options are then loading. It would be better
-          // to do this dynamically.
+          // By default it will simply say, "No Options"
           noOptionsMessage={(_obj) => {
-            // console.log(obj) // => {inputValue: ''}
             return (
-              <div className='fw-bold text-primary text-center'>Loading...</div>
+              <div className='text-center text-sm'>
+                No value matches that search criteria.
+              </div>
             )
           }}
           onBlur={async () => {
@@ -346,12 +351,11 @@ export const ControlledReactSelectMultiDemo = () => {
             // ❌ console.log(e.target)
           }}
           onChange={(value, _actionMeta) => {
-            //^ With isMulti, when all values are removed, the value passed back from react-select's
-            //^ onChange is an empty array. Whereas when !isMulti, the value is null.
-            setSelectValues(value as Options)
+            console.log('onChange:', value)
+            setSelectValue(value as MaybeOption)
 
             if (selectTouched) {
-              validateSelect(value as Options)
+              validateSelect(value as MaybeOption)
             }
           }}
           onMenuOpen={() => {
@@ -367,12 +371,12 @@ export const ControlledReactSelectMultiDemo = () => {
           // By default this is 1. On a Mac use up/down arrow keys wih the fn button pressed.
           pageSize={1}
           ref={selectRef}
-          fieldSize='md'
+          fieldSize='sm'
           style={{}}
           touched={selectTouched}
-          placeholder='Select Ice Cream...'
+          placeholder='Select a category'
           // placeholder={
-          //   <div className='inline rounded-lg border px-2 font-semibold'>
+          //   <div className='inline rounded-lg border border-neutral-300 bg-neutral-100 px-2 text-xs font-semibold'>
           //     <span className='text-red-500'>S</span>
           //     <span className='text-orange-500'>e</span>
           //     <span className='text-yellow-500'>l</span>
@@ -394,7 +398,7 @@ export const ControlledReactSelectMultiDemo = () => {
           //     <span className='text-red-500'>.</span>
           //   </div>
           // }
-          value={selectValues}
+          value={selectValue}
         />
 
         {/* =====================
@@ -421,13 +425,13 @@ export const ControlledReactSelectMultiDemo = () => {
             variant='success'
           >
             {allTouched && isErrors ? (
-              <Fragment>
+              <>
                 {/* <FontAwesomeIcon
                   icon={faTriangleExclamation}
                   style={{ marginRight: 5 }}
-                /> */}
+                />{' '} */}
                 Please Fix Errors...
-              </Fragment>
+              </>
             ) : (
               'Submit'
             )}
@@ -436,7 +440,7 @@ export const ControlledReactSelectMultiDemo = () => {
       </form>
 
       {/* <pre className='bg-background-light mx-auto mb-6 max-w-[800px] rounded-lg border p-4'>
-        {JSON.stringify(selectValues, null, 2)}
+        {JSON.stringify(selectValue, null, 2)}
       </pre> */}
     </>
   )

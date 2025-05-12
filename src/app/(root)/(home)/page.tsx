@@ -1,14 +1,11 @@
 import { Page, PageContainer, Title } from '@/components'
 import { ComponentDemos } from '@/components/ComponentDemos'
 
-// import { ControlledReactSelectDemo } from '@/components/ReactSelect/ControlledReactSelectDemo'
-// import { ControlledReactSelectMultiDemo } from '@/components/ReactSelect/ControlledReactSelectMultiDemo'
-
 /* ========================================================================
 
 ======================================================================== */
 
-//# 1. Create a react-select abstraction.
+//# 1. Review Input. Why does it have constant styles in base and in the maybeValidationMixin?
 
 //# 2. Review Calendar behavior and best practices/contracts when sending dates to server.
 
@@ -74,10 +71,6 @@ const Home = () => {
         </Title>
 
         <ComponentDemos />
-
-        {/* <ControlledReactSelectDemo />
-        <br />
-        <ControlledReactSelectMultiDemo /> */}
       </PageContainer>
     </Page>
   )
