@@ -9,9 +9,11 @@ type SliderBaseProps = Omit<
   'onValueCommit' | 'onBlur' | 'onChange' | 'onValueChange'
 > & {
   error?: string
+  labelAlwaysOn?: boolean // Like Mantine
   onChange?: ((value: number[]) => void) | undefined
   onCommit?: ((value: number[]) => void) | undefined
   onBlur?: ((value: number[]) => void) | undefined
+  showLabelOnHover?: boolean // Like Mantine
   touched?: boolean
 }
 
@@ -63,6 +65,7 @@ export const SliderBase = ({
   defaultValue,
   disabled = false,
   error = '',
+  labelAlwaysOn = false,
   onBlur,
   onChange,
   onCommit,
@@ -70,12 +73,18 @@ export const SliderBase = ({
   value: controlledValue,
   min = 0,
   max = 100,
+  showLabelOnHover = true,
+  onMouseEnter,
+  onMouseLeave,
   touched = false,
   ...otherProps
 }: SliderBaseProps) => {
   /* ======================
       state & refs
   ====================== */
+
+  const firstRenderRef = React.useRef(true)
+  const sliderRef = React.useRef<HTMLSpanElement>(null)
 
   const [value, setValue] = React.useState(() => {
     if (Array.isArray(controlledValue) && controlledValue.length > 1) {
@@ -88,9 +97,7 @@ export const SliderBase = ({
     return [min, max]
   })
 
-  const firstRenderRef = React.useRef(true)
-
-  const sliderRef = React.useRef<HTMLSpanElement>(null)
+  const [isHovered, setIsHovered] = React.useState(false)
 
   // const value = React.useMemo(
   //   () =>
@@ -148,6 +155,30 @@ export const SliderBase = ({
   }, [controlledValue]) // eslint-disable-line
 
   /* ======================
+        renderThumbLabel()
+    ====================== */
+
+  const renderThumbLabel = (val: number) => {
+    return (
+      <div
+        className={cn(
+          'bg-background-light text-foreground absolute -top-1/4 left-1/2 justify-center rounded border text-xs',
+          labelAlwaysOn || (showLabelOnHover && isHovered) ? 'flex' : 'hidden'
+        )}
+        style={{
+          transform: 'translate(-50%, -100%)',
+          lineHeight: 1,
+          padding: 2,
+          boxShadow: '0px 0.5px 0.5px rgba(0,0,0,0.5)',
+          minWidth: 20
+        }}
+      >
+        {val}
+      </div>
+    )
+  }
+
+  /* ======================
           return
   ====================== */
 
@@ -185,14 +216,26 @@ export const SliderBase = ({
         }, 0)
       }}
       onValueCommit={(value) => {
-        setValue(value)
+        // Initially, setting the internal value only on commit was the most
+        // optimized solution. However, with the introduction of the thumb
+        // label feature it became necessary to update value onValueChange instead.
+        // ❌ setValue(value)
         onCommit?.(value)
       }}
       onValueChange={(value) => {
+        setValue(value)
         onChange?.(value)
       }}
       value={controlledValue}
       {...otherProps}
+      onMouseEnter={(e) => {
+        setIsHovered(true)
+        onMouseEnter?.(e)
+      }}
+      onMouseLeave={(e) => {
+        setIsHovered(false)
+        onMouseLeave?.(e)
+      }}
     >
       <SliderPrimitive.Track
         data-slot='slider-track'
@@ -204,13 +247,17 @@ export const SliderBase = ({
         />
       </SliderPrimitive.Track>
 
-      {Array.from({ length: value.length }, (_, index) => (
-        <SliderPrimitive.Thumb
-          data-slot='slider-thumb'
-          key={index}
-          className={thumbBaseClasses}
-        />
-      ))}
+      {value.map((val, index) => {
+        return (
+          <SliderPrimitive.Thumb
+            data-slot='slider-thumb'
+            key={index}
+            className={thumbBaseClasses}
+          >
+            {renderThumbLabel(val)}
+          </SliderPrimitive.Thumb>
+        )
+      })}
     </SliderPrimitive.Root>
   )
 }

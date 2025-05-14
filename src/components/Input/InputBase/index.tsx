@@ -9,7 +9,7 @@ import {
   FIELD_INVALID_MIXIN
 } from '@/components/component-constants'
 
-// The padding, and border radius match that of the button component.
+// The padding and border radius match that of the button component.
 const baseClasses = `
 flex bg-background-light
 w-full min-w-0 

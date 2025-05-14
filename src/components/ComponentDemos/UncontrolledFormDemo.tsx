@@ -819,6 +819,7 @@ export const UncontrolledFormDemo = () => {
         id='percent'
         label='Percent'
         labelRequired
+        labelAlwaysOn
         max={100}
         name='percent'
         onBlur={(value) => {

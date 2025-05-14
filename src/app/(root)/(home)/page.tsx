@@ -5,18 +5,14 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
-//# 1. Review Input. Why does it have constant styles in base and in the maybeValidationMixin?
+//# 1. Review Calendar behavior and best practices/contracts when sending dates to server.
 
-//# 2. Review Calendar behavior and best practices/contracts when sending dates to server.
-
-//# 3. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
+//# 2. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
-//# 4. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
+//# 3. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
 
-//# 5. Todo: add UI for the numeric position of slider thumbs.
-
-//# 6. Build out RHF controlled form demo.
+//# 4. Build out RHF controlled form demo.
 
 //# Possibly add in todos demo, using local Postgres.
 //# This would then allow me to test out caching behavior
