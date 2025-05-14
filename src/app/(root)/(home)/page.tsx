@@ -10,9 +10,7 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 //# 2. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
-//# 3. Consider changing the UI for the Sidebar hover to just a primary outline or dashed outline.
-
-//# 4. Build out RHF controlled form demo.
+//# 3. Build out RHF controlled form demo.
 
 //# Possibly add in todos demo, using local Postgres.
 //# This would then allow me to test out caching behavior

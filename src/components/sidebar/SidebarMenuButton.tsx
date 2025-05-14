@@ -8,29 +8,58 @@ import { cn } from '@/utils'
 import { useSidebar } from './SidebarProvider'
 import { Tooltip } from '@/components/tooltip'
 
+// const hoverMixin = `
+// hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
+// data-[state=open]:hover:text-sidebar-accent-foreground
+// data-[state=open]:hover:bg-sidebar-accent
+// `
+
+const hoverMixin = `
+hover:shadow-[inset_0_0_0_1px_var(--color-primary)]
+`
+
+const focusMixin = `
+focus-visible:ring-[3px] focus-visible:ring-primary/50
+focus-visible:shadow-[inset_0_0_0_1px_var(--color-primary)]
+`
+
+// This is for when the button is active, which differs from the
+// data-[active=true] state.
+const activeMixin = `
+active:bg-sidebar-accent/25 active:text-sidebar-accent-foreground
+`
+
+const disabledMixin = `
+disabled:pointer-events-none disabled:opacity-50
+aria-disabled:pointer-events-none aria-disabled:opacity-50 
+`
+
+const selectedMixin = `
+data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium
+data-[active=true]:text-sidebar-accent-foreground
+`
+
 /* ======================
  sidebarMenuButtonVariants 
 ====================== */
 
 const sidebarMenuButtonBaseClasses = `
-peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md 
-p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding]
-hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
-focus-visible:ring-2 
-active:bg-sidebar-accent active:text-sidebar-accent-foreground
-disabled:pointer-events-none disabled:opacity-50 
+peer/menu-button flex w-full items-center gap-2 p-2 text-left text-sm
+outline-hidden rounded-lg overflow-hidden
+transition-[width,height,padding]
 group-has-data-[sidebar=menu-action]/menu-item:pr-8
-aria-disabled:pointer-events-none aria-disabled:opacity-50 
-data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground
-data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground 
 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!
 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0
+${focusMixin}
+${activeMixin}
+${disabledMixin}
+${selectedMixin}
 `
 
 const sidebarMenuButtonVariants = cva(sidebarMenuButtonBaseClasses, {
   variants: {
     variant: {
-      default: 'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      default: hoverMixin,
       outline:
         'bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]'
     },
@@ -75,11 +104,11 @@ function SidebarMenuButton({
 
   const button = (
     <Comp
-      data-slot='sidebar-menu-button'
+      className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+      data-active={isActive}
       data-sidebar='menu-button'
       data-size={size}
-      data-active={isActive}
-      className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+      data-slot='sidebar-menu-button'
       {...props}
     />
   )

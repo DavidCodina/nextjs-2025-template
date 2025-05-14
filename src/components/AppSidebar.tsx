@@ -271,7 +271,8 @@ export const AppSidebar = () => {
                   <SidebarMenuBadge
                     // Internally SidebarMenuBadge has `pointer-events-none` so clicks
                     // and hovers  won't work here unless you overwrite that class.
-                    className='bg-primary h-6 w-6 rounded-full text-white peer-hover/menu-button:text-white'
+
+                    className='bg-primary h-5 min-w-5 rounded-full text-white peer-hover/menu-button:text-white'
                   >
                     {index + 10}
                   </SidebarMenuBadge>
