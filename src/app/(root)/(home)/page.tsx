@@ -19,10 +19,6 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // Todo: Change all /components components to PascalCase & update components/index.ts
 //# Watch out for Vercel Gotcha - name append 'X' temporarily.
 
-// Todo: Review https://react.dev/reference/react-dom/components/input
-
-//# Test dropdown menu that stays open against sidebar and sheet.
-
 // Bonus: Consider adding special variants in button, badge, and alert of
 // light, dark, and light-dark. These will be quasi-custom color variants.
 
