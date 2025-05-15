@@ -1,5 +1,5 @@
 {
-  "name": "shadcn_2025_demo",
+  "name": "nextjs-2025-template",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -26,6 +26,8 @@
     "@auth/prisma-adapter": "^2.9.1",
     "@floating-ui/react": "^0.27.8",
     "@hookform/resolvers": "^5.0.1",
+    "@neondatabase/serverless": "^1.0.0",
+    "@prisma/adapter-neon": "^6.8.1",
     "@prisma/client": "^6.8.0",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.6",
@@ -74,6 +76,7 @@
     "tailwind-merge": "^3.1.0",
     "tailwindcss-animate": "^1.0.7",
     "use-context-selector": "^2.0.0",
+    "ws": "^8.18.2",
     "zod": "^3.24.3",
     "zustand": "^5.0.3"
   },
@@ -99,6 +102,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
+    "bufferutil": "^4.0.9",
     "custom-eslint-plugin": "file:./custom-eslint-plugin",
     "eslint": "^9.25.1",
     "eslint-config-next": "15.2.4",
