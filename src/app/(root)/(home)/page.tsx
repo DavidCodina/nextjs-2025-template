@@ -1,20 +1,28 @@
 import { Page, PageContainer, Title } from '@/components'
 import { ComponentDemos } from '@/components/ComponentDemos'
 
+// import {
+//   getUsers
+//   // getPosts
+// } from '@/lib/actions'
+
 /* ========================================================================
 
 ======================================================================== */
+//! Review all NextAuth related files/folders.
 
-//# 1. Review Calendar behavior and best practices/contracts when sending dates to server.
+// Todo: Create a Posts and PostDetails page with full CRUD.
 
-//# 2. Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
+// Todo: Switch to Neon, but keep logic for local Postgres.
+
+// Todo: Review Calendar behavior and best practices/contracts when sending dates to server.
+
+// Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
-//# 3. Build out RHF controlled form demo.
+// Todo: Build out RHF controlled form demo.
 
-//# Possibly add in todos demo, using local Postgres.
-//# This would then allow me to test out caching behavior
-//# and invalidateTag behavior.
+// Todo: Test out caching behavior and invalidateTag behavior.
 
 // Todo: Change all /components components to PascalCase & update components/index.ts
 //# Watch out for Vercel Gotcha - name append 'X' temporarily.
@@ -22,13 +30,24 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 // Bonus: Consider adding special variants in button, badge, and alert of
 // light, dark, and light-dark. These will be quasi-custom color variants.
 
-const Home = () => {
+const Home = async () => {
   // Anti-pattern: Do not await an async function directly in page.tsx,
   // especially the home page. It will always block rendering.
   // Instead, wrap a child component in a Suspense and either await
   // the async data locally in the child component, or pass down a
   // promise as a prop the the child component and implement use() API.
   // ❌ const session = await getData()
+
+  // const posts = await getPosts()
+
+  // const users = await getUsers()
+  // const firstUser = users.data?.[0]
+  // console.log('firstUser:', firstUser)
+  // console.log('typeof role:', typeof firstUser?.role)
+  // console.log('typeof createdAt:', typeof firstUser?.createdAt)
+
+  // console.log('users:', users)
+  // console.log('posts:', posts)
 
   return (
     <Page

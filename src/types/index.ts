@@ -28,3 +28,27 @@ export type ResBody<DataType> = {
 }
 
 export type ResponsePromise<T = unknown> = Promise<ResBody<T>>
+
+export type User = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  role: 'USER' | 'ADMIN' // Assuming Role is an enum with these values
+  address?: Record<string, unknown> // JSON can be an object with any structure
+  createdAt: string // Would be date, but transformed to string with Prisma $extends.
+  updatedAt: string // Would be date, but transformed to string with Prisma $extends.
+  posts: Post[]
+}
+
+export type Post = {
+  id: string
+  title: string
+  body: string
+  published: boolean
+  author?: User
+  authorId: string
+  createdAt: string // Would be date, but transformed to string with Prisma $extends.
+  updatedAt: string // Would be date, but transformed to string with Prisma $extends.
+}

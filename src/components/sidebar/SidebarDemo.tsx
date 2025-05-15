@@ -36,24 +36,27 @@ import {
   SidebarSeparator,
   SidebarTrigger,
   useSidebar
-} from './sidebar'
+} from '@/components/sidebar'
 
 import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent
-} from './collapsible'
+} from '@/components/collapsible'
 
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem
-} from './dropdown-menu'
+} from '@/components/dropdown-menu'
 
 import { ThemeToggle } from 'components'
 
-import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_MOBILE } from './sidebar/SidebarConstants'
+import {
+  SIDEBAR_WIDTH,
+  SIDEBAR_WIDTH_MOBILE
+} from '@/components/sidebar/SidebarConstants'
 
 const items = [
   {
@@ -83,7 +86,7 @@ const items = [
   }
 ]
 
-import { SIDEBAR_ZINDEX_CLASS } from 'components/component-constants'
+import { SIDEBAR_ZINDEX_CLASS } from '@/components/component-constants'
 import { cn } from '@/utils'
 
 /* ========================================================================
