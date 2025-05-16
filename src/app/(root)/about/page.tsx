@@ -8,11 +8,15 @@ import {
 // import { DataComponent } from './DataComponent'
 // import { sleep } from '@/utils'
 
+import { getUsers } from '@/lib/actions'
+
 /* ========================================================================
 
 ======================================================================== */
 
 const About = async () => {
+  const { data } = await getUsers()
+
   //  await sleep(1000 * 2)
   return (
     <Page>
@@ -26,6 +30,16 @@ const About = async () => {
         >
           About
         </Title>
+
+        {data && (
+          <ul className='text-primary space-y-4 text-center'>
+            {data.map((user) => (
+              <li key={user.id}>
+                {user.firstName} {user.lastName}
+              </li>
+            ))}
+          </ul>
+        )}
       </PageContainer>
 
       {/* It might actually make sense to bake this into the PageContainer.

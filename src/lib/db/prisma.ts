@@ -105,6 +105,37 @@ const adapter = new PrismaNeon({ connectionString })
 ====================== */
 
 const createExtendedPrismaClient = () => {
+  ///////////////////////////////////////////////////////////////////////////
+  //
+  // This is actually useful to leave in for debugging purposes.
+  // ⚠️ Even with the singleton pattern correctly implemented, you will see two
+  // PrismaClient instances created on application mount (when you go to the app in browser).
+  // Why does this happen? In a Next.js development environment there are multiple Node.js environments.
+  // Next.js runs separate Node.js processes for:
+  //
+  //   - Your page components (browser/client rendering)
+  //   - Your API routes
+  //
+  // Each process has its own memory space and its own global scope.
+  // The global object in one process is completely separate from the global object in another process
+  // The key insight is that in Next.js development mode, the singleton pattern works within each process
+  // but not across different processes. Is this a problem? Having two PrismaClient instances
+  // (one for API routes, one for pages) is generally not a problem. This is actually expected
+  // behavior in Next.js development mode.
+  //
+  ///////////////////////////////////////////////////////////////////////////
+  if (process.env.NODE_ENV === 'development') {
+    const time = new Date().toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      fractionalSecondDigits: 3
+    })
+
+    console.log(`\n\nCreating new PrismaClient at ${time}\n\n`)
+  }
+
   return new PrismaClient({
     ///////////////////////////////////////////////////////////////////////////
     //

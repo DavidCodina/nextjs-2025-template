@@ -40,7 +40,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // even if your ORM does not support the Edge runtime. I think this means I should be able to
     // switch to "database".
     //
-    // UnsupportedStrategy: Signing in with credentials only supported if JWT strategy is enabled
+    // UnsupportedStrategy: Signing in with credentials only supported if JWT strategy is enabled.
     //
     // Note: Even when using Google OAuth, NextAuth's jwt() callback still runs.
     // NextAuth's JWT strategy is independent of the authentication
@@ -221,13 +221,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               Password Check
         ====================== */
 
-        // ⚠️ If you're using homegrown compare(), then make sure to add ENCRYPTION_KEY to Vercel.
         const isMatch = await compare(password as string, user.password)
 
         if (!isMatch) {
           throw new Error('Invalid credentials. (3)')
         }
 
+        // ⚠️ The user object will be passed to jwt() on signIn,
+        // but will be undefined thereafter. Auth.js will not automatically
+        // add id, firstName, lastName and role to the token. It must be done
+        // manually within jwt().
         return {
           id: user.id,
           firstName: user.firstName,
@@ -351,33 +354,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const { token, user /* , session, account, profile, trigger, */ } = params
 
       if (user && typeof user === 'object') {
-        // The user { id, email, name, role } will be passed to jwt() on signIn,
-        // but will be undefined thereafter.
-
         ///////////////////////////////////////////////////////////////////////////
         //
-        // By default, `token` will look something like this:
+        // ⚠️ The user object will be passed to jwt() on signIn, but will be
+        // undefined thereafter. The authorize() function is returning:
         //
-        //   token: {
-        //     name: 'David',
-        //     email: 'david@example.com',
-        //     sub: '5ade9561-2cac-462f-a6ce-2fb185c72ce4',
-        //     iat: 1744767031,
-        //     exp: 1747359031,
-        //     jti: '22ca81bc-20ff-49f3-aad8-b39f73035503'
+        //   return {
+        //     id: user.id,
+        //     firstName: user.firstName,
+        //     lastName: user.lastName,
+        //     email: user.email,
+        //     role: user.role
         //   }
         //
-        //
-        // By default, `user` will look something like this:
-        //
-        //   user: {
-        //     id: '5ade9561-2cac-462f-a6ce-2fb185c72ce4',
-        //     name: 'David',
-        //     email: 'david@example.com',
-        //     role: 'admin'
-        //   },
-        //
-        // Ultimately, we want to update token so that it includes an `id` and `role` properties.
+        // However, id, firstName, lastName and role need to be added to the token.
         // Technically `id` is the same as sub, but more semantically correct.
         // Note: All of this works in conjunction with the type augmentations in next-auth.d.ts
         //
@@ -391,90 +381,46 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           // anything we want to user, then transfer from user to token here.
 
           token.id = user.id
+          token.firstName = user.firstName
+          token.lastName = user.lastName
           token.role = user.role
         }
-
-        //! Originally, Brad did this.
-        //! It corresponded to this in the User model: name String @default("NO_NAME")
-        //! However, name is already required, so this seems unnecessary.
-        //! Also, I removed @default("NO_NAME") from the User model.
-        //! If user has no name then use the email
-        //! if (user.name === 'NO_NAME') {
-        //!   token.name = user.email!.split('@')[0]
-        //!   // Update database to reflect the token name
-        //!   await prisma.user.update({
-        //!     where: { id: user.id },
-        //!     data: { name: token.name }
-        //!   })
-        //! }
-
-        // if (trigger === 'signIn' || trigger === 'signUp') {
-        //   const cookiesObject = await cookies()
-        //   const sessionCartId = cookiesObject.get('sessionCartId')?.value
-        //   if (sessionCartId) {
-        //     const sessionCart = await prisma.cart.findFirst({
-        //       where: { sessionCartId }
-        //     })
-        //     if (sessionCart) {
-        //       // Delete current user cart
-        //       await prisma.cart.deleteMany({
-        //         where: { userId: user.id }
-        //       })
-        //       // Assign new cart
-        //       await prisma.cart.update({
-        //         where: { id: sessionCart.id },
-        //         data: { userId: user.id }
-        //       })
-        //     }
-        //   }
-        // }
       }
-      //! Brad does this. I'm just not sure if I need it.
-      //! if (session?.user.name && trigger === 'update') {
-      //!  token.name = session.user.name
-      //! }
+
       return token
     },
 
-    // Runs AFTER jwt callback: signIn --> jwt --> session
+    // Runs AFTER jwt() callback: signIn --> jwt --> session
     async session(params) {
       const { session, token /* user, trigger, */ } = params
 
-      ///////////////////////////////////////////////////////////////////////////
-      //
-      // By default session will look something like this:
-      //
-      //   session: {
-      //     user: { name: 'David', email: 'david@example.com', image: undefined },
-      //     expires: '2025-05-14T19:55:55.932Z'
-      //   },
-      //
-      // The goal here is to add id, role to the user.
-      // I think name is already included, but Brad also resets name.
-      //
-      ///////////////////////////////////////////////////////////////////////////
-
+      // Using token,  add data to session.
       if (session && typeof session === 'object' && 'user' in session) {
         // Set the user ID from the token
 
+        // Add id to session
         if (token.id && typeof token.id === 'string') {
           session.user.id = token.id
         } else if (token.sub && typeof token.sub === 'string') {
           session.user.id = token.sub
         }
 
+        // Add firstName to session
+        if (token.firstName && typeof token.firstName === 'string') {
+          session.user.firstName = token.firstName
+        }
+
+        // Add lastName to session
+        if (token.lastName && typeof token.lastName === 'string') {
+          session.user.lastName = token.lastName
+        }
+
+        // Add role to session
         if (token.role && typeof token.role === 'string') {
           session.user.role = token.role
         }
-
-        //  user.name and user.email should already be in session.user by default.
       }
 
-      //! Brad does this. I'm just not sure if I need it.
-      //! If there is an update, set the user name
-      //! if (trigger === 'update') {
-      //!   session.user.name = user.name
-      //! }
       return session
     }
   },

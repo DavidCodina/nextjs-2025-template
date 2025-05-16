@@ -1,14 +1,14 @@
 import { Page, PageContainer, Title } from '@/components'
 import { ComponentDemos } from '@/components/ComponentDemos'
 
-import { getUsers, getPosts } from '@/lib/actions'
+// import {
+//   getUsers,
+//   getPosts
+// } from '@/lib/actions'
 
 /* ========================================================================
 
 ======================================================================== */
-//! Review all NextAuth related files/folders.
-
-//! Setup both Vercel and GitHub with necessary secrets, build scripts, and GitHub workflows.
 
 // Todo: Create a Posts and PostDetails page with full CRUD.
 
@@ -38,16 +38,8 @@ const Home = async () => {
   // promise as a prop the the child component and implement use() API.
   // ❌ const session = await getData()
 
-  const posts = await getPosts()
-
-  const users = await getUsers()
-  // const firstUser = users.data?.[0]
-  // console.log('firstUser:', firstUser)
-  // console.log('typeof role:', typeof firstUser?.role)
-  // console.log('typeof createdAt:', typeof firstUser?.createdAt)
-
-  console.log('users:', users)
-  console.log('posts:', posts)
+  // const posts   = await getPosts()
+  //const { data } = await getUsers()
 
   return (
     <Page
