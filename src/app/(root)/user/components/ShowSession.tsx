@@ -23,7 +23,7 @@ export const ShowSession = () => {
 
     if (status === 'authenticated') {
       return (
-        <div className='bg-background-light rounded-lg border p-4 shadow'>
+        <div className='bg-background-light mx-auto mb-6 max-w-5xl rounded-lg border p-4 shadow'>
           <h3 className='text-primary text-2xl font-black'>
             Session From useSession():
           </h3>
@@ -44,7 +44,7 @@ export const ShowSession = () => {
 
     if (status === 'unauthenticated') {
       return (
-        <div className='bg-background-light rounded-lg border p-4 shadow'>
+        <div className='bg-background-light mx-auto mb-6 max-w-5xl rounded-lg border p-4 shadow'>
           <h3 className='text-primary text-2xl font-black'>
             Status: Unauthenticated
           </h3>

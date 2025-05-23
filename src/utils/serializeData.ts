@@ -40,7 +40,8 @@
 // and gives us back the initial data type. This way we maintain type information. Which version
 // you use depends on your application setup.
 //
-// Also look into superjson:
+// Also look into superjson. Jack Herrington has a tutorial on it:
+// https://www.youtube.com/watch?v=PtcQwb1uBhc&t=183s
 //
 //   export const serializeData = <T>(value: T): T => {
 //     return superjson.parse(superjson.stringify(value));

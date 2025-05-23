@@ -25,8 +25,9 @@ if (!DATABASE_URL) {
 const createExtendedPrismaClient = () => {
   ///////////////////////////////////////////////////////////////////////////
   //
-  // This is actually useful to leave in for debugging purposes.
-  // ⚠️ Even with the singleton pattern correctly implemented, you will see two
+  // ⚠️ Gotcha: Multiple PrismaClient instances created on mount in development mode.
+  //
+  // Even with the singleton pattern correctly implemented, you will see 2+
   // PrismaClient instances created on application mount (when you go to the app in browser).
   // Why does this happen? In a Next.js development environment there are multiple Node.js environments.
   // Next.js runs separate Node.js processes for:
@@ -41,7 +42,26 @@ const createExtendedPrismaClient = () => {
   // (one for API routes, one for pages) is generally not a problem. This is actually expected
   // behavior in Next.js development mode.
   //
+  /////////////////////////
+  //
+  // ⚠️ Gotcha: new PrismaClient instance generated from within dynamic routes (e.g., '/tickets/123').
+  // This behavior is somewhat expected due to how Next.js handles server components and dynamic route segments.
+  // The reason is that Next.js may load and process dynamic route segments in separate server contexts or isolate
+  // them during rendering, especially when route parameters change. This can create different JavaScript
+  // environments where your globalThis doesn't persist between requests.
+  //
+  // The creation of new PrismaClient instances in this scenario is generally not a critical issue for several reasons:
+  //
+  //   1. Development vs. Production: This behavior is primarily noticeable in development due
+  //      to hot reloading. In production, the server typically has longer-lived processes.
+  //
+  //   2. Ephemeral Nature: Yes, these PrismaClient instances are ephemeral. When Next.js finishes processing
+  //      a request or when the Node.js event loop completes a cycle, unused connections will eventually be garbage collected.
+  //
+  //   3. Built-in Connection Management: Prisma Client has its own connection pooling mechanism that helps manage database connections efficiently.
+  //
   ///////////////////////////////////////////////////////////////////////////
+
   if (process.env.NODE_ENV === 'development') {
     const time = new Date().toLocaleTimeString('en-US', {
       hour12: false,

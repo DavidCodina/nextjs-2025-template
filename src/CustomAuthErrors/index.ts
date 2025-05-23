@@ -8,9 +8,9 @@ import { CredentialsSignin } from 'next-auth'
 export class InvalidLoginError extends CredentialsSignin {
   // This can be changed, but only to another ErrorType (e.g., 'AccessDenied')
   // static type = "CredentialsSignin"
-  code = 'invalid_credentials'
+  code = 'INVALID_CREDENTIALS'
 }
 
 export class UnverifiedEmailError extends CredentialsSignin {
-  code = 'email_unverified'
+  code = 'EMAIL_UNVERIFIED'
 }

@@ -180,7 +180,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const user = await prisma.user.findFirst({
           where: {
             email: email
-          }
+          },
+          omit: { password: false }
         })
 
         /* ======================

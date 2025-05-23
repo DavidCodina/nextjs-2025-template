@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import { AlertCircle } from 'lucide-react'
 
 import { auth } from '@/auth'
-import { Page, PageContainer, Title } from '@/components'
+import { Alert, Page, PageContainer, Title } from '@/components'
 import { ShowSession } from './components/ShowSession'
+import { getCurrentUser } from '@/actions'
 
 export const metadata: Metadata = {
   title: 'User',
@@ -16,6 +18,12 @@ export const metadata: Metadata = {
 const PageUser = async () => {
   const session = await auth()
   const expires = session?.expires
+
+  const {
+    data: currentUser,
+    success: currentUserSuccess,
+    code
+  } = await getCurrentUser()
 
   /* ======================
 
@@ -49,6 +57,48 @@ const PageUser = async () => {
       : ''
 
   /* ======================
+      renderCurrentUser()
+  ====================== */
+
+  const renderCurrentUser = () => {
+    if (!currentUser || currentUserSuccess === false) {
+      let message = 'The request for the current user failed.'
+
+      if (code === 'UNAUTHORIZED') {
+        message =
+          'You must be authenticated in order to access current user data.'
+      } else if (code === 'NOT_FOUND') {
+        message = `Could not find the current user.`
+      }
+
+      return (
+        <Alert
+          leftSection={<AlertCircle className='size-6' />}
+          title={'Error'}
+          variant='destructive'
+          className='mx-auto max-w-5xl'
+        >
+          {message}
+        </Alert>
+      )
+    }
+
+    return (
+      <div className='bg-background-light mx-auto mb-6 max-w-5xl rounded-lg border p-4 shadow'>
+        <h3 className='text-primary text-2xl font-black'>
+          User From getCurrentUser():
+        </h3>
+
+        <pre className='mb-4'>
+          <code className='text-pink-500'>
+            {JSON.stringify(currentUser, null, 2)}
+          </code>
+        </pre>
+      </div>
+    )
+  }
+
+  /* ======================
           return
   ====================== */
 
@@ -65,7 +115,7 @@ const PageUser = async () => {
           User
         </Title>
 
-        <div className='bg-background-light mb-6 rounded-lg border p-4 shadow'>
+        <div className='bg-background-light mx-auto mb-6 max-w-5xl rounded-lg border p-4 shadow'>
           <h3 className='text-primary text-2xl font-black'>
             Session From auth():
           </h3>
@@ -89,6 +139,8 @@ const PageUser = async () => {
         </div>
 
         <ShowSession />
+
+        {renderCurrentUser()}
       </PageContainer>
     </Page>
   )

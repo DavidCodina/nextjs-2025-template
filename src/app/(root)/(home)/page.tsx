@@ -10,15 +10,22 @@ import { ComponentDemos } from '@/components/ComponentDemos'
 
 ======================================================================== */
 
+//# Move actions out of lib.
+
+// Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
+//# Also defaultCollapsible='none' Sidebar header is not right.
+
 // Todo: Create a Posts and PostDetails page with full CRUD.
+
+//! Revisit eCommerce workflow.
+//! The Vercel project no longer has environment variables for development and staging.
+//! However, I don't think we need them anymore.
+//! What we do need is a dev/david database branch, and for the workflows to be checked.
 
 // Todo: As an experiment, eventually switch back to the local Postgres database
 //# when in development.
 
 // Todo: Review Calendar behavior and best practices/contracts when sending dates to server.
-
-// Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
-//# Also defaultCollapsible='none' Sidebar header is not right.
 
 // Todo: Build out RHF controlled form demo.
 

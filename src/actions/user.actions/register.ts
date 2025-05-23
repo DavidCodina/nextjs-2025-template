@@ -14,31 +14,35 @@
 
 import { hash } from 'bcryptjs'
 import { prisma } from '@/lib/db/prisma'
+import { /* Code, */ ResponsePromise } from '@/types'
 
-type RegisterResponse = {
-  data: any //! Temporary any
-  errors?: Record<string, string> | null
-  message: string
-  success: boolean
-}
-
-/* ========================================================================
-
-======================================================================== */
-
-export const register = async ({
-  firstName,
-  lastName,
-  email,
-  password,
-  confirmPassword
-}: {
+type RequestData = {
   firstName: string
   lastName: string
   email: string
   password: string
   confirmPassword: string
-}): Promise<RegisterResponse> => {
+}
+
+type Data = null
+export type RegisterResponsePromise = ResponsePromise<Data>
+export type Register = (requestData: RequestData) => RegisterResponsePromise
+export type RegisterResolvedResponse = Awaited<RegisterResponsePromise>
+
+/* ========================================================================
+
+======================================================================== */
+// Why is this in user.actions folder? Register is arguably NOT part of auth.
+// Rather, what we're doing is creating a user, so conceptually it's part
+// of user.actions.
+
+export const register: Register = async ({
+  firstName,
+  lastName,
+  email,
+  password,
+  confirmPassword
+}) => {
   try {
     /* ======================
           Validation
@@ -119,6 +123,7 @@ export const register = async ({
 
     if (Object.keys(formErrors).length > 0) {
       return {
+        code: 'BAD_REQUEST',
         data: null,
         errors: formErrors,
         message: 'The form data is invalid.',
@@ -177,6 +182,7 @@ export const register = async ({
     ====================== */
 
     return {
+      code: 'CREATED',
       data: null,
       errors: null,
       message: 'Registration success.', //# message: 'Confirmation email sent.',
@@ -187,6 +193,7 @@ export const register = async ({
     //   console.log({ name: err.name, message: err.message })
     // }
     return {
+      code: 'INTERNAL_SERVER_ERROR',
       data: null,
       message: 'Server error.',
       success: false

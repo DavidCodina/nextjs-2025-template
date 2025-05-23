@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 
 import { Button, Input } from '@/components'
-import { register } from '../actions'
+import { register } from '@/actions'
 
 // import * as z from "zod";
 // import { useForm } from "react-hook-form";

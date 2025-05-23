@@ -1,23 +1,15 @@
 'use client'
 
-import {
-  Fragment,
-  useState,
-  useEffect,
-  useTransition
-  // useActionState
-} from 'react'
+import { Fragment, useState, useEffect, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { toast } from 'sonner'
-import { /* useRouter, */ useSearchParams } from 'next/navigation'
-// import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { signIn /* , getSession */ } from 'next-auth/react'
 
 import { useAppContextSelector } from '@/contexts'
-
-import { DEFAULT_LOGIN_REDIRECT } from 'routes'
-import { login } from '../actions'
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
+import { login } from '@/actions'
 import { Button, Input } from '@/components'
 
 // const googleSVG = (
@@ -71,7 +63,10 @@ export const LoginForm = () => {
   ====================== */
   ///////////////////////////////////////////////////////////////////////////
   //
-  // SessionProvider Syncing Issue: https://github.com/nextauthjs/next-auth/issues/9504
+  // SessionProvider Syncing Issue:
+  //
+  //   https://github.com/nextauthjs/next-auth/issues/9504
+  //   https://github.com/nextauthjs/next-auth/issues/11034
   //
   // Moving the SessionProvider to (root)/template.tsx will work for everything inside of page.tsx files.
   // However, the Sidebar also needs access to the SessionProvider, so we actually need to move the all
@@ -125,7 +120,7 @@ export const LoginForm = () => {
         const res = await login({ email, password })
 
         if (res.success === false) {
-          if (typeof res.code === 'string' && res.code === 'email_unverified') {
+          if (typeof res.code === 'string' && res.code === 'EMAIL_UNVERIFIED') {
             toast.error('Make sure to verify your email before logging in.', {
               // duration: Infinity
             })
@@ -173,7 +168,7 @@ export const LoginForm = () => {
         // If the login attempt fails, NextAuth will not reload the page and
         // not populate the URL with error or code params:
         //
-        //   /login?error=CredentialsSignin&code=email_unverified
+        //   /login?error=CredentialsSignin&code=EMAIL_UNVERIFIED
         //
         ///////////////////////////////////////////////////////////////////////////
         // ❌ redirect: false
@@ -287,7 +282,7 @@ export const LoginForm = () => {
     }
 
     // ⚠️ Comes from custom UnverifiedEmailError
-    if (error && errorCode === 'email_unverified') {
+    if (error && errorCode === 'EMAIL_UNVERIFIED') {
       toast.error('Make sure to verify your email before logging in.')
       return
     }

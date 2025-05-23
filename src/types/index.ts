@@ -14,6 +14,8 @@ export type Code =
   | 'PRICE_ERROR_FOUND'
   | 'ORDER_EXISTS'
   | 'USER_ARCHIVED'
+  | 'INVALID_CREDENTIALS'
+  | 'EMAIL_UNVERIFIED'
 
 export type ResBody<DataType> = {
   data: DataType
@@ -24,7 +26,7 @@ export type ResBody<DataType> = {
 
   // Adding this makes the type more flexible, while still being informative. That
   // said, if you need additional properties, it's MUCH safer to write a custom type.
-  [key: string]: any
+  // [key: string]: any
 }
 
 export type ResponsePromise<T = unknown> = Promise<ResBody<T>>
@@ -34,7 +36,7 @@ export type User = {
   firstName: string
   lastName: string
   email: string
-  password: string
+  password?: string
   role: 'USER' | 'ADMIN' // Assuming Role is an enum with these values
   address?: Record<string, unknown> // JSON can be an object with any structure
   createdAt: string // Would be date, but transformed to string with Prisma $extends.
