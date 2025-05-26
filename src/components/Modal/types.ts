@@ -36,6 +36,7 @@ export type ModalProps = {
 
   contentClassName?: string
   contentStyle?: CSSProperties
+  closeOnOverlayClick?: boolean
 
   /* === ModalHeader === */
 

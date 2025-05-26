@@ -56,11 +56,16 @@ import { AlertModalProps } from './types'
 // to unintended consequences, Radix makes it require explicit dismissal via the
 // AlertDialog.Action or AlertDialog.Cancel buttons.
 //
-// Again, AlertModal (and the underlying Radix AlertDialog) is intended to be use for
-// critical interactions. However, with the exception of the backdrop, most of the
+// Again, this AlertModal (and the underlying Radix AlertDialog) is intended to be used
+// for critical interactions. However, with the exception of the backdrop, most of the
 // behavior is essentially the same as the regular Radix Dialog. Consequently, I don't
-// think there's a convincing reason to use the AlertModal in most cases. However, because
-// it's distinct in Radix and in ShadCN's abstraction, I've included it here.
+// think there's a convincing reason to use the AlertModal in most cases. Radix already
+// exposes an `onInteractOutside` prop on Dialog.Content. If you need to disable the
+// "close on overlay click" behavior for the regular Radix Dialog, simply set e.preventDefault()
+// inside that handler.
+//
+// In any case, because AlertDialog is distinct in Radix and in ShadCN's abstraction of it,
+// I've included it here as well.
 //
 // ⚠️ Note: Associated data-slot attributes use data-slot="modal-*" rather than
 // data-slot="alert-modal-*". This is necessary because the components depend on

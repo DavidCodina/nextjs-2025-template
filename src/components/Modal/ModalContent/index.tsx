@@ -45,6 +45,9 @@ export const ModalContent = ({
       className={cn(baseClasses, className)}
       data-slot='modal-content'
       style={style}
+      // onPointerDownOutside={() => {
+      //   console.log('onPointerDownOutside')
+      // }}
       {...otherProps}
     >
       {children}

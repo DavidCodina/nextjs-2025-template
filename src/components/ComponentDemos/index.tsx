@@ -60,7 +60,7 @@ export const ComponentDemos = () => {
         <TabsTrigger value='collapsible'>Collapsible</TabsTrigger>
         <TabsTrigger value='custom-select'>Custom Select</TabsTrigger>
         <TabsTrigger value='date-picker'>Date Picker</TabsTrigger>
-        <TabsTrigger value='dialog'>Dialog</TabsTrigger>
+
         <TabsTrigger value='dropdown-menu'>Dropdown Menu</TabsTrigger>
         <TabsTrigger value='input-password'>Input Password</TabsTrigger>
         <TabsTrigger value='uncontrolled-form'>Uncontrolled Form</TabsTrigger>

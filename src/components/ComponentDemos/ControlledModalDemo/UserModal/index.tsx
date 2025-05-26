@@ -29,6 +29,7 @@ export const UserModal = ({ open, onChange, trigger }: UserModalProps) => {
     <Modal
       open={open}
       onChange={onChange}
+      // closeOnOverlayClick={false}
       // disableAnimation
       centered
       scrollable

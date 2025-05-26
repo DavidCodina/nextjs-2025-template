@@ -107,6 +107,7 @@ const Modal = ({
   contentClassName = '',
   contentStyle = {},
   children,
+  closeOnOverlayClick = true,
 
   /* === ModalHeader === */
 
@@ -169,6 +170,12 @@ const Modal = ({
     return (
       <ModalContent
         className={contentClassName}
+        onInteractOutside={(e) => {
+          if (closeOnOverlayClick === false) {
+            e.preventDefault()
+          }
+        }}
+        // onPointerDownOutside={(e) => {}}
         style={{
           ...contentStyle,
           ...(disableAnimation ? { animationDuration: '0s' } : {})
