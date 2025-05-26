@@ -3,13 +3,13 @@
 import * as React from 'react'
 import { cn } from '@/utils'
 
-type ModalDialogProps = React.ComponentProps<'div'> & {
+type AlertModalDialogProps = React.ComponentProps<'div'> & {
   centered: boolean
   scrollable: boolean
   fullscreen: boolean
 }
 
-// Was using [--modal-border-color:var(--border)], but I like --primary better for now.
+// ⚠️ This is using classes from modalPlugin.ts.
 const baseClasses = `
 radix-modal-dialog
 relative
@@ -24,7 +24,7 @@ pointer-events-none
 ======================================================================== */
 ///////////////////////////////////////////////////////////////////////////
 //
-// In Radix, the convention is to name the entire component 'Dialog'. However, in Bootstrap
+// In Radix, the convention is to name the entire component 'AlertDialog'. However, in Bootstrap
 // the 'dialog' (i.e., <div className='modal-dialog'>) refers to the part of the modal that
 // contains/wraps the <div className='modal-content'>. This extra wrapper is useful
 // for features like centering and scrolling.
@@ -46,7 +46,7 @@ pointer-events-none
 //
 ///////////////////////////////////////////////////////////////////////////
 
-export const ModalDialog = ({
+export const AlertModalDialog = ({
   centered = false,
   children,
   className = '',
@@ -55,7 +55,7 @@ export const ModalDialog = ({
   scrollable = false,
   style = {},
   ...otherProps
-}: ModalDialogProps) => {
+}: AlertModalDialogProps) => {
   /* ======================
           return
   ====================== */

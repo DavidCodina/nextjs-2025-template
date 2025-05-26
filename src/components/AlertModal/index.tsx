@@ -1,9 +1,9 @@
 'use client'
 
 import { useLayoutEffect, useRef, useState } from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
+import * as AlertDialog from '@radix-ui/react-alert-dialog'
 
-import { ModalOverlay } from './ModalOverlay'
+import { AlertModalOverlay } from './AlertModalOverlay'
 ///////////////////////////////////////////////////////////////////////////
 //
 // Dialog vs Modal:
@@ -29,50 +29,46 @@ import { ModalOverlay } from './ModalOverlay'
 // This extra wrapper is useful for features responsiveness, centering and scrolling.
 //
 ///////////////////////////////////////////////////////////////////////////
-import { ModalDialog } from './ModalDialog'
-import { ModalContent } from './ModalContent'
-import { ModalHeader } from './ModalHeader'
-import { ModalBody } from './ModalBody'
-import { ModalFooter } from './ModalFooter'
-import { ModalClose as ModalCloseButton } from './ModalClose'
-import { ModalProps } from './types'
+
+import { AlertModalDialog } from './AlertModalDialog'
+import { AlertModalContent } from './AlertModalContent'
+import { AlertModalHeader } from './AlertModalHeader'
+import { AlertModalBody } from './AlertModalBody'
+import { AlertModalFooter } from './AlertModalFooter'
+import { AlertModalClose } from './AlertModalClose'
+import { AlertModalProps } from './types'
 
 /* ========================================================================
-                                Modal
+                                AlertModal
 ======================================================================== */
 ///////////////////////////////////////////////////////////////////////////
 //
-// Modal was last updated in May 2025. It considers the ShadCN Dialog component,
-// and builds on top of it. Modal makes several improvements, including adding a ModalDialog
-// wrapper around ModalContent to improve responsive behavior and abstracting away much
-// of the composability. It also adds centered, scrollable, and fullscreen variants
-// similar to Bootstrap.
+// This AlertModal was originally based off of the ShadCN AlertDialog.
+// However, this version abstracts away the composability and adds an internal
+// AlertModalDialog component that helps with responsiveness, centering, etc.
 //
-// Docs:
+// Essentially, this AlertModal is very similar to the normal Modal (i.e. normal Radix Dialog).
+// That said, in Radix the Dialog component allows users to close the dialog when clicking
+// on the Dialog.Overlay, whereas the AlertDialog does not close by default when
+// clicking outside the content area. This distinction exists because the Radix
+// AlertDialog is designed for critical interactions that typically require explicit
+// user confirmation. Since closing it inadvertently by clicking outside could lead
+// to unintended consequences, Radix makes it require explicit dismissal via the
+// AlertDialog.Action or AlertDialog.Cancel buttons.
 //
-//   https://www.radix-ui.com/primitives/docs/components/dialog
+// Again, AlertModal (and the underlying Radix AlertDialog) is intended to be use for
+// critical interactions. However, with the exception of the backdrop, most of the
+// behavior is essentially the same as the regular Radix Dialog. Consequently, I don't
+// think there's a convincing reason to use the AlertModal in most cases. However, because
+// it's distinct in Radix and in ShadCN's abstraction, I've included it here.
 //
-// Sam Selikoff tutorials:
-//
-//   https://www.youtube.com/watch?v=KvZoBV_1yYE
-//   https://www.youtube.com/watch?v=3ijyZllWBwU
-//   https://www.youtube.com/watch?v=VM6YRrUsnUY
-//   https://github.com/samselikoff/2023-05-30-radix-dialog/tree/main/03-reusable-component/end/app
-//   https://github.com/samselikoff/2023-05-30-radix-dialog/blob/main/03-reusable-component/end/app/spinner.tsx
-//
-// Keyboard Interactions:
-//
-//   Space       : Opens/closes the dialog.
-//   Enter       : Opens/closes the dialog.
-//   Tab         : Moves focus to the next focusable element.
-//   Shift + Tab : Moves focus to the previous focusable element.
-//   Esc         : Closes the dialog and moves focus to Dialog.Trigger.
+// ⚠️ Note: Associated data-slot attributes use data-slot="modal-*" rather than
+// data-slot="alert-modal-*". This is necessary because the components depend on
+// the compound class selectors defined within modalPlugin.ts.
 //
 ///////////////////////////////////////////////////////////////////////////
 
-//# Test nested modals
-
-const Modal = ({
+const AlertModal = ({
   /* ====== Root ======= */
 
   defaultOpen,
@@ -132,15 +128,16 @@ const Modal = ({
 
   /* =================== */
 
-  closeButton = true
-}: ModalProps) => {
+  // Conceptually, closeButton = false makes more sense for an AlertModal.
+  closeButton = false
+}: AlertModalProps) => {
   const firstRenderRef = useRef(true)
   const [disableAnimation, setDisableAnimation] = useState(
     shouldDisableAnimation
   )
 
   /* ======================
-    useLayoutEffect()
+      useLayoutEffect()
   ====================== */
   // If either open || defaultOpen is true on first render, then
   // temporarily disable the animation, so that it doesn't run
@@ -167,14 +164,14 @@ const Modal = ({
 
   const renderContent = () => {
     return (
-      <ModalContent
+      <AlertModalContent
         className={contentClassName}
         style={{
           ...contentStyle,
           ...(disableAnimation ? { animationDuration: '0s' } : {})
         }}
       >
-        <ModalHeader
+        <AlertModalHeader
           className={headerClassName}
           style={headerStyle}
           title={title}
@@ -185,63 +182,27 @@ const Modal = ({
           descriptionStyle={descriptionStyle}
         />
 
-        {/* ⚠️ Does Radix Dialog unmount its content?
-
-        By default, Radix Dialog’s <Dialog.Content> is only rendered in the DOM when the dialog is open. 
-        When you close the dialog, Radix removes (unmounts) the content from the DOM.
-      
-        In general, any content that manages some state should be abstracted into its own component.
-        That way when the Modal closes, the content's state will be reset when unmounted.
-      
-        Conversely, if you want the state to persist, then implement the state directly within 
-        the body of the component that consumes the <Modal /> instance. 
-        
-          const MyModal = () => {
-            const [count, setCount] = React.useState(0)
-            return <Modal>...</Modal>
-          }
-        */}
-
-        <ModalBody className={bodyClassName} style={bodyStyle}>
+        <AlertModalBody className={bodyClassName} style={bodyStyle}>
           {children}
-        </ModalBody>
+        </AlertModalBody>
 
         {footer && (
-          <ModalFooter className={footerClassName} style={footerStyle}>
+          <AlertModalFooter className={footerClassName} style={footerStyle}>
             {footer}
-          </ModalFooter>
+          </AlertModalFooter>
         )}
 
-        {/* By placing this last it ensures that it will sit on top of the header. */}
-        <ModalCloseButton closeButton={closeButton} />
-      </ModalContent>
+        <AlertModalClose closeButton={closeButton} />
+      </AlertModalContent>
     )
   }
 
   /* ======================
           return
   ====================== */
-  ///////////////////////////////////////////////////////////////////////////
-  //
-  // https://www.radix-ui.com/primitives/docs/components/dialog#anatomy
-  // The basic anatomy of a composed Radix Dialog is:
-  //
-  //   <Dialog.Root>
-  //     <Dialog.Trigger />
-  //     <Dialog.Portal>
-  //       <Dialog.Overlay />
-  //       <Dialog.Content>
-  //         <Dialog.Title />
-  //         <Dialog.Description />
-  //         <Dialog.Close />
-  //        </Dialog.Content>
-  //     </Dialog.Portal>
-  //   </Dialog.Root>
-  //
-  ///////////////////////////////////////////////////////////////////////////
 
   return (
-    <Dialog.Root
+    <AlertDialog.Root
       data-slot='modal'
       defaultOpen={defaultOpen}
       open={open}
@@ -250,20 +211,20 @@ const Modal = ({
       }}
     >
       {trigger && (
-        <Dialog.Trigger asChild data-slot='modal-trigger'>
+        <AlertDialog.Trigger asChild data-slot='modal-trigger'>
           {trigger}
-        </Dialog.Trigger>
+        </AlertDialog.Trigger>
       )}
 
-      <Dialog.Portal data-slot='modal-portal'>
-        <ModalOverlay
+      <AlertDialog.Portal data-slot='modal-portal'>
+        <AlertModalOverlay
           className={overlayClassName}
           style={{
             ...overlayStyle,
             ...(disableAnimation ? { animationDuration: '0s' } : {})
           }}
         >
-          <ModalDialog
+          <AlertModalDialog
             centered={centered}
             scrollable={scrollable}
             fullscreen={fullscreen}
@@ -271,19 +232,63 @@ const Modal = ({
             style={dialogStyle}
           >
             {renderContent()}
-          </ModalDialog>
-        </ModalOverlay>
-      </Dialog.Portal>
-    </Dialog.Root>
+          </AlertModalDialog>
+        </AlertModalOverlay>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   )
 }
 
-const ModalClose = Dialog.Close
+const AlertModalCancel = AlertDialog.Cancel
 
-const CompoundComponent = Object.assign(Modal, {
-  // This is exposed because it may be used from within the content
-  // For example, see the <Form /> component in the demo example.
-  Close: ModalClose
+///////////////////////////////////////////////////////////////////////////
+//
+// ⚠️ The Radix AlertDialog exposes AlertDialog.Action and AlertDialog.Cancel.
+// Both components are used to close the AlertDialog, similar to Dialog's Alert.Close.
+// However, the naming convention is intended to emphasize the fact that  AlertDialog
+// is designed for critical interactions.
+//
+// The problem with AlertDialog.Action is that there's no way to
+// make it wait for async logic to complete:
+//
+//   <AlertModalAction asChild>
+//     <Button
+//       className='min-w-[100px]'
+//       onClick={async (e) => {
+//         setPending(true)
+//         await sleep(3000) // ⚠️ AlertDialog will already have closed.
+//         setPending(false)
+//       }}
+//       loading={pending}
+//       loadingClassName='mr-1'
+//       size='sm'
+//       type='button'
+//       variant='success'
+//     >
+//       {pending ? 'Saving...' : 'Save'}
+//     </Button>
+//   </AlertModalAction>
+//
+// Consequently, in practice it's often better to not use AlertModalAction at all.
+// In cases where you need to await asynchronous logic prior to closing, don't use
+// AlertModalAction. Instead, to await async logic, use a controlled implementation that
+// leverages the top-level onChange prop.
+//
+// To be fair, this isn't really a shortcoming of AlertDialog.Action. The same criticism can be
+// made against the Radix Dialog.Close. It's more an issue of choosing the right tool for the job.
+//
+///////////////////////////////////////////////////////////////////////////
+
+const AlertModalAction = AlertDialog.Action
+
+const CompoundComponent = Object.assign(AlertModal, {
+  Action: AlertModalAction,
+  Cancel: AlertModalCancel
 })
 
-export { CompoundComponent as Modal, ModalClose, type ModalProps }
+export {
+  CompoundComponent as AlertModal,
+  AlertModalAction,
+  AlertModalCancel,
+  type AlertModalProps
+}

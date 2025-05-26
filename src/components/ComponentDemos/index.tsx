@@ -3,7 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/tabs'
 import { AccordionDemo } from './AccordionDemo'
 import { AlertDemo } from './AlertDemo'
-import { AlertDialogDemo } from './AlertDialogDemo'
+
 import { AnchorDemo } from './AnchorDemo'
 import { BadgeDemo } from './BadgeDemo'
 import { BreadcrumbDemo } from './BreadcrumbDemo'
@@ -49,7 +49,6 @@ export const ComponentDemos = () => {
       <TabsList className='grid w-full grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'>
         <TabsTrigger value='accordion'>Accordion</TabsTrigger>
         <TabsTrigger value='alert'>Alert</TabsTrigger>
-        <TabsTrigger value='alert-dialog'>Alert Dialog</TabsTrigger>
         <TabsTrigger value='anchor'>Anchor</TabsTrigger>
         <TabsTrigger value='badge'>Badge</TabsTrigger>
         <TabsTrigger value='breadcrumb'>Breadcrumb</TabsTrigger>
@@ -97,12 +96,6 @@ export const ComponentDemos = () => {
 
       <TabsContent value='alert'>
         <AlertDemo />
-      </TabsContent>
-
-      {/* ================= */}
-
-      <TabsContent value='alert-dialog'>
-        <AlertDialogDemo />
       </TabsContent>
 
       {/* ================= */}

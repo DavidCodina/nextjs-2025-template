@@ -6,7 +6,7 @@ import { cn } from '@/utils'
 type ModalFooterProps = React.ComponentProps<'div'>
 
 // --modal-border-radius is set within the baseClasses
-// of ModalDialog: [--modal-border-radius:var(--radius-lg)]
+// of AlertModalDialog: [--modal-border-radius:var(--radius-lg)]
 const baseClasses = `
 flex items-center justify-center shrink-0 flex-wrap gap-2 px-4 py-2
 rounded-b-[calc(var(--modal-border-radius)_-_1px)]
@@ -16,7 +16,7 @@ rounded-b-[calc(var(--modal-border-radius)_-_1px)]
 
 ======================================================================== */
 
-export const ModalFooter = ({
+export const AlertModalFooter = ({
   children,
   className = '',
   style = {},
@@ -29,7 +29,7 @@ export const ModalFooter = ({
   return (
     <div
       className={cn(baseClasses, className)}
-      data-slot='alert-modal-footer'
+      data-slot='modal-footer'
       style={style}
       {...otherProps}
     >

@@ -3,7 +3,7 @@
 
 export * from './accordion'
 export * from './alert'
-export * from './alert-dialog'
+export * from './AlertModal'
 export * from './Anchor'
 export * from './AppSidebar'
 export * from './BackgroundImage'

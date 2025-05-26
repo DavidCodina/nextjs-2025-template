@@ -1,10 +1,10 @@
 'use client'
 
 import * as React from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
+import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import { cn } from '@/utils'
 
-type ModalHeaderProps = Omit<React.ComponentProps<'div'>, 'title'> & {
+type AlertModalHeaderProps = Omit<React.ComponentProps<'div'>, 'title'> & {
   title?: React.ReactNode
   titleClassName?: string
   titleStyle?: React.CSSProperties
@@ -14,7 +14,7 @@ type ModalHeaderProps = Omit<React.ComponentProps<'div'>, 'title'> & {
 }
 
 // --modal-border-radius is set within the baseClasses
-// of ModalDialog: [--modal-border-radius:var(--radius-lg)]
+// of AlertModalDialog: [--modal-border-radius:var(--radius-lg)]
 //^ Do we need shrink-0 here?
 const baseClasses = `
 flex shrink-0 flex-col gap-2 px-4 pt-4 pb-2 text-center sm:text-left
@@ -25,7 +25,7 @@ rounded-t-[calc(var(--modal-border-radius)_-_1px)]
 
 ======================================================================== */
 
-export const ModalHeader = ({
+export const AlertModalHeader = ({
   className,
   style,
   title,
@@ -35,7 +35,7 @@ export const ModalHeader = ({
   descriptionClassName,
   descriptionStyle,
   ...otherProps
-}: ModalHeaderProps) => {
+}: AlertModalHeaderProps) => {
   /* ======================
           return
   ====================== */
@@ -57,7 +57,7 @@ export const ModalHeader = ({
         an aria-describedby attribute ont the top-level dialog. This is all pointed out 
         in this Sam Selikoff tutorial at 10:00 : https://www.youtube.com/watch?v=KvZoBV_1yYE */}
       {title && (
-        <Dialog.Title
+        <AlertDialog.Title
           className={cn(
             'text-primary text-lg leading-none font-semibold',
             titleClassName
@@ -66,17 +66,17 @@ export const ModalHeader = ({
           style={titleStyle}
         >
           {title}
-        </Dialog.Title>
+        </AlertDialog.Title>
       )}
 
       {description && (
-        <Dialog.Description
+        <AlertDialog.Description
           className={cn('text-muted-foreground text-sm', descriptionClassName)}
           data-slot='modal-description'
           style={descriptionStyle}
         >
           {description}
-        </Dialog.Description>
+        </AlertDialog.Description>
       )}
     </div>
   )

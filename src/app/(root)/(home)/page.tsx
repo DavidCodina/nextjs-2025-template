@@ -1,26 +1,14 @@
 import { Page, PageContainer, Title } from '@/components'
 import { ComponentDemos } from '@/components/ComponentDemos'
 
-// import {
-//   getUsers,
-//   getPosts
-// } from '@/lib/actions'
-
 /* ========================================================================
 
 ======================================================================== */
-
-//# Move actions out of lib.
 
 // Todo: Sidebar needs CSS fix for the border when both defaultCollapsible='none' and defaultVariant='inset'
 //# Also defaultCollapsible='none' Sidebar header is not right.
 
 // Todo: Create a Posts and PostDetails page with full CRUD.
-
-//! Revisit eCommerce workflow.
-//! The Vercel project no longer has environment variables for development and staging.
-//! However, I don't think we need them anymore.
-//! What we do need is a dev/david database branch, and for the workflows to be checked.
 
 // Todo: As an experiment, eventually switch back to the local Postgres database
 //# when in development.
@@ -46,7 +34,7 @@ const Home = async () => {
   // ❌ const session = await getData()
 
   // const posts   = await getPosts()
-  //const { data } = await getUsers()
+  // const { data } = await getUsers()
 
   return (
     <Page

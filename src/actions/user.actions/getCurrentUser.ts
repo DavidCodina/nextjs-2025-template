@@ -53,7 +53,7 @@ export async function getCurrentUser() {
     }
 
     // This is essentially not needed, since the where clause in the
-    // intitial query ensures that the user is the one that was found.
+    // initial query ensures that the user is the one that was found.
     if (session.user.id !== user.id) {
       return {
         code: 'FORBIDDEN',
